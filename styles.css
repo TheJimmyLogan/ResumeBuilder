@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+*{
+    box-sizing: border-box;
+    /* outline: solid 1px rgb(153, 147, 147); */
+    font-family: 'Inter', sans-serif;
+}
+    
+.main-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* outline: solid 1px green; */
+}
+
+/* Header */
+.main-container .header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    /* outline: solid 1px orange; */
+
+}
+
+/* End Header */
+
+/* Content */
+
+.sub-title{
+    text-align: center;
+    margin: 0;
+    padding: 12px;
+    color: #FF9900;
+    font-size: 16px;
+}
+
+.content{
+    margin: 23px 0;
+    /* outline: solid 1px blue; */
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.field label{
+    color:#52525C;
+    font-size: 15px;
+}
+
+/* End Content */
+
+/* indent */
+
+.indent{
+    background: black;
+    height: 5px;
+    border-radius: 100%;
+    margin: 25px;
+}
+
+/* End indent */
+
+/* checkbox */
+
+.checkbox{
+    margin: 25px;
+}
+
+/* End checkbox */
+
+/* btn */
+
+.btn{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+    cursor: pointer;
+}
+
+.btn .btn-buttons{
+    background: #FF9900;
+    color: rgb(8, 8, 8);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 25px 0px #3a3333;
+}
+
+/* End btn */
