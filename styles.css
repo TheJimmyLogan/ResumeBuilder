@@ -27,6 +27,10 @@ input{
     box-shadow: 0px 0px 8px 0px #3a3333;
 }
 
+checkbox{
+    text-align: center;
+}
+
 /* End Header */
 
 /* Content */
