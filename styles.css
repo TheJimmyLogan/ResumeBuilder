@@ -20,7 +20,11 @@
     align-items: center;
     margin-top: 24px;
     /* outline: solid 1px orange; */
+}
 
+input{
+    padding: 8px;
+    box-shadow: 0px 0px 8px 0px #3a3333;
 }
 
 /* End Header */
@@ -53,17 +57,6 @@
 }
 
 /* End Content */
-
-/* indent */
-
-.indent{
-    background: black;
-    height: 5px;
-    border-radius: 100%;
-    margin: 25px;
-}
-
-/* End indent */
 
 /* checkbox */
 
