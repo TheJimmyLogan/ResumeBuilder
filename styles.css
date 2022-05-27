@@ -28,7 +28,8 @@ input{
 }
 
 checkbox{
-    text-align: center;
+    display: inline;
+    align-items: center;
 }
 
 /* End Header */
