@@ -116,7 +116,7 @@ input:focus{
 .content{
     margin: 23px 0;
     padding: 16px;
-    height: 100%;
+    flex: 1;
     overflow: auto;
     /* outline: solid 1px blue; */
 }
