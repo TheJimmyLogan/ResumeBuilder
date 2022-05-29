@@ -12,9 +12,9 @@ body{
 
 .main-container{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
-    /* outline: solid 1px green; */
+    height: 100vh;
 }
 
 /* Header */
@@ -26,7 +26,6 @@ body{
     width: 100%;
     padding-top: 24px;
     padding-bottom: 130px;
-    /* outline: solid 1px orange; */
 }
 
 input[type="text"],
@@ -34,15 +33,17 @@ input[type="date"],
 select{
     padding: 18px;
     border-radius: 8px;
-    border: solid 2px #D9D9D9;
-    background: #E4EEFE;
+    border: solid 2px #E4EEFE;
+    background: #f2f7ff;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
     font-weight: 400;
     font-size: 15px;
 }
 
-input:hover{
-    border: 2px solid grey;
+input:focus{
+    background: white;
+    border: 2px solid #A6C8FF;
+    outline: none;
 }
 
 /* End Header */
@@ -67,6 +68,7 @@ input:hover{
     overflow-x: auto;
     max-width: 100vw;
     padding: 16px;
+    gap: 0px;
 }
 
 .steps-buttons button:first-child{
@@ -88,6 +90,7 @@ input:hover{
     border: 1px solid #E4EEFE;
     color: #777;
     cursor: pointer;
+    margin: 0;
 }
 
 .steps-buttons .active-step{
@@ -113,6 +116,8 @@ input:hover{
 .content{
     margin: 23px 0;
     padding: 16px;
+    height: 100%;
+    overflow: auto;
     /* outline: solid 1px blue; */
 }
 
@@ -131,6 +136,32 @@ input:hover{
 
 /* End Content */
 
+/* Scroll bar */
+
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #30258e #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #30258e;
+    border-radius: 5px;
+    border: 0px none #ffffff;
+  }
+
+/* End scroll bar */
+
 /* checkbox */
 
 .checkbox{
@@ -141,15 +172,16 @@ input:hover{
 
 /* btn */
 
-.btn{
+.footer{
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 25px;
+    padding: 16px;
     cursor: pointer;
+    bottom: 0;
 }
 
-.btn .btn-buttons{
+.footer button{
     background: linear-gradient(55.75deg, #6115D8 29.75%, #25F1F2 84.23%);
     color: rgb(255, 255, 255);
     padding: 12px;
