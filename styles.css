@@ -10,6 +10,10 @@ body{
     margin: 0;
 }
 
+html{
+    height: 100%;
+}
+
 .main-container{
     display: flex;
     /* justify-content: center; */
@@ -116,7 +120,7 @@ input:focus{
 .content{
     margin: 23px 0;
     padding: 16px;
-    flex: 1;
+    height: 100%;
     overflow: auto;
     /* outline: solid 1px blue; */
 }
