@@ -15,6 +15,20 @@
             <img src="./images/logo.svg" alt="">
         </section>
 
+        <section class="steps">
+            <h1>Шаг 1 из 5</h1>
+            <div class="steps-buttons">
+                <button class="active-step">Основная информация</button>
+                <button>Личная информация</button>
+                <button>Опыт работы</button>
+                <button>Образование</button>
+                <button>Курсы и тренинги</button>
+                <button>Иностранные языки и компьютерные навыки</button>
+                <button>Дополнительная информация</button>
+            </div>
+        </section>
+
+
         <section class="content">
 
             <section class="sub-section">
@@ -42,7 +56,7 @@
                     <input type="text" id="Salary" placeholder="1.000.000 $">
                 </div>
                 <div class="checkbox">
-                    <input type="Checkbox" id="click">
+                    <input type="checkbox" id="click">
                     <label for="click" class="text"> Готовность к командировкам </label>
                 </div>
                 <div class="field">
@@ -61,11 +75,10 @@
                     <label for="Mobile">Телефон</label>
                     <input type="text" id="Mobile" placeholder="+7 (000) 000-00-00">
                 </div>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Личная информация</h1>
-                    <div class="field">
-                </section>
+            <section class="sub-section">
+                <h1 class="sub-title">Личная информация</h1>
 
                 <div class="field">
                     <label for="City of residence">Город проживания</label>
@@ -88,18 +101,18 @@
                     <input type="text" id="Marital status" placeholder="Холост, Женат, Замужем">
                 </div>
                 <div class="checkbox">
-                    <input type="Checkbox" id="click">
+                    <input type="checkbox" id="click">
                     <label for="click" class="text"> Есть ли дети </label>
                 </div>
                 <div class="field">
                     <label for="Education">Образование</label>
                     <input type="text" id="Education" placeholder="Высшее, Неполное высшее">
                 </div>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Опыт работы</h1>
-                    <div class="field">
-                </section>
+
+            <section class="sub-section">
+                <h1 class="sub-title">Опыт работы</h1>
 
                 <section class="field">
                     <label for="Start date">Дата Начала: </label>
@@ -110,11 +123,11 @@
                     <input type="date" id="End date" name="date" />
                 </section>
                 <div class="checkbox">
-                    <input type="Checkbox" id="click">
+                    <input type="checkbox" id="click">
                     <label for="click" class="text"> По настоящее время </label>
                 </div>
                 <div class="checkbox">
-                    <input type="Checkbox" id="click">
+                    <input type="checkbox" id="click">
                     <label for="click" class="text"> Полная занятость </label>
                 </div>
                 <div class="field">
@@ -129,11 +142,11 @@
                     <label for="Post">Должность</label>
                     <input type="text" id="Post" placeholder="Организация и ведение аудиторских проектов... ">
                 </div>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Образование</h1>
-                    <div class="field">
-                </section>
+
+            <section class="sub-section">
+                <h1 class="sub-title">Образование</h1>
 
                 <div class="field">
                     <label for="Educational institution">Учебное заведение</label>
@@ -158,20 +171,18 @@
                 </section>
 
                 <section class="field">
-                    <label for="Form of training">Форма обучения</label>
-                    <datalist id="dl_fruits">
-                        <option label="" value="Дистанционная">
-                        <option label="" value="Заочная">
-                        <option label="" value="Очно-заочная (вечерняя)">
-                        <option label="" value="Очная">
-                    </datalist>
-                    <input id="fruit" list="dl_fruits">
+                    <label for="formOfTraining">Форма обучения</label>
+                    <select id="formOfTraining">
+                        <option label="" value="01">Дистанционная</option>
+                        <option label="" value="02">Заочная</option>
+                        <option label="" value="03">Очно-заочная (вечерняя)</option>
+                        <option label="" value="04">Очная</option>
+                    </select>
                 </section>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Курсы и тренинги</h1>
-                    <div class="field">
-                </section>
+            <section class="sub-section">
+                <h1 class="sub-title">Курсы и тренинги</h1>
 
                 <div class="field">
                     <label for="Course name">Название курса</label>
@@ -185,11 +196,10 @@
                     <label for="Year of graduation">Год окончания: </label>
                     <input type="date" id="Year of graduation" name="date" />
                 </section>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Иностранные языки и компьютерные навыки</h1>
-                    <div class="field">
-                </section>
+            <section class="sub-section">
+                <h1 class="sub-title">Иностранные языки и компьютерные навыки</h1>
 
                 <div class="field">
                     <label for="Languages">Какие иностранные языки вы знаете?</label>
@@ -200,16 +210,16 @@
                     <div class="checkbox">
                         <label for="click" class="Computer-ownership"> Владение комьютером: </label>
                         <br>
-                        <input type="Checkbox" id="click"><label for="click" class="text"> Microsoft Word </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> Microsoft Word </label>
                         <br>
-                        <input type="Checkbox" id="click"><label for="click" class="text"> Microsoft Excel </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> Microsoft Excel </label>
                         <br>
-                        <input type="Checkbox" id="click"><label for="click" class="text"> Microsoft Power Point
+                        <input type="checkbox" id="click"><label for="click" class="text"> Microsoft Power Point
                         </label>
                         <br>
-                        <input type="Checkbox" id="click"><label for="click" class="text"> Adobe PhotoShop </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> Adobe PhotoShop </label>
                         <br>
-                        <input type="Checkbox" id="click"><label for="click" class="text"> 1С: Бухгалтерия </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> 1С: Бухгалтерия </label>
                     </div>
                 </div>
 
@@ -217,14 +227,13 @@
                     <label for="other">Другие</label>
                     <input type="text" id="other" placeholder="CorelDraw, AutoCad">
                 </div>
+            </section>
 
-                <section class="sub-section">
-                    <h1 class="sub-title">Дополнительная информация</h1>
-                    <div class="field">
-                </section>
+            <section class="sub-section">
+                <h1 class="sub-title">Дополнительная информация</h1>
 
                 <div class="checkbox">
-                    <input type="Checkbox" id="click">
+                    <input type="checkbox" id="click">
                     <label for="click" class="text"> Служба в армии </label>
                 </div>
 
@@ -233,23 +242,23 @@
                         <label for="click" class="Computer-ownership"> Владение комьютером: </label>
                         <br>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> A </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> A </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> B </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> B </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> BE</label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> BE</label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> C </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> C </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> CE </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> CE </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> D </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> D </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> DE</label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> DE</label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> M </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> M </label>
 
-                        <input type="Checkbox" id="click"><label for="click" class="text"> TB и TM </label>
+                        <input type="checkbox" id="click"><label for="click" class="text"> TB и TM </label>
                     </div>
                 </div>
 
@@ -267,8 +276,9 @@
                     <button class="btn-buttons">Скачать</button>
                     <button class="btn-buttons">Просмотр</button>
                 </div>
-
             </section>
+
+        </section>
     </div>
 </body>
 
