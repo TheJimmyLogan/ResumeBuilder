@@ -171,7 +171,8 @@ hr{
 
 
 .right-info{
-    
+    display: inline;
+    gap: 24px;
 }
 
 .right-info h1{
