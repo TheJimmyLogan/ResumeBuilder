@@ -46,6 +46,8 @@ select{
     font-size: 15px;
 }
 
+
+
 input:focus{
     background: white;
     border: 2px solid #A6C8FF;
