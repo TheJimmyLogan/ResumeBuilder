@@ -163,8 +163,12 @@ hr{
     display: flex;
 }
 
-.contact p{
-    padding-right: 5px;
+.contact .contact-info p{
+    display: inline-block;
+    align-items: center;
+    margin: auto;
+    padding-left: 0px;
+    font-size: 8px;
 }
 
 /* End left-info */
@@ -212,7 +216,7 @@ hr{
 }
 
 .exp-class li{
-    font-size: 12px;
+    font-size: 10px;
 }
 
 /* End right-info */
