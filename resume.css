@@ -137,6 +137,11 @@ hr{
     background: url(./images/Favicon/brut\ man.png);
 }
 
+.education h2{
+    margin-top: 25px;
+    font-size: 12px;
+}
+
 .left-info .social{
     margin-top: 120px;
     padding-left: 18px;
@@ -177,7 +182,7 @@ hr{
 }
 
 .right-info h2{
-    font-size: 15px;
+    font-size: 12px;
     padding-left: 25px;
     font-family: 'Bebas Neue', cursive;
 }
