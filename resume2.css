@@ -89,7 +89,7 @@ html{
     display: flex;
     gap: 20px;
     justify-content: space-around;
-    padding: 18px;
+    padding: 12px;
 }
 
 
@@ -98,7 +98,7 @@ html{
 }
 
 .hero .right-front{
-    width: 160px;
+    width: 660px;
     height: 1080px;
     background: #4F4E52;
 }
@@ -108,7 +108,7 @@ html{
     width: 120px;
     height: 120px;
     border-radius: 100%;
-    margin-left: 15px;
+    margin: 12px 12px 12px 12px;
     margin-top: 20px;
     background: url(./images/Favicon/foto\ o.png);
 }
@@ -118,11 +118,11 @@ html{
     margin-left: 36px;
 }
 
-.right-front h3{
-    margin-left: 8px;
+.chapter h3{
     color: aliceblue;
     margin-top: 60px;
-    font-size: 10px;
+    font-size: 12px;
+    margin-left: 19px;
 }
 
 .hero h2{
@@ -131,7 +131,7 @@ html{
 }
 
 .right-front li{
-    margin-left: -19px;
+    margin-left: -18px;
     color: aliceblue;
     font-size: 8px;
     padding-top: 12px;s
