@@ -115,7 +115,7 @@ html{
 
 .right-front p{
     color: aliceblue;
-    margin-left: 36px;
+    margin-left: 34px;
 }
 
 .chapter h3{
@@ -131,10 +131,10 @@ html{
 }
 
 .right-front li{
-    margin-left: -18px;
+    margin-left: -15px;
     color: aliceblue;
     font-size: 8px;
-    padding-top: 12px;s
+    padding-top: 4px;
 }
 
 /* End hero */
