@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 *{
     box-sizing: border-box;
     /* outline: solid 1px rgb(153, 147, 147); */
-    font-family: 'Michroma', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
     
 
@@ -164,8 +164,13 @@ hr{
     display: inline-block;
     align-items: center;
     margin: auto;
-    padding-left: 0px;
+    padding-left: 1px;
     font-size: 8px;
+}
+
+.contact img{
+    margin-left: 14px;
+    padding: 2px;
 }
 
 /* End left-info */
