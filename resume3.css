@@ -86,12 +86,20 @@ html{
 /* hero */
 
 .hero{
+    padding: 15px;
+}
+
+/* End hero  */
+
+/* head */
+
+.head{
     display: flex;
     justify-content: center;
     padding: 12px;
 }
 
-/* End Hero */
+/* End head */
 
 /* header-resume */
 
@@ -139,7 +147,7 @@ html{
 .profile hr{
     margin-top: 35px;
     width: 55px;
-    border: solid 2px black;
+    border: solid 3px black;
 }
 
 .profile ul{
@@ -155,13 +163,13 @@ html{
    margin-top: 25px;
 }
 
-.two-class .experience{
+.two-class .skills{
     display: flex;
     flex-direction: column;
     border-left: solid 1px black;
-    height: 80px;
+    height: 190px;
     width: 100%;
-    font-size: 15px;
+    font-size: 12px;
     padding: 16px;
 }
 
@@ -170,13 +178,87 @@ html{
     align-items: flex-end;
     flex-direction: column;
     width: 100%;
-    font-size: 15px;
+    font-size: 12px;
     padding: 16px;
 }
 
+.education h4{
+    font-size: 8px;
+}
+
+.skills li{
+    font-size: 8px;
+}
+
+.class-tab{
+    display: flex;
+    justify-content: center;
+}
+
+.separation hr{
+    border: solid 1px black;
+    width: 248px;
+    margin-top: 25px;
+}
 
 /* End profile */
 
+/* experience */
+
+.experience h3{
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    margin-top: 35px;
+}
+
+.experience h4{
+    display: flex;
+    justify-content: center;
+    font-size: 8px;
+}
+
+.experience li{
+    font-size: 8px;
+}
+
+.experience hr{
+    border: solid 1px black;
+    width: 248px;
+    margin-top: 45px;
+}
+
+/* End experience */
+
+/* footer-resume */
+
+.footer-resume{
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+
+.footer-resume .phone{
+    display: flex;
+    flex-direction: column;
+    border-left: solid 1px black;
+    height: 40px;
+    width: 100%;
+    font-size: 6px;
+    padding: 10px 0px 10px 12px;
+}
+
+.footer-resume img{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 45px;
+    padding: 16px;
+    margin-left: 15px;
+}
+
+/* End footer-resume */
 
 /* btn */
 
