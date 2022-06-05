@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 *{
     box-sizing: border-box;
     /* outline: solid 1px rgb(153, 147, 147); */
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
 }
     
 
@@ -106,22 +106,28 @@ input:focus{
 .resume-container{
     overflow: auto;
     width: 100vw;
+    padding: 50px;
+    background: url(./images/photo/back6.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
-
 .resume-size{
     width: 620px;
-    height: 877px;
-    border: solid 1px rgba(0, 0, 0, 0.1);
+    min-height: 877px;
+    border: solid 1px rgba(0, 0, 0, 0.2);
     margin:  0 auto;
+    box-shadow: 15px 0px 10px rgba(0, 0, 0, 0.5);
+    background: white
 }
 
 .resume1{
     display: flex;
-
     justify-content: center;
     width: 100%;
-    padding: 18px;
-    gap: 18px;
+    padding: 42px;
+    gap: 34px;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 /* End hero */
@@ -133,56 +139,87 @@ hr{
 /* left-info */
 
 .left-info{
-    display: block;
-    width: 660px;
-    height: 105px;
+    width: 155px;
 }
 
 .foto{
-    margin-left: 25px;
-    margin-bottom: -95px;
-    width: 110px;
-    height: 110px;
-    border-radius: 100%;
-    background: url(./images/Favicon/brut\ foto.png);
+    /* margin-left: 25px; */
+    /* margin-bottom: -95px; */
+    width: 150px;
+    height: 150px;
+    border-radius: 250px;
+    background: url(./images/photo/brut.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #404041;
 }
 
-.left-tabs h2{
-    margin-top: 25px;
-    font-size: 12px;
-}
 
-.left-info .social{
-    margin-top: 120px;
-    padding-left: 18px;
+.left-info .left-info-section{
+    margin-top: 36px;
     font-size: 10px;
 }
 
-.social-class{
+.social{
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
+    border-bottom: 1px solid #BCBDC0;
 }
 
-.social p{
-    display: block;
+.social:nth-child(2) {
+    border-top: 1px solid #BCBDC0;
+}
+
+.text{
+    border-bottom: 1px solid #BCBDC0;
+    font-style: italic;
+}
+
+.text p{
+    margin: 4px 0;
+}
+
+.text:nth-child(2) {
+    border-top: 1px solid #BCBDC0;
+}
+
+.text p:first-child{
+    font-style: normal;
+    font-weight: bold;
+}
+
+.left-info-section p span{
+    font-weight: bolder;
+}
+
+
+.left-info-section img{
+    width: 20px;
+    height: 20px;
 }
 
 .contact{
     display: flex;
+    gap: 24px;
 }
 
-.contact .contact-info p{
-    display: inline-block;
+.contact .contact-info{
+    display: flex;
+    gap: 8px;
     align-items: center;
-    margin: auto;
-    padding-left: 1px;
-    font-size: 8px;
+    /* font-size: 8px; */
+}
+
+.contact .contact-info p span{
+    font-weight: bolder;
 }
 
 .contact img{
-    margin-left: 14px;
-    padding: 2px;
+    border-bottom: solid 1px #231F20;
+    padding: 4px 0;
+    /* padding: 2px; */
 }
 
 /* End left-info */
@@ -198,19 +235,16 @@ hr{
 .right-info h1{
     font-size: 25px;
     padding-left: 25px;
-    font-family: 'Bebas Neue', cursive;
 }
 
 .right-info h2{
     font-size: 12px;
     padding-left: 25px;
-    font-family: 'Bebas Neue', cursive;
 }
 
 .right-info p{
     font-size: 10px;
-    padding-left: 25px;
-    font-family: 'Bebas Neue', cursive;
+    /* padding-left: 25px; */
 }
 
 .right-info .about{
@@ -257,3 +291,4 @@ hr{
 }
 
 /* End btn */
+
