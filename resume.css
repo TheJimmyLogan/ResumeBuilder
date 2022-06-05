@@ -101,15 +101,27 @@ input:focus{
 
 /* End steps */
 
-/* hero */
+/* Resume */
 
-.hero{
+.resume-container{
+    overflow: auto;
+    width: 100vw;
+}
+
+.resume-size{
+    width: 1240px;
+    height: 1754px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    margin:  0 auto;
+}
+
+.resume1{
     display: flex;
+
     justify-content: center;
     width: 100%;
     padding: 18px;
     gap: 18px;
-    overflow-y: auto;
 }
 
 /* End hero */
