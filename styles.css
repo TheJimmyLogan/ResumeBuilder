@@ -135,6 +135,18 @@ input:focus{
     margin-bottom: 24px;
 }
 
+
+.checkboxGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 25px;
+}
+
+.checkboxGroup div{
+    margin: 0;
+}
+
 .field label{
     color:#52525C;
     font-size: 15px;
@@ -173,10 +185,8 @@ input:focus{
 
 .checkbox{
     margin: 25px;
-}
-
-.checkbox .checkbox{
-    padding: 55px;
+    display: flex;
+    gap: 12px;
 }
 
 input[type=checkbox]
@@ -187,16 +197,8 @@ input[type=checkbox]
   -webkit-transform: scale(2); /* Safari and Chrome */
   -o-transform: scale(2); /* Opera */
   transform: scale(2);
-  padding: 10px;
 }
 /* Might want to wrap a span around your checkbox text */
-.checkboxtext
-{
-  /* Checkbox text */
-  font-size: 110%;
-  display: inline;
-}
-
 /* End checkbox */
 
 /* btn */
