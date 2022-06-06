@@ -107,7 +107,7 @@ input:focus{
     overflow: auto;
     width: 100vw;
     padding: 50px;
-    background: url(./images/photo/back7.jpg);
+    background: url(./images/photo/back6.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     
@@ -205,6 +205,14 @@ hr{
     gap: 24px;
 }
 
+.work-post h2{
+    margin: 15px 0 15px; 
+}
+
+h2{
+   margin: 43px 0 15px; 
+}
+
 .contact .contact-info{
     display: flex;
     gap: 8px;
@@ -228,18 +236,16 @@ hr{
 
 
 .right-info{
-    display: inline;
-    gap: 24px;
+    
 }
 
 .right-info h1{
     font-size: 25px;
-    padding-left: 25px;
+    margin: 0
 }
 
 .right-info h2{
     font-size: 12px;
-    padding-left: 25px;
 }
 
 .right-info p{
