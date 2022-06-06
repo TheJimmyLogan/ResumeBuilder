@@ -177,8 +177,15 @@ hr{
     font-style: italic;
 }
 
+
 .text ul{
-    padding: 18px 14px;
+    padding: 16px 13px;
+    font-style: normal;
+    margin: 0;
+}
+
+.text li{
+    padding: 4px 13px;
     font-style: normal;
     margin: 0;
 }
