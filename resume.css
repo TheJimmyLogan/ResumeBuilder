@@ -107,7 +107,7 @@ input:focus{
     overflow: auto;
     width: 100vw;
     padding: 50px;
-    background: url(./images/photo/back6.jpg);
+    background: url(./images/photo/back7.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     
@@ -117,7 +117,7 @@ input:focus{
     min-height: 877px;
     border: solid 1px rgba(0, 0, 0, 0.2);
     margin:  0 auto;
-    box-shadow: 15px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 55px 21px 4px rgba(0, 0, 0, 0.5);
     background: white
 }
 
