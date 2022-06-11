@@ -24,6 +24,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resume.css">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
     <title>ResumeBuilder - создай своё резюме</title>
@@ -35,8 +36,9 @@
             <img src="./images/logo.svg" alt="">
         </section>
 
-        <section class="steps">
-            <h1>Шаг 1 из 5</h1>
+        <!-- Form Steps  -->
+        <section class="steps" id="formSteps">
+            <h1>Шаг <span id="stepCount">1</span> из 5</h1>
             <div class="steps-buttons">
                 <button class="active-step" id="generalInfoBtn">Основная информация</button>
                 <button id="personalInfoBtn">Личная информация</button>
@@ -48,8 +50,17 @@
             </div>
         </section>
 
+        <!-- Resume Steps -->
+        <section class="steps" id="resumeSteps">
+            <div class="steps-buttons">
+                <button class="active-step" id="generalInfoBtn">Деловой</button>
+                <button id="personalInfoBtn">Яркий</button>
+                <button id="experienceBtn">Молодёжный</button>
+            </div>
+        </section>
 
-        <section class="content">
+
+        <section class="content" id="formData">
 
             <section class="sub-section" id="generalInfoSection">
                 <h1 class="sub-title">Основная информация</h1>
@@ -319,10 +330,154 @@
                     <input type="text" id="Personal qualities" placeholder="Ответственность, Без вредных привычек...">
                 </div>
             </section>
+
         </section>
+
+        <section class="resume-container" id="resumeContainer">
+            <section class="resume-size">
+                <section class="resume1">
+
+                    <div class="left-info">
+                        <div class="foto"></div>
+
+                        <div class="left-info-section">
+                            <h2>СОЦСЕТИ</h2>
+
+                            <div class="social">
+                                <img src="./images/facebook.svg" alt="">
+                                <p><span>facebook</span> <br> facebook.com</p>
+                            </div>
+
+                            <div class="social">
+                                <img src="./images/instagram.svg" alt="">
+                                <p><span>instagram</span> <br> instagram.com</p>
+                            </div>
+
+                            <div class="social">
+                                <img src="./images/skype.svg" alt="">
+                                <p><span>skype</span> <br> skype.com</p>
+                            </div>
+
+                            <div class="social">
+                                <img src="./images/vk.svg" alt="">
+                                <p><span>vk</span> <br> vk.com</p>
+                            </div>
+                        </div>
+
+                        <div class="left-info-section">
+                            <h2>ОБРАЗОВАНИЕ</h2>
+                            <div class="text">
+                                <p>Высшее</p>
+                                <p>Экономический Факультет МГУ</p>
+                                <p>2014 - 2015</p>
+                            </div>
+                        </div>
+
+                        <div class="left-info-section">
+                            <h2>КУРСЫ И ТРЕНИНГИ</h2>
+                            <div class="text">
+                                <p>Актёрское мастерство</p>
+                                <p>2014 - 2015</p>
+                            </div>
+                        </div>
+
+                        <div class="left-info-section">
+                            <h2>ЛИЧНЫЕ КАЧЕСТВА</h2>
+                            <div class="text">
+                                <ul>
+                                    <li>Пунктуален,</li>
+                                    <li>Общителен,</li>
+                                    <li>Стрессоустойчив,</li>
+                                    <li>Доброжелателен,</li>
+                                    <li>Лоялен,</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="right-info">
+                        <h1>Иванов Иван</h1>
+                        <section class="work-post">
+                            <h2>Менеджер по маркетингу</h2>
+                        </section>
+
+
+                        <hr>
+
+                        <div class="contact">
+
+
+                            <section class="contact-info">
+                                <img src="./images/phone.svg" width="14px" alt="">
+                                <p><span>Телефон</span> <br> 347-677-2699</p>
+                            </section>
+
+                            <section class="contact-info">
+                                <img src="./images/Email.svg" width="14px" alt="">
+                                <p><span>Почта</span> <br> Van@ivanov.ru</p>
+                            </section>
+
+                            <section class="contact-info">
+                                <img src="./images/website.svg" width="14px" alt="">
+                                <p><span>Мой сайт</span> <br> Ivan.ti.com</p>
+                            </section>
+
+                        </div>
+
+                        <hr>
+
+
+                        <h2>Обо мне</h2>
+
+                        <hr>
+
+                        <div class="about">
+                            <p>Четкий пацан умею много всего, работал в компаниях которые шантажировали людей, занимался
+                                подстрикательством, бродяга и волк по жизни, косяков за спиной не имею, так же работал в
+                                сфере
+                                банков, в колекторском агенстве, двигаюсь чётко и никогда не унываю, </p>
+                        </div>
+
+                        <h2>Опыт работы</h2>
+
+                        <hr>
+
+                        <h4>Колектор</h4>
+                        <h3>Период работы / 24.05.2012 - 30.04.2013</h3>
+
+                        <div class="exp-class">
+                            <ul>
+                                <li>Выбивание долговых обязательств с клиентов</li>
+                                <li>Выполнение плана</li>
+                                <li>Точно заявленные сроки</li>
+                                <li>Работа в стрессовых ситуациях</li>
+                            </ul>
+                        </div>
+
+                        <h4>Менеджер по работе с клиентами</h4>
+                        <h3>Период работы / 24.07.2011 - 30.04.2012</h3>
+
+                        <div class="exp-class">
+                            <ul>
+                                <li>Работа на телефоне</li>
+                                <li>Выполнение плана</li>
+                                <li>Точно заявленные сроки</li>
+                                <li>Работа в стрессовых ситуациях</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </section>
+            </section>
+
+        </section>
+
         <section class="footer">
-            <button>Скачать</button>
-            <button>Просмотр</button>
+            <button id="download">Скачать</button>
+            <button id="back">Назад</button>
+            <button id="preview">Просмотр</button>
         </section>
     </div>
 

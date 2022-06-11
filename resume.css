@@ -1,105 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
-
-*{
-    box-sizing: border-box;
-    /* outline: solid 1px rgb(153, 147, 147); */
-    font-family: 'Noto Sans', sans-serif;
-}
-    
-
-body{
-    margin: 0;
-}
-
-html{
-    width: 100%; 
-    height: 100%
-}
-
-.main-container{
-    display: flex;
-    /* justify-content: center; */
-    flex-direction: column;
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100);
-}
-
-/* Header */
-.main-container .header{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #30258E;
-    width: 100%;
-    padding-top: 24px;
-    padding-bottom: 130px;
-}
-
-input[type="text"],
-input[type="date"],
-select{
-    padding: 18px;
-    border-radius: 8px;
-    border: solid 2px #E4EEFE;
-    background: #f2f7ff;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
-    font-weight: 400;
-    font-size: 15px;
-}
-
-input:focus{
-    background: white;
-    border: 2px solid #A6C8FF;
-    outline: none;
-}
-
-/* End Header */
-
-/* steps */
-
-.steps{
-    display: flex;
-    justify-content: center;
-    margin-top: -75px;
-}
-
-.steps-buttons{
-    display: flex;
-    overflow-x: auto;
-    max-width: 100vw;
-    padding: 16px;
-    gap: 0px;
-}
-
-.steps-buttons button:first-child{
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.steps-buttons button:last-child{
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
-.steps-buttons button{
-    box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.15);
-    border: none;
-    outline: none;
-    padding: 35px 25px;
-    background: white;
-    border: 1px solid #E4EEFE;
-    color: #777;
-    cursor: pointer;
-    margin: 0;
-}
-
-.steps-buttons .active-step{
-    background: #f2f7ff;
-    font-weight: 700;
-    color: black;
-}
-
-/* End steps */
 
 /* Resume */
 
@@ -110,7 +8,8 @@ input:focus{
     background: url(./images/photo/back8.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    
+    margin-top: -50px;
+    display: none;
 }
 .resume-size{
     width: 620px;
@@ -295,27 +194,3 @@ h2{
 }
 
 /* End right-info */
-
-/* btn */
-
-.footer{
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    padding: 16px;
-    cursor: pointer;
-    bottom: 0;
-}
-
-.footer button{
-    background: linear-gradient(55.75deg, #6115D8 29.75%, #25F1F2 84.23%);
-    color: rgb(255, 255, 255);
-    padding: 12px;
-    border-radius: 5px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* End btn */
-

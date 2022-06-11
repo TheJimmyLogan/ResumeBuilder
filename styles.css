@@ -59,6 +59,12 @@ input:focus{
 
 .steps{
     margin-top: -120px;
+    /* flex-direction: column; */
+    position: relative;
+}
+
+.steps#resumeSteps{
+    display: none;
 }
 
 .steps h1{
@@ -170,7 +176,7 @@ input:focus{
   }
 
   *::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: transparent;
   }
 
   *::-webkit-scrollbar-thumb {
@@ -220,6 +226,10 @@ input[type=checkbox]
     border: none;
     font-weight: 700;
     cursor: pointer;
+}
+
+.footer #back{
+    display: none;
 }
 
 /* End btn */
