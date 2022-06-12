@@ -6,12 +6,25 @@ const resizeVh = () => {
 resizeVh();
 //
 
+// Helper functions
+const getFullName = (info) => {
+    if (!info.firstName && !info.lastName && !info.fatherName) return 'Иван Иванов Иванович'
+    if (info.firstName && info.lastName) return `${info.firstName} ${info.lastName}`
+    if (info.firstName && info.fatherName) return `${info.firstName} ${info.fatherName}`
+    if (info.lastName && info.fatherName) return `${info.lastName} ${info.fatherName}`
+    if (info.firstName) return `${info.firstName}`
+    if (info.lastName) return `${info.lastName}`
+    if (info.fatherName) return `${info.fatherName}`
+}
+//
+
 // On document load - load data from local storage
 let formData = {
     generalInformation: {
         firstName: '',
         lastName: '',
         fatherName: '',
+        jobTitle: '',
     }
 };
 
@@ -19,9 +32,16 @@ const loadFormData = () => {
     localStorageObject = JSON.parse(localStorage.getItem('formData'));
     if (localStorageObject) {
         formData = localStorageObject;
-        document.getElementById('firstName').value = localStorageObject?.generalInformation?.firstName || '';
-        document.getElementById('lastName').value = localStorageObject?.generalInformation?.lastName || '';
-        document.getElementById('fatherName').value = localStorageObject?.generalInformation?.fatherName || '';
+
+        // Enter Form Data
+        document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
+        document.getElementById('lastName').value = formData?.generalInformation?.lastName || '';
+        document.getElementById('fatherName').value = formData?.generalInformation?.fatherName || '';
+        document.getElementById('jobTitle').value = formData?.generalInformation?.jobTitle || '';
+
+        // Enter Resume Data
+        document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
+        document.getElementById('jobTitleResume').innerText = formData.generalInformation.jobTitle || 'Менеджер по маркетингу';
     }
 }
 loadFormData();
@@ -29,9 +49,9 @@ loadFormData();
 
 // On document unload - save data to local storage
 
-window.onbeforeunload = () => {
+window.addEventListener('unload', () => {
     localStorage.setItem('formData', JSON.stringify(formData));
-}
+})
 //
 
 window.addEventListener('resize', resizeVh);
@@ -90,19 +110,26 @@ document.getElementById('additionalBtn').addEventListener('click', (e) => {
     document.getElementById('additionalSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-
 // Saving Data on input
 
 document.getElementById('firstName').addEventListener('input', (e) => {
     formData.generalInformation.firstName = e.target.value;
+    document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
 })
 
 document.getElementById('lastName').addEventListener('input', (e) => {
     formData.generalInformation.lastName = e.target.value;
+    document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
 })
 
 document.getElementById('fatherName').addEventListener('input', (e) => {
     formData.generalInformation.fatherName = e.target.value;
+    document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
+})
+
+document.getElementById('jobTitle').addEventListener('input', (e) => {
+    formData.generalInformation.jobTitle = e.target.value;
+    document.getElementById('jobTitleResume').innerText = e.target.value || 'Менеджер по маркетингу';
 })
 
 // Preview resume

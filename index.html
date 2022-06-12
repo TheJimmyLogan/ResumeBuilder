@@ -24,8 +24,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resume.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="resume.css">
     <script src="script.js" defer></script>
     <title>ResumeBuilder - создай своё резюме</title>
 </head>
@@ -51,11 +51,12 @@
         </section>
 
         <!-- Resume Steps -->
-        <section class="steps" id="resumeSteps">
-            <div class="steps-buttons">
+        <section class="steps " id="resumeSteps">
+            <div class="steps-buttons ">
                 <button class="active-step" id="generalInfoBtn">Деловой</button>
                 <button id="personalInfoBtn">Яркий</button>
                 <button id="experienceBtn">Молодёжный</button>
+                <button id="experienceBtn">Простой</button>
             </div>
         </section>
 
@@ -80,7 +81,7 @@
 
                 <div class="field">
                     <label for="Post">Должность</label>
-                    <input type="text" id="Post" placeholder="Ваша должность">
+                    <input type="text" id="jobTitle" placeholder="Ваша должность">
                 </div>
                 <div class="field">
                     <label for="Salary">Желаемая зарплата</label>
@@ -397,9 +398,9 @@
                     </div>
 
                     <div class="right-info">
-                        <h1>Иванов Иван</h1>
+                        <h1 id="firstLastFatherNameResume"></h1>
                         <section class="work-post">
-                            <h2>Менеджер по маркетингу</h2>
+                            <h2 id="jobTitleResume"></h2>
                         </section>
 
 
