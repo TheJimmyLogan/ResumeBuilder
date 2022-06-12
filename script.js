@@ -25,6 +25,7 @@ let formData = {
         lastName: '',
         fatherName: '',
         jobTitle: '',
+        jobType: '',
     }
 };
 
@@ -38,10 +39,12 @@ const loadFormData = () => {
         document.getElementById('lastName').value = formData?.generalInformation?.lastName || '';
         document.getElementById('fatherName').value = formData?.generalInformation?.fatherName || '';
         document.getElementById('jobTitle').value = formData?.generalInformation?.jobTitle || '';
+        document.getElementById('jobType').value = formData?.generalInformation?.jobType || '';
 
         // Enter Resume Data
         document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
         document.getElementById('jobTitleResume').innerText = formData.generalInformation.jobTitle || 'Менеджер по маркетингу';
+        document.getElementById('jobTypeResume').innerText = formData.generalInformation.jobType || 'Полная';
     }
 }
 loadFormData();
@@ -130,6 +133,11 @@ document.getElementById('fatherName').addEventListener('input', (e) => {
 document.getElementById('jobTitle').addEventListener('input', (e) => {
     formData.generalInformation.jobTitle = e.target.value;
     document.getElementById('jobTitleResume').innerText = e.target.value || 'Менеджер по маркетингу';
+})
+
+document.getElementById('jobType').addEventListener('change', (e) => {
+    formData.generalInformation.jobType = e.target.value;
+    document.getElementById('jobTypeResume').innerText = e.target.value || 'Полная';
 })
 
 // Preview resume

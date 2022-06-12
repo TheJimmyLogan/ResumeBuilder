@@ -47,7 +47,8 @@ select{
     font-size: 15px;
 }
 
-input:focus{
+input:focus,
+select:focus{
     background: white;
     border: 2px solid #A6C8FF;
     outline: none;
@@ -59,7 +60,6 @@ input:focus{
 
 .steps{
     margin-top: -120px;
-    /* flex-direction: column; */
     position: relative;
 }
 

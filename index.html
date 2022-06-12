@@ -52,7 +52,7 @@
 
         <!-- Resume Steps -->
         <section class="steps " id="resumeSteps">
-            <div class="steps-buttons ">
+            <div class="steps-buttons resume-steps">
                 <button class="active-step" id="generalInfoBtn">Деловой</button>
                 <button id="personalInfoBtn">Яркий</button>
                 <button id="experienceBtn">Молодёжный</button>
@@ -83,18 +83,15 @@
                     <label for="Post">Должность</label>
                     <input type="text" id="jobTitle" placeholder="Ваша должность">
                 </div>
-                <div class="field">
-                    <label for="Salary">Желаемая зарплата</label>
-                    <input type="text" id="Salary" placeholder="1.000.000 $">
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="click">
-                    <label for="click" class="text"> Готовность к командировкам </label>
-                </div>
 
                 <div class="field">
-                    <label for="Busyness">Занятость</label>
-                    <input type="text" id="Busyness" placeholder="Полная, Частичная, Сменная">
+                    <label for="jobType">Занятость</label>
+                    <select id="jobType">
+                        <option value="Полная">Полная</option>
+                        <option value="Частичная">Частичная</option>
+                        <option value="Сменная">Сменная</option>
+                    </select>
+                    <!-- <input type="text" id="" placeholder="Полная, Частичная, Сменная"> -->
                 </div>
                 <div class="field">
                     <label for="Work schedule">График работы</label>
@@ -401,17 +398,16 @@
                         <h1 id="firstLastFatherNameResume"></h1>
                         <section class="work-post">
                             <h2 id="jobTitleResume"></h2>
+                            <h4>Занятость: <span id="jobTypeResume"></span></h4>
                         </section>
 
-
-                        <hr>
 
                         <div class="contact">
 
 
                             <section class="contact-info">
                                 <img src="./images/phone.svg" width="14px" alt="">
-                                <p><span>Телефон</span> <br> 347-677-2699</p>
+                                <p><span>Телефон</span> <br> +7(000)000-00-00</p>
                             </section>
 
                             <section class="contact-info">
@@ -425,9 +421,6 @@
                             </section>
 
                         </div>
-
-                        <hr>
-
 
                         <h2>Обо мне</h2>
 
