@@ -87,15 +87,21 @@
                 <div class="field">
                     <label for="jobType">Занятость</label>
                     <select id="jobType">
-                        <option value="Полная">Полная</option>
+                        <option value="Полная" selected>Полная</option>
                         <option value="Частичная">Частичная</option>
                         <option value="Сменная">Сменная</option>
                     </select>
-                    <!-- <input type="text" id="" placeholder="Полная, Частичная, Сменная"> -->
+
                 </div>
                 <div class="field">
                     <label for="Work schedule">График работы</label>
-                    <input type="text" id="Work schedule" placeholder="График">
+                    <select id="jobSchedule">
+                        <option value="Полный" selected>Полный день</option>
+                        <option value="Сменный график">Сменный график</option>
+                        <option value="Гибкий график">Гибкий график</option>
+                        <option value="Удалённая работа">Удалённая работа</option>
+                        <option value="Вахта">Вахта</option>
+                    </select>
                 </div>
                 <div class="field">
                     <label for="Email">Электронная почта</label>
@@ -398,9 +404,11 @@
                         <h1 id="firstLastFatherNameResume"></h1>
                         <section class="work-post">
                             <h2 id="jobTitleResume"></h2>
-                            <h4>Занятость: <span id="jobTypeResume"></span></h4>
+                            <div>
+                                <h4>Занятость: <span id="jobTypeResume"></span></h4>
+                                <h4>График работы: <span id="jobScheduleResume"></span></h4>
+                            </div>
                         </section>
-
 
                         <div class="contact">
 

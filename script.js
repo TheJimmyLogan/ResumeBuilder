@@ -26,26 +26,27 @@ let formData = {
         fatherName: '',
         jobTitle: '',
         jobType: '',
+        jobSchedule: '',
     }
 };
 
 const loadFormData = () => {
     localStorageObject = JSON.parse(localStorage.getItem('formData'));
-    if (localStorageObject) {
-        formData = localStorageObject;
+    formData = localStorageObject;
 
-        // Enter Form Data
-        document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
-        document.getElementById('lastName').value = formData?.generalInformation?.lastName || '';
-        document.getElementById('fatherName').value = formData?.generalInformation?.fatherName || '';
-        document.getElementById('jobTitle').value = formData?.generalInformation?.jobTitle || '';
-        document.getElementById('jobType').value = formData?.generalInformation?.jobType || '';
+    // Enter Form Data
+    document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
+    document.getElementById('lastName').value = formData?.generalInformation?.lastName || '';
+    document.getElementById('fatherName').value = formData?.generalInformation?.fatherName || '';
+    document.getElementById('jobTitle').value = formData?.generalInformation?.jobTitle || '';
+    document.getElementById('jobType').value = formData?.generalInformation?.jobType || '';
+    document.getElementById('jobSchedule').value = formData?.generalInformation?.jobSchedule || '';
 
-        // Enter Resume Data
-        document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
-        document.getElementById('jobTitleResume').innerText = formData.generalInformation.jobTitle || 'Менеджер по маркетингу';
-        document.getElementById('jobTypeResume').innerText = formData.generalInformation.jobType || 'Полная';
-    }
+    // Enter Resume Data
+    document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
+    document.getElementById('jobTitleResume').innerText = formData.generalInformation.jobTitle || 'Менеджер по маркетингу';
+    document.getElementById('jobTypeResume').innerText = formData.generalInformation.jobType || 'Полная';
+    document.getElementById('jobScheduleResume').innerText = formData.generalInformation.jobScheduleResume || 'Полный день';
 }
 loadFormData();
 //
@@ -138,6 +139,11 @@ document.getElementById('jobTitle').addEventListener('input', (e) => {
 document.getElementById('jobType').addEventListener('change', (e) => {
     formData.generalInformation.jobType = e.target.value;
     document.getElementById('jobTypeResume').innerText = e.target.value || 'Полная';
+})
+
+document.getElementById('jobSchedule').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('jobScheduleResume').innerText = e.target.value || 'Полный день';
 })
 
 // Preview resume
