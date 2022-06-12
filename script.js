@@ -33,7 +33,8 @@ let formData = {
 
 const loadFormData = () => {
     localStorageObject = JSON.parse(localStorage.getItem('formData'));
-    formData = localStorageObject;
+
+    if (localStorageObject !== null) formData = localStorageObject;
 
     // Enter Form Data
     document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
