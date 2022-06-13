@@ -28,6 +28,12 @@ let formData = {
         jobTitle: '',
         jobType: '',
         jobSchedule: '',
+        email: '',
+        mobile: '',
+        website: '',
+        сourseName: '',
+        personalQualities: '',
+        children: '',
     }
 };
 
@@ -43,12 +49,24 @@ const loadFormData = () => {
     document.getElementById('jobTitle').value = formData?.generalInformation?.jobTitle || '';
     document.getElementById('jobType').value = formData?.generalInformation?.jobType || 'Полная';
     document.getElementById('jobSchedule').value = formData?.generalInformation?.jobSchedule || 'Полный';
+    document.getElementById('email').value = formData?.generalInformation?.email || 'Почта';
+    document.getElementById('mobile').value = formData?.generalInformation?.mobile || 'Телефон';
+    document.getElementById('website').value = formData?.generalInformation?.website || 'Мой сайт';
+    document.getElementById('сourseName').value = formData?.generalInformation?.сourseName || 'Массажное дело';
+    document.getElementById('personalQualities').value = formData?.generalInformation?.personalQualities || 'Личные качества';
+    document.getElementById('children').value = formData?.generalInformation?.children || 'Есть';
 
     // Enter Resume Data
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
     document.getElementById('jobTitleResume').innerText = formData?.generalInformation?.jobTitle || 'Менеджер по маркетингу';
     document.getElementById('jobTypeResume').innerText = formData?.generalInformation?.jobType || 'Полная';
     document.getElementById('jobScheduleResume').innerText = formData?.generalInformation?.jobScheduleResume || 'Полный день';
+    document.getElementById('emailResume').innerText = formData?.generalInformation?.emailResume || 'Почта';
+    document.getElementById('mobileResume').innerText = formData?.generalInformation?.mobileResume || 'Телефон';
+    document.getElementById('websiteResume').innerText = formData?.generalInformation?.websiteResume || 'Мой сайт';
+    document.getElementById('сourseNameResume').innerText = formData?.generalInformation?.сourseNameResume || 'Массажное дело';
+    document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Личные качества';
+    document.getElementById('childrenResume').innerText = formData?.generalInformation?.childrenResume || 'Нет';
 }
 loadFormData();
 //
@@ -146,6 +164,36 @@ document.getElementById('jobType').addEventListener('change', (e) => {
 document.getElementById('jobSchedule').addEventListener('change', (e) => {
     formData.generalInformation.jobSchedule = e.target.value;
     document.getElementById('jobScheduleResume').innerText = e.target.value || 'Полный день';
+})
+
+document.getElementById('email').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('emailResume').innerText = e.target.value || 'Почта';
+})
+
+document.getElementById('mobile').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('mobileResume').innerText = e.target.value || 'Телефон';
+})
+
+document.getElementById('website').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('websiteResume').innerText = e.target.value || 'Мой сайт';
+})
+
+document.getElementById('сourseName').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('сourseNameResume').innerText = e.target.value || 'Массажное дело';
+})
+
+document.getElementById('personalQualities').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('personalQualitiesResume').innerText = e.target.value || 'Личные качества';
+})
+
+document.getElementById('children').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('childrenResume').innerText = e.target.value || 'Дети';
 })
 
 // Preview resume

@@ -105,13 +105,20 @@
                 </div>
                 <div class="field">
                     <label for="Email">Электронная почта</label>
-                    <input type="text" id="Email" placeholder="Email">
+                    <input type="text" id="email" placeholder="Email">
                 </div>
                 <div class="field">
                     <label for="Mobile">Телефон</label>
-                    <input type="text" id="Mobile" placeholder="+7 (000) 000-00-00">
+                    <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
                 </div>
+                <div class="field">
+                    <label for="Website">Мой сайт</label>
+                    <input type="text" id="website" placeholder="Website">
+                </div>
+
+
             </section>
+
 
             <section class="sub-section" id="personalInfoSection">
                 <h1 class="sub-title">Личная информация</h1>
@@ -137,7 +144,7 @@
                     <input type="text" id="Marital status" placeholder="Холост, Женат, Замужем">
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="click">
+                    <input type="checkbox" id="children">
                     <label for="click" class="text"> Есть ли дети </label>
                 </div>
                 <div class="field">
@@ -222,7 +229,7 @@
 
                 <div class="field">
                     <label for="Course name">Название курса</label>
-                    <input type="text" id="Course name" placeholder="Массажное дело">
+                    <input type="text" id="сourseName" placeholder="Массажное дело">
                 </div>
                 <div class="field">
                     <label for="Educational institution">Учебное заведение</label>
@@ -331,7 +338,7 @@
 
                 <div class="field">
                     <label for="Personal qualities">Личные качества</label>
-                    <input type="text" id="Personal qualities" placeholder="Ответственность, Без вредных привычек...">
+                    <input type="text" id="personalQualities" placeholder="Ответственность, Без вредных привычек...">
                 </div>
             </section>
 
@@ -380,7 +387,7 @@
                         <div class="left-info-section">
                             <h2>КУРСЫ И ТРЕНИНГИ</h2>
                             <div class="text">
-                                <p>Актёрское мастерство</p>
+                                <p id="сourseNameResume"> Массажное дело</p>
                                 <p>2014 - 2015</p>
                             </div>
                         </div>
@@ -388,7 +395,7 @@
                         <div class="left-info-section">
                             <h2>ЛИЧНЫЕ КАЧЕСТВА</h2>
                             <div class="text">
-                                <ul>
+                                <ul id="personalQualitiesResume">
                                     <li>Пунктуален,</li>
                                     <li>Общителен,</li>
                                     <li>Стрессоустойчив,</li>
@@ -415,17 +422,17 @@
 
                             <section class="contact-info">
                                 <img src="./images/phone.svg" width="14px" alt="">
-                                <p><span>Телефон</span> <br> +7(000)000-00-00</p>
+                                <p><span>Телефон</span> <br> <span id="mobileResume"> </span></p>
                             </section>
 
                             <section class="contact-info">
                                 <img src="./images/Email.svg" width="14px" alt="">
-                                <p><span>Почта</span> <br> Van@ivanov.ru</p>
+                                <p><span>Почта</span> <br> <span id="emailResume"> </span></p>
                             </section>
 
                             <section class="contact-info">
                                 <img src="./images/website.svg" width="14px" alt="">
-                                <p><span>Мой сайт</span> <br> Ivan.ti.com</p>
+                                <p><span>Мой сайт</span> <br> <span id="websiteResume"> </span> </p>
                             </section>
 
                         </div>
@@ -445,7 +452,7 @@
 
                         <hr>
 
-                        <h4>Колектор</h4>
+                        <h4 id="postJob">Колектор</h4>
                         <h3>Период работы / 24.05.2012 - 30.04.2013</h3>
 
                         <div class="exp-class">
@@ -467,6 +474,11 @@
                                 <li>Точно заявленные сроки</li>
                                 <li>Работа в стрессовых ситуациях</li>
                             </ul>
+                        </div>
+
+                        <h4>Дети:</h4>
+                        <div class="kids">
+                            <p id="childrenResume">Есть</p>
                         </div>
 
                     </div>
