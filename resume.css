@@ -185,6 +185,54 @@ hr{
    margin-bottom: 30px;
 }
 
+.info-about{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.info-about .your-city h4{
+    font-size: 8px;
+}
+
+.info-about .your-city p{
+    font-size: 10px;
+}
+
+.info-about .birthday h4{
+    font-size: 8px;
+}
+
+.info-about .birthday p{
+    font-size: 10px;
+}
+
+.info-about .kids h4{
+    font-size: 8px;
+}
+
+.info-about .kids p{
+    font-size: 10px;
+}
+
+.info-about .сitizenship h4{
+    font-size: 8px;
+}
+
+.info-about .сitizenship p{
+    font-size: 10px;
+}
+
+.info-about .family h4{
+    font-size: 8px;
+}
+
+.info-about .family p{
+    font-size: 10px;
+}
+
+
 .right-info h3{
     font-size: 12px;
     font-style: italic;

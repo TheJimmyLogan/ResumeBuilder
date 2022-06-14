@@ -34,6 +34,15 @@ let formData = {
         сourseName: '',
         personalQualities: '',
         children: '',
+        city: '',
+        birth: '',
+        сitizen: '',
+        familyStatus: '',
+        education: '',
+        faculty: '',
+        specialization: '',
+        additionalEducation: '',
+        formOfTraining: '',
     }
 };
 
@@ -55,6 +64,15 @@ const loadFormData = () => {
     document.getElementById('сourseName').value = formData?.generalInformation?.сourseName || 'Массажное дело';
     document.getElementById('personalQualities').value = formData?.generalInformation?.personalQualities || 'Личные качества';
     document.getElementById('children').value = formData?.generalInformation?.children || 'Есть';
+    document.getElementById('city').value = formData?.generalInformation?.city || 'Город';
+    document.getElementById('birth').value = formData?.generalInformation?.birth || 'Дата рождения';
+    document.getElementById('citizen').value = formData?.generalInformation?.citizen || 'Гражданство';
+    document.getElementById('familyStatus').value = formData?.generalInformation?.familyStatus || 'Семейное положение';
+    document.getElementById('education').value = formData?.generalInformation?.education || 'Высшее, Неполное высшее';
+    document.getElementById('faculty').value = formData?.generalInformation?.education || 'Московский Институт Банковского Дела г. Москва';
+    document.getElementById('specialization').value = formData?.generalInformation?.specialization || 'Экономика предприятия';
+    document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || 'Учебное заведение';
+    document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Форма обучения';
 
     // Enter Resume Data
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
@@ -65,8 +83,17 @@ const loadFormData = () => {
     document.getElementById('mobileResume').innerText = formData?.generalInformation?.mobileResume || 'Телефон';
     document.getElementById('websiteResume').innerText = formData?.generalInformation?.websiteResume || 'Мой сайт';
     document.getElementById('сourseNameResume').innerText = formData?.generalInformation?.сourseNameResume || 'Массажное дело';
-    document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Личные качества';
+    document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Пунктуальный, Ответственный, Быстрообучаемый';
     document.getElementById('childrenResume').innerText = formData?.generalInformation?.childrenResume || 'Нет';
+    document.getElementById('cityResume').innerText = formData?.generalInformation?.cityResume || 'Москва';
+    document.getElementById('birthResume').innerText = formData?.generalInformation?.birthResume || '24.03.1987';
+    document.getElementById('citizenResume').innerText = formData?.generalInformation?.citizenResume || 'РФ';
+    document.getElementById('familyStatusResume').innerText = formData?.generalInformation?.familyStatusResume || 'Женат';
+    document.getElementById('educationResume').innerText = formData?.generalInformation?.educationResume || 'Высшее';
+    document.getElementById('facultyResume').innerText = formData?.generalInformation?.facultyResume || 'Экономический Факультет МГУ';
+    document.getElementById('specializationResume').innerText = formData?.generalInformation?.specializationResume || 'Экономист';
+    document.getElementById('additionalEducationResume').innerText = formData?.generalInformation?.additionalEducationResume || 'Институт Профессионального Массажа';
+    document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
 }
 loadFormData();
 //
@@ -194,6 +221,51 @@ document.getElementById('personalQualities').addEventListener('change', (e) => {
 document.getElementById('children').addEventListener('change', (e) => {
     formData.generalInformation.jobSchedule = e.target.value;
     document.getElementById('childrenResume').innerText = e.target.value || 'Дети';
+})
+
+document.getElementById('city').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('cityResume').innerText = e.target.value || 'Город';
+})
+
+document.getElementById('birth').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('birthResume').innerText = e.target.value || 'Дата рождения';
+})
+
+document.getElementById('citizen').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('citizenResume').innerText = e.target.value || 'Гражданство';
+})
+
+document.getElementById('familyStatus').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('familyStatusResume').innerText = e.target.value || 'Семейное положение';
+})
+
+document.getElementById('education').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('educationResume').innerText = e.target.value || 'Образование';
+})
+
+document.getElementById('faculty').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('facultyResume').innerText = e.target.value || 'Учебное заведение';
+})
+
+document.getElementById('specialization').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('specializationResume').innerText = e.target.value || 'Специальность';
+})
+
+document.getElementById('additionalEducation').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('additionalEducationResume').innerText = e.target.value || 'Учебное заведение';
+})
+
+document.getElementById('formOfTraining').addEventListener('change', (e) => {
+    formData.generalInformation.jobSchedule = e.target.value;
+    document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
 })
 
 // Preview resume
