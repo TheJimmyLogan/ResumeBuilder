@@ -96,7 +96,7 @@
                 <div class="field">
                     <label for="Work schedule">График работы</label>
                     <select id="jobSchedule">
-                        <option value="Полный" selected>Полный день</option>
+                        <option value="Полный день" selected>Полный день</option>
                         <option value="Сменный график">Сменный график</option>
                         <option value="Гибкий график">Гибкий график</option>
                         <option value="Удалённая работа">Удалённая работа</option>
@@ -126,10 +126,6 @@
                 <div class="field">
                     <label for="City of residence">Город проживания</label>
                     <input type="text" id="city" placeholder="Город">
-                </div>
-                <div class="field">
-                    <label for="Move">Переезд</label>
-                    <input type="text" id="Move" placeholder="Переезд">
                 </div>
                 <div class="field">
                     <label for="сitizenship">Гражданство</label>
@@ -167,8 +163,8 @@
                     <label for="click" class="text"> По настоящее время </label>
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="click">
-                    <label for="click" class="text"> Полная занятость </label>
+                    <input type="checkbox" id="isFullTime">
+                    <label for="isFullTime" class="text"> Полная занятость </label>
                 </div>
                 <div class="field">
                     <label for="Post">Должность</label>
@@ -178,9 +174,17 @@
                     <label for="Post">Организация</label>
                     <input type="text" id="Post" placeholder="ООО Фортепьяно г. Москва">
                 </div>
-                <div class="field">
+
+                <div class="field" id="jobGoals">
                     <label for="Post">Должностные обязянности и достижения</label>
-                    <input type="text" id="Post" placeholder="Организация и ведение аудиторских проектов... ">
+                    <div id="goalsList">
+                    </div>
+                    <div class="field-with-button">
+                        <input type="text" id="addJobGoalLast"
+                            placeholder="Организация и ведение аудиторских проектов... ">
+                        <button class="primaryBtn" id="addJobGoalBtn">+</button>
+                    </div>
+
                 </div>
             </section>
 
@@ -209,10 +213,10 @@
                 <section class="field">
                     <label for="trainingform">Форма обучения</label>
                     <select id="formOfTraining">
-                        <option label="" value="01">Дистанционная</option>
-                        <option label="" value="02">Заочная</option>
-                        <option label="" value="03">Очно-заочная (вечерняя)</option>
-                        <option label="" value="04">Очная</option>
+                        <option label="" value="Дистанционная">Дистанционная</option>
+                        <option label="" value="Заочная">Заочная</option>
+                        <option label="" value="Очно-заочная (вечерняя)">Очно-заочная (вечерняя)</option>
+                        <option label="" value="Очная">Очная</option>
                     </select>
                 </section>
             </section>
@@ -369,19 +373,6 @@
                         </div>
 
                         <div class="left-info-section">
-                            <h2>ОБРАЗОВАНИЕ</h2>
-                            <div class="text">
-                                <p id="educationResume">Высшее</p>
-                                <p id="facultyResume">Экономический Факультет МГУ</p>
-                                <p id="specializationResume">Экономист</p>
-
-                                <h4>Форма обучения: <span id="formOfTrainingResume"></span></h4>
-
-                                <p>2014 - 2015</p>
-                            </div>
-                        </div>
-
-                        <div class="left-info-section">
                             <h2>КУРСЫ И ТРЕНИНГИ</h2>
                             <div class="text">
                                 <p id="сourseNameResume"> Массажное дело</p>
@@ -468,18 +459,11 @@
 
                         </section>
 
-                        <div class="about">
-                            <p>Четкий пацан умею много всего, работал в компаниях которые шантажировали людей, занимался
-                                подстрикательством, бродяга и волк по жизни, косяков за спиной не имею, так же работал в
-                                сфере
-                                банков, в колекторском агенстве, двигаюсь чётко и никогда не унываю, </p>
-                        </div>
-
                         <h2>Опыт работы</h2>
 
                         <hr>
 
-                        <h4 id="postJob">Колектор</h4>
+                        <h4 id="postJob">Колектор <span id="isFullTimeResume"></span></h4>
                         <h3>Период работы / 24.05.2012 - 30.04.2013</h3>
 
                         <div class="exp-class">
@@ -491,20 +475,17 @@
                             </ul>
                         </div>
 
-                        <h4>Менеджер по работе с клиентами</h4>
-                        <h3>Период работы / 24.07.2011 - 30.04.2012</h3>
+                        <h2>Образование</h2>
 
-                        <div class="exp-class">
-                            <ul>
-                                <li>Работа на телефоне</li>
-                                <li>Выполнение плана</li>
-                                <li>Точно заявленные сроки</li>
-                                <li>Работа в стрессовых ситуациях</li>
-                            </ul>
-                        </div>
+                        <hr>
 
+                        <h4 id="facultyResume">Экономический Факультет МГУ</h4>
+                        <h3 id="educationResume">Высшее</h3>
+                        <h3 id="specializationResume">Экономист</h3>
 
+                        <h3>Форма обучения: <span id="formOfTrainingResume"></span></h3>
 
+                        <h3>2014 - 2015</h3>
                     </div>
 
                 </section>
@@ -513,9 +494,9 @@
         </section>
 
         <section class="footer">
-            <button id="download">Скачать</button>
-            <button id="back">Назад</button>
-            <button id="preview">Просмотр</button>
+            <button class="primaryBtn" id="download">Скачать</button>
+            <button class="primaryBtn" id="back">Назад</button>
+            <button class="primaryBtn" id="preview">Просмотр</button>
         </section>
     </div>
 

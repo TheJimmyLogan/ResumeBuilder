@@ -45,6 +45,7 @@ select{
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
     font-weight: 400;
     font-size: 15px;
+    width: 100%;
 }
 
 input:focus,
@@ -141,6 +142,25 @@ select:focus{
     margin-bottom: 24px;
 }
 
+.field-with-button{
+    display: flex;
+    gap: 8px;
+}
+
+#goalsList{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.field-with-button button{
+    font-size: 32px;
+    width: 59px;
+    height: 59;
+    padding: 8px;
+}
+
 
 .checkboxGroup{
     display: flex;
@@ -218,7 +238,11 @@ input[type=checkbox]
     bottom: 0;
 }
 
-.footer button{
+.footer #back{
+    display: none;
+}
+
+.primaryBtn{
     background: linear-gradient(55.75deg, #6115D8 29.75%, #25F1F2 84.23%);
     color: rgb(255, 255, 255);
     padding: 12px;
@@ -226,10 +250,6 @@ input[type=checkbox]
     border: none;
     font-weight: 700;
     cursor: pointer;
-}
-
-.footer #back{
-    display: none;
 }
 
 /* End btn */
