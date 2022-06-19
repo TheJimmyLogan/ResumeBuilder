@@ -8,8 +8,8 @@ resizeVh();
 
 // Helper functions
 const getFullName = (info) => {
-    if (!info) return 'Иван Иванов Иванович'
-    if (!info.firstName && !info.lastName && !info.fatherName) return 'Иван Иванов Иванович'
+    if (!info) return 'Имя Фамилия Отчество'
+    if (!info.firstName && !info.lastName && !info.fatherName) return 'Имя Фамилия Отчество'
     if (info.firstName && info.lastName) return `${info.firstName} ${info.lastName}`
     if (info.firstName && info.fatherName) return `${info.firstName} ${info.fatherName}`
     if (info.lastName && info.fatherName) return `${info.lastName} ${info.fatherName}`
@@ -55,7 +55,12 @@ let formData = {
     },
 
     workExperience: {
-        isFullTime: false
+        isFullTime: false,
+        post: '',
+        company: '',
+        from: '',
+        to: '',
+        isCurrent: false,
     }
 };
 
@@ -87,6 +92,11 @@ const loadFormData = () => {
     document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || '';
     document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
     document.getElementById('isFullTime').value = formData?.workExperience?.isFullTime;
+    document.getElementById('post').value = formData?.workExperience?.post || '';
+    document.getElementById('company').value = formData?.workExperience?.company || '';
+    document.getElementById('from').value = formData?.workExperience?.from || '';
+    document.getElementById('to').value = formData?.workExperience?.to || '';
+    document.getElementById('isCurrent').value = formData?.workExperience?.isCurrent;
 
     // Enter Resume Data
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
@@ -100,7 +110,7 @@ const loadFormData = () => {
     document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Пунктуальный, Ответственный, Быстрообучаемый';
     document.getElementById('childrenResume').innerText = formData?.privateInformation?.hasChildren ? 'Да' : 'Нет';
     document.getElementById('cityResume').innerText = formData?.generalInformation?.cityResume || 'Москва';
-    document.getElementById('birthResume').innerText = formData?.generalInformation?.birthResume || '24.03.1987';
+    document.getElementById('birthResume').innerText = formData?.generalInformation?.birthResume || 'Дата рождения';
     document.getElementById('citizenResume').innerText = formData?.generalInformation?.citizenResume || 'РФ';
     document.getElementById('familyStatusResume').innerText = formData?.generalInformation?.familyStatusResume || 'Женат';
     document.getElementById('educationResume').innerText = formData?.generalInformation?.educationResume || 'Высшее';
@@ -110,6 +120,12 @@ const loadFormData = () => {
     document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
     document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
     document.getElementById('isFullTimeResume').innerText = formData?.workExperience?.isFullTime ? ' - Полная занятость' : '';
+    document.getElementById('postResume').innerText = formData?.workExperience?.post || 'Должность';
+    document.getElementById('companyResume').innerText = formData?.workExperience?.company || 'Организация';
+    document.getElementById('fromResume').innerText = formData?.workExperience?.fromResume || '';
+    document.getElementById('toResume').innerText = formData?.workExperience?.toResume || '';
+    if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
+
 }
 loadFormData();
 //
@@ -180,7 +196,6 @@ document.getElementById('additionalBtn').addEventListener('click', (e) => {
 })
 
 // Saving Data on input
-
 document.getElementById('firstName').addEventListener('input', (e) => {
     formData.generalInformation.firstName = e.target.value;
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData.generalInformation);
@@ -290,6 +305,35 @@ document.getElementById('additionalEducation').addEventListener('change', (e) =>
 document.getElementById('formOfTraining').addEventListener('change', (e) => {
     formData.generalInformation.jobSchedule = e.target.value;
     document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
+})
+
+document.getElementById('post').addEventListener('change', (e) => {
+    formData.workExperience.post = e.target.value;
+    document.getElementById('postResume').innerText = e.target.value || 'Должность';
+})
+
+document.getElementById('company').addEventListener('change', (e) => {
+    formData.workExperience.company = e.target.value;
+    document.getElementById('companyResume').innerText = e.target.value || 'Организация';
+})
+
+document.getElementById('from').addEventListener('change', (e) => {
+    const date = e.target.value.split('-').reverse().join('-');
+    formData.workExperience.from = date;
+    document.getElementById('fromResume').innerText = date || '';
+})
+
+document.getElementById('to').addEventListener('change', (e) => {
+    const date = e.target.value.split('-').reverse().join('-');
+    formData.workExperience.to = date;
+    document.getElementById('toResume').innerText = date || '';
+})
+
+document.getElementById('isCurrent').addEventListener('change', (e) => {
+    formData.workExperience.isCurrent = e.target.checked;
+    document.getElementById('to').disabled = e.target.checked;
+    if (formData.workExperience.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время'
+    else { document.getElementById('toResume').innerText = document.getElementById('to').value }
 })
 
 document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {

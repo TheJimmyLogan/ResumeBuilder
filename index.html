@@ -151,28 +151,28 @@
                 <h1 class="sub-title">Опыт работы</h1>
 
                 <section class="field">
-                    <label for="Start date">Дата Начала: </label>
-                    <input type="date" id="Start date" name="date" />
+                    <label for="from">Дата Начала: </label>
+                    <input type="date" id="from" name="date" />
                 </section>
                 <section class="field">
-                    <label for="End date">Дата конца: </label>
-                    <input type="date" id="End date" name="date" />
+                    <label for="to">Дата конца: </label>
+                    <input type="date" id="to" name="date" />
                 </section>
                 <div class="checkbox">
-                    <input type="checkbox" id="click">
-                    <label for="click" class="text"> По настоящее время </label>
+                    <input type="checkbox" id="isCurrent">
+                    <label for="isCurrent" class="text"> По настоящее время </label>
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="isFullTime">
                     <label for="isFullTime" class="text"> Полная занятость </label>
                 </div>
                 <div class="field">
-                    <label for="Post">Должность</label>
-                    <input type="text" id="Post" placeholder="Директор">
+                    <label for="post">Должность</label>
+                    <input type="text" id="post" placeholder="Директор">
                 </div>
                 <div class="field">
-                    <label for="Post">Организация</label>
-                    <input type="text" id="Post" placeholder="ООО Фортепьяно г. Москва">
+                    <label for="company">Организация</label>
+                    <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
                 </div>
 
                 <div class="field" id="jobGoals">
@@ -463,8 +463,11 @@
 
                         <hr>
 
-                        <h4 id="postJob">Колектор <span id="isFullTimeResume"></span></h4>
-                        <h3>Период работы / 24.05.2012 - 30.04.2013</h3>
+                        <h4 id="postResume"><span id="isFullTimeResume"></span></h4>
+                        <h4 id="companyResume"></h4>
+
+                        <h3>Период работы / <span id="fromResume">24.05.2012</span> - <span
+                                id="toResume">30.04.2013</span></h3>
 
                         <div class="exp-class">
                             <ul>
