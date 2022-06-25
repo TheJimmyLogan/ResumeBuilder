@@ -18,6 +18,46 @@ const getFullName = (info) => {
     if (info.fatherName) return `${info.fatherName}`
 }
 
+const refreshResumeDuties = (e, id) => {
+    formData.workExperience.duties[id] = e.target.value;
+    console.log(formData.workExperience.duties);
+    document.querySelector('.exp-class > ul').innerHTML = '';
+    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+}
+
+// Create duties input
+const addNewDutyForm = (duty) => {
+    const newId = Object.values(duty)[0]
+    const value = Object.values(duty)[1]
+
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.placeholder = 'Организация и ведение аудиторских проектов... '
+    newInput.value = value;
+    newInput.addEventListener('change', (e) => { refreshResumeDuties(e, newId) })
+
+    const newBtn = document.createElement('button');
+    newBtn.classList.add('primaryBtn');
+    newBtn.innerText = '-';
+    newBtn.addEventListener('click', () => { document.getElementById(newId).remove() })
+
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('field-with-button');
+    newDiv.id = newId;
+
+    newDiv.append(newInput, newBtn);
+    document.getElementById('goalsList').append(newDiv);
+}
+
+// Create duties LI in resume
+const addNewDutyToResume = (duty) => {
+    const value = Object.values(duty)[1]
+    const newLi = document.createElement('li');
+    newLi.innerText = value;
+    document.querySelector('.exp-class > ul').append(newLi);
+}
+
+
 const guidGenerator = () => {
     var S4 = function () {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -51,7 +91,8 @@ let formData = {
         formOfTraining: '',
     },
     privateInformation: {
-        hasChildren: false
+        hasChildren: false,
+        army: false,
     },
 
     workExperience: {
@@ -61,11 +102,12 @@ let formData = {
         from: '',
         to: '',
         isCurrent: false,
+        duties: {}
     }
 };
 
 const loadFormData = () => {
-    localStorageObject = JSON.parse(localStorage.getItem('formData'));
+    localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
 
     if (localStorageObject !== null) formData = localStorageObject;
 
@@ -91,12 +133,15 @@ const loadFormData = () => {
     document.getElementById('specialization').value = formData?.generalInformation?.specialization || '';
     document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || '';
     document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
-    document.getElementById('isFullTime').value = formData?.workExperience?.isFullTime;
+    document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
     document.getElementById('post').value = formData?.workExperience?.post || '';
     document.getElementById('company').value = formData?.workExperience?.company || '';
     document.getElementById('from').value = formData?.workExperience?.from || '';
     document.getElementById('to').value = formData?.workExperience?.to || '';
-    document.getElementById('isCurrent').value = formData?.workExperience?.isCurrent;
+    document.getElementById('isCurrent').checked = formData?.workExperience?.isCurrent;
+    document.getElementById('army').checked = formData?.privateInformation?.army;
+    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyForm(duty); })
+
 
     // Enter Resume Data
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
@@ -125,6 +170,9 @@ const loadFormData = () => {
     document.getElementById('fromResume').innerText = formData?.workExperience?.fromResume || '';
     document.getElementById('toResume').innerText = formData?.workExperience?.toResume || '';
     if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
+    document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
+    document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
+    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
 
 }
 loadFormData();
@@ -336,29 +384,16 @@ document.getElementById('isCurrent').addEventListener('change', (e) => {
     else { document.getElementById('toResume').innerText = document.getElementById('to').value }
 })
 
+document.getElementById('army').addEventListener('change', (e) => {
+    formData.privateInformation.army = e.target.checked;
+    document.getElementById('armyResume').innerText = e.target.checked ? 'Служил' : 'Не служил';
+})
+
 document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
-
     const newId = guidGenerator();
-
-    const newInput = document.createElement('input');
-    newInput.type = 'text';
-    newInput.placeholder = 'Организация и ведение аудиторских проектов... '
-    newInput.value = document.getElementById('addJobGoalLast').value;
-
-    const newBtn = document.createElement('button');
-    newBtn.classList.add('primaryBtn');
-    newBtn.innerText = '-';
-    newBtn.addEventListener('click', () => { document.getElementById(newId).remove() })
-
-    const newDiv = document.createElement('div');
-    newDiv.classList.add('field-with-button');
-    newDiv.id = newId;
-
-    newDiv.append(newInput, newBtn);
-
-
+    addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
     document.getElementById('addJobGoalLast').value = '';
-    document.getElementById('goalsList').append(newDiv);
+    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
 })
 
 // Preview resume
