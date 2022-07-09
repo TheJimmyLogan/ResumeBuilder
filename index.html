@@ -40,13 +40,15 @@
         <section class="steps" id="formSteps">
             <h1>Шаг <span id="stepCount">1</span> из 7</h1>
             <div class="steps-buttons">
-                <button class="active-step" id="generalInfoBtn">Основная информация</button>
-                <button id="personalInfoBtn">Личная информация</button>
-                <button id="experienceBtn">Опыт работы</button>
-                <button id="eduBtn">Образование</button>
-                <button id="courseTraingBtn">Курсы и тренинги</button>
-                <button id="languageBtn">Иностранные языки и компьютерные навыки</button>
-                <button id="additionalBtn">Дополнительная информация</button>
+                <div>
+                    <button class="active-step" id="generalInfoBtn">Основная информация</button>
+                    <button id="personalInfoBtn">Личная информация</button>
+                    <button id="experienceBtn">Опыт работы</button>
+                    <button id="eduBtn">Образование</button>
+                    <button id="courseTraingBtn">Курсы и тренинги</button>
+                    <button id="languageBtn">Иностранные языки и компьютерные навыки</button>
+                    <button id="additionalBtn">Дополнительная информация</button>
+                </div>
             </div>
         </section>
 
@@ -61,443 +63,458 @@
         </section>
 
 
-        <section class="content" id="formData">
+        <div class="form-resume-container">
+            <section class="content" id="formData">
 
-            <section class="sub-section" id="generalInfoSection">
-                <h1 class="sub-title">Основная информация</h1>
+                <section class="sub-section" id="generalInfoSection">
+                    <h1 class="sub-title">Основная информация</h1>
 
-                <div class="field">
-                    <label for="firstName">Имя</label>
-                    <input type="text" id="firstName" placeholder="Имя">
-                </div>
-                <div class="field">
-                    <label for="Surname">Фамилия</label>
-                    <input type="text" id="lastName" placeholder="Фамилия">
-                </div>
-                <div class="field">
-                    <label for="Middle name">Отчество</label>
-                    <input type="text" id="fatherName" placeholder="Отчество">
-                </div>
-
-                <div class="field">
-                    <label for="Post">Должность</label>
-                    <input type="text" id="jobTitle" placeholder="Ваша должность">
-                </div>
-
-                <div class="field">
-                    <label for="jobType">Занятость</label>
-                    <select id="jobType">
-                        <option value="Полная" selected>Полная</option>
-                        <option value="Частичная">Частичная</option>
-                        <option value="Сменная">Сменная</option>
-                    </select>
-
-                </div>
-                <div class="field">
-                    <label for="Work schedule">График работы</label>
-                    <select id="jobSchedule">
-                        <option value="Полный день" selected>Полный день</option>
-                        <option value="Сменный график">Сменный график</option>
-                        <option value="Гибкий график">Гибкий график</option>
-                        <option value="Удалённая работа">Удалённая работа</option>
-                        <option value="Вахта">Вахта</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label for="Email">Электронная почта</label>
-                    <input type="text" id="email" placeholder="Email">
-                </div>
-                <div class="field">
-                    <label for="Mobile">Телефон</label>
-                    <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
-                </div>
-                <div class="field">
-                    <label for="Website">Мой сайт</label>
-                    <input type="text" id="website" placeholder="Website">
-                </div>
-
-
-            </section>
-
-
-            <section class="sub-section" id="personalInfoSection">
-                <h1 class="sub-title">Личная информация</h1>
-
-                <div class="field">
-                    <label for="City of residence">Город проживания</label>
-                    <input type="text" id="city" placeholder="Город">
-                </div>
-                <div class="field">
-                    <label for="сitizenship">Гражданство</label>
-                    <input type="text" id="citizen" placeholder="РФ">
-                </div>
-                <section class="field">
-                    <label for="Date of birth">Дата рождения: </label>
-                    <input type="date" id="birth" name="date" />
-                </section>
-                <div class="field">
-                    <label for="Marital status">Семейное положение</label>
-                    <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="children">
-                    <label for="click" class="text"> Есть ли дети </label>
-                </div>
-
-            </section>
-
-
-            <section class="sub-section" id="experienceSection">
-                <h1 class="sub-title">Опыт работы</h1>
-
-                <section class="field">
-                    <label for="from">Дата Начала: </label>
-                    <input type="date" id="from" name="date" />
-                </section>
-                <section class="field">
-                    <label for="to">Дата конца: </label>
-                    <input type="date" id="to" name="date" />
-                </section>
-                <div class="checkbox">
-                    <input type="checkbox" id="isCurrent">
-                    <label for="isCurrent" class="text"> По настоящее время </label>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="isFullTime">
-                    <label for="isFullTime" class="text"> Полная занятость </label>
-                </div>
-                <div class="field">
-                    <label for="post">Должность</label>
-                    <input type="text" id="post" placeholder="Директор">
-                </div>
-                <div class="field">
-                    <label for="company">Организация</label>
-                    <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
-                </div>
-
-                <div class="field" id="jobGoals">
-                    <label for="Post">Должностные обязянности и достижения</label>
-                    <div id="goalsList">
+                    <div class="field">
+                        <label for="firstName">Имя</label>
+                        <input type="text" id="firstName" placeholder="Имя">
                     </div>
-                    <div class="field-with-button">
-                        <input type="text" id="addJobGoalLast"
-                            placeholder="Организация и ведение аудиторских проектов... ">
-                        <button class="primaryBtn" id="addJobGoalBtn">+</button>
+                    <div class="field">
+                        <label for="Surname">Фамилия</label>
+                        <input type="text" id="lastName" placeholder="Фамилия">
+                    </div>
+                    <div class="field">
+                        <label for="Middle name">Отчество</label>
+                        <input type="text" id="fatherName" placeholder="Отчество">
                     </div>
 
-                </div>
-            </section>
+                    <div class="field">
+                        <label for="Post">Должность</label>
+                        <input type="text" id="jobTitle" placeholder="Ваша должность">
+                    </div>
+
+                    <div class="field">
+                        <label for="jobType">Занятость</label>
+                        <select id="jobType">
+                            <option value="Полная" selected>Полная</option>
+                            <option value="Частичная">Частичная</option>
+                            <option value="Сменная">Сменная</option>
+                        </select>
+
+                    </div>
+                    <div class="field">
+                        <label for="Work schedule">График работы</label>
+                        <select id="jobSchedule">
+                            <option value="Полный день" selected>Полный день</option>
+                            <option value="Сменный график">Сменный график</option>
+                            <option value="Гибкий график">Гибкий график</option>
+                            <option value="Удалённая работа">Удалённая работа</option>
+                            <option value="Вахта">Вахта</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="email">Электронная почта</label>
+                        <input type="text" id="email" placeholder="Email">
+                    </div>
+                    <div class="field">
+                        <label for="mobile">Телефон</label>
+                        <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
+                    </div>
+                    <div class="field">
+                        <label for="website">Мой сайт</label>
+                        <input type="text" id="website" placeholder="Website">
+                    </div>
 
 
-            <section class="sub-section" id="eduSection">
-                <h1 class="sub-title">Образование</h1>
-
-                <div class="field">
-                    <label for="Education">Образование</label>
-                    <input type="text" id="education" placeholder="Высшее, Неполное высшее">
-                </div>
-
-                <div class="field">
-                    <label for="Educational institution">Учебное заведение</label>
-                    <input type="text" id="faculty" placeholder="Московский Институт Банковского Дела г. Москва">
-                </div>
-                <div class="field">
-                    <label for="Specialization">Специальность</label>
-                    <input type="text" id="specialization" placeholder="Экономика предприятия">
-                </div>
-                <section class="field">
-                    <label for="Year of graduation">Год окончания: </label>
-                    <input type="date" id="Year of graduation" name="date" />
                 </section>
 
-                <section class="field">
-                    <label for="trainingform">Форма обучения</label>
-                    <select id="formOfTraining">
-                        <option label="" value="Дистанционная">Дистанционная</option>
-                        <option label="" value="Заочная">Заочная</option>
-                        <option label="" value="Очно-заочная (вечерняя)">Очно-заочная (вечерняя)</option>
-                        <option label="" value="Очная">Очная</option>
-                    </select>
+
+                <section class="sub-section" id="personalInfoSection">
+                    <h1 class="sub-title">Личная информация</h1>
+
+                    <div class="field">
+                        <label for="city">Город проживания</label>
+                        <input type="text" id="city" placeholder="Город">
+                    </div>
+                    <div class="field">
+                        <label for="сitizenship">Гражданство</label>
+                        <input type="text" id="сitizenship" placeholder="РФ">
+                    </div>
+                    <section class="field">
+                        <label for="DOB">Дата рождения: </label>
+                        <input type="date" id="DOB" />
+                    </section>
+                    <div class="field">
+                        <label for="Marital status">Семейное положение</label>
+                        <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="children">
+                        <label for="children" class="text"> Есть ли дети </label>
+                    </div>
+
                 </section>
-            </section>
 
-            <section class="sub-section" id="courseTraingSection">
-                <h1 class="sub-title">Курсы и тренинги</h1>
 
-                <div class="field">
-                    <label for="Course name">Название курса</label>
-                    <input type="text" id="сourseName" placeholder="Массажное дело">
-                </div>
-                <div class="field">
-                    <label for="Educational institution">Учебное заведение</label>
-                    <input type="text" id="additionalEducation" placeholder="Школа бизнеса и управления г. Москва">
-                </div>
-                <section class="field">
-                    <label for="Year of graduation">Год окончания: </label>
-                    <input type="date" id="Year of graduation" name="date" />
+                <section class="sub-section" id="experienceSection">
+                    <h1 class="sub-title">Опыт работы</h1>
+                    <section id="'expirienceList">
+                        <section class="accordion">
+                            <h1 class="accordion-title">
+                                <span id="accordionTitle"></span>
+                                <button class="accordion-arrow">
+                                    <img src="./images/icons/iconArrowRight.svg" alt="" id="accordionArrow">
+                                </button>
+                            </h1>
+                            <section class="accordion-body">
+                                <div class="field">
+                                    <label for="post">Должность</label>
+                                    <input type="text" id="post" placeholder="Директор">
+                                </div>
+                                <div class="field">
+                                    <label for="company">Организация</label>
+                                    <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
+                                </div>
+                                <section class="double-field">
+                                    <section class="field">
+                                        <label for="from">Дата Начала: </label>
+                                        <input type="date" id="from" name="date" />
+                                    </section>
+                                    <section class="field">
+                                        <label for="to">Дата конца: </label>
+                                        <input type="date" id="to" name="date" />
+                                    </section>
+                                </section>
+                                <section class="double-field">
+                                    <div class="checkbox ">
+                                        <input type="checkbox" id="isCurrent">
+                                        <label for="isCurrent" class="text"> По настоящее время </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="isFullTime">
+                                        <label for="isFullTime" class="text"> Полная занятость </label>
+                                    </div>
+                                </section>
+
+
+                                <div class="field" id="jobGoals">
+                                    <label for="Post">Должностные обязянности и достижения</label>
+                                    <div id="goalsList">
+                                        <div class="field-with-button">
+                                            <input type="text" id="addJobGoalLast"
+                                                placeholder="Организация и ведение аудиторских проектов... ">
+                                            <button class="primaryBtn" id="addJobGoalBtn">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </section>
+                    <button class="primaryBtn full-width" id="addPreviousJob">Добавить предыдущий опыт</button>
                 </section>
-            </section>
 
-            <section class="sub-section" id="languageSection">
-                <h1 class="sub-title">Иностранные языки и компьютерные навыки</h1>
 
-                <div class="field">
-                    <label for="Languages">Какие иностранные языки вы знаете?</label>
-                    <input type="text" id="Languages" placeholder="Английски">
-                </div>
+                <section class="sub-section" id="eduSection">
+                    <h1 class="sub-title">Образование</h1>
 
-                <div class="checkboxGroup">
-                    <p>Владение комьютером</p>
-
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> Microsoft Word </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> Microsoft Excel </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> Microsoft Power Point </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> Adobe PhotoShop </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> 1С: Бухгалтерия </label>
+                    <div class="field">
+                        <label for="Education">Образование</label>
+                        <input type="text" id="education" placeholder="Высшее, Неполное высшее">
                     </div>
 
-                </div>
+                    <div class="field">
+                        <label for="Educational institution">Учебное заведение</label>
+                        <input type="text" id="faculty" placeholder="Московский Институт Банковского Дела г. Москва">
+                    </div>
+                    <div class="field">
+                        <label for="Specialization">Специальность</label>
+                        <input type="text" id="specialization" placeholder="Экономика предприятия">
+                    </div>
+                    <section class="field">
+                        <label for="Year of graduation">Год окончания: </label>
+                        <input type="date" id="Year of graduation" name="date" />
+                    </section>
 
-                <div class="field">
-                    <label for="other">Другие</label>
-                    <input type="text" id="other" placeholder="CorelDraw, AutoCad">
-                </div>
-            </section>
+                    <section class="field">
+                        <label for="trainingform">Форма обучения</label>
+                        <select id="formOfTraining">
+                            <option label="" value="Дистанционная">Дистанционная</option>
+                            <option label="" value="Заочная">Заочная</option>
+                            <option label="" value="Очно-заочная (вечерняя)">Очно-заочная (вечерняя)</option>
+                            <option label="" value="Очная">Очная</option>
+                        </select>
+                    </section>
+                </section>
 
-            <section class="sub-section" id="additionalSection">
-                <h1 class="sub-title">Дополнительная информация</h1>
+                <section class="sub-section" id="courseTraingSection">
+                    <h1 class="sub-title">Курсы и тренинги</h1>
 
-                <div class="checkbox">
-                    <input type="checkbox" id="army">
-                    <label for="army" class="text"> Служба в армии </label>
-                </div>
+                    <div class="field">
+                        <label for="Course name">Название курса</label>
+                        <input type="text" id="сourseName" placeholder="Массажное дело">
+                    </div>
+                    <div class="field">
+                        <label for="Educational institution">Учебное заведение</label>
+                        <input type="text" id="additionalEducation" placeholder="Школа бизнеса и управления г. Москва">
+                    </div>
+                    <section class="field">
+                        <label for="Year of graduation">Год окончания: </label>
+                        <input type="date" id="Year of graduation" name="date" />
+                    </section>
+                </section>
 
-                <div class="checkboxGroup">
-                    <p>Категория прав</p>
+                <section class="sub-section" id="languageSection">
+                    <h1 class="sub-title">Иностранные языки и компьютерные навыки</h1>
 
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> A </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> B </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> BE </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> C </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> CE </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> D </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> DE </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> M </label>
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="click">
-                        <label for="click" class="text"> TB и TM </label>
+                    <div class="field">
+                        <label for="Languages">Какие иностранные языки вы знаете?</label>
+                        <input type="text" id="Languages" placeholder="Английски">
                     </div>
 
-                </div>
+                    <div class="checkboxGroup">
+                        <p>Владение комьютером</p>
 
-                <div class="field">
-                    <label for="Personal qualities">Личные качества</label>
-                    <input type="text" id="personalQualities" placeholder="Ответственность, Без вредных привычек...">
-                </div>
-            </section>
-
-        </section>
-
-        <section class="resume-container" id="resumeContainer">
-            <section class="resume-size">
-                <section class="resume1">
-
-                    <div class="left-info">
-                        <div class="foto"></div>
-
-                        <div class="left-info-section">
-                            <h2>СОЦСЕТИ</h2>
-
-                            <div class="social">
-                                <img src="./images/facebook.svg" alt="">
-                                <p><span>facebook</span> <br> facebook.com</p>
-                            </div>
-
-                            <div class="social">
-                                <img src="./images/instagram.svg" alt="">
-                                <p><span>instagram</span> <br> instagram.com</p>
-                            </div>
-
-                            <div class="social">
-                                <img src="./images/skype.svg" alt="">
-                                <p><span>skype</span> <br> skype.com</p>
-                            </div>
-
-                            <div class="social">
-                                <img src="./images/vk.svg" alt="">
-                                <p><span>vk</span> <br> vk.com</p>
-                            </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> Microsoft Word </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> Microsoft Excel </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> Microsoft Power Point </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> Adobe PhotoShop </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> 1С: Бухгалтерия </label>
                         </div>
 
-                        <div class="left-info-section">
-                            <h2>КУРСЫ И ТРЕНИНГИ</h2>
-                            <div class="text">
-                                <p id="сourseNameResume"> Массажное дело</p>
-                                <p id="additionalEducationResume"> Институт Профессионального Массажа</p>
-                                <p>2014 - 2015</p>
-                            </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="other">Другие</label>
+                        <input type="text" id="other" placeholder="CorelDraw, AutoCad">
+                    </div>
+                </section>
+
+                <section class="sub-section" id="additionalSection">
+                    <h1 class="sub-title">Дополнительная информация</h1>
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="army">
+                        <label for="army" class="text"> Служба в армии </label>
+                    </div>
+
+                    <div class="checkboxGroup">
+                        <p>Категория прав</p>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> A </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> B </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> BE </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> C </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> CE </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> D </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> DE </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> M </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="click">
+                            <label for="click" class="text"> TB и TM </label>
                         </div>
 
-                        <div class="left-info-section">
-                            <h2>ЛИЧНЫЕ КАЧЕСТВА</h2>
-                            <div class="text">
-                                <ul id="personalQualitiesResume">
-                                    <li>Пунктуален,</li>
-                                    <li>Общителен,</li>
-                                    <li>Стрессоустойчив,</li>
-                                    <li>Доброжелателен,</li>
-                                    <li>Лоялен,</li>
+                    </div>
+
+                    <div class="field">
+                        <label for="personalQualities">Личные качества</label>
+                        <input type="text" id="personalQualities"
+                            placeholder="Ответственность, Без вредных привычек...">
+                    </div>
+                </section>
+
+            </section>
+
+            <section class="resume-container" id="resumeContainer">
+                <section class="resume-size">
+                    <section class="resume1">
+
+                        <div class="left-info">
+                            <div class="foto"></div>
+
+                            <div class="left-info-section">
+                                <h2>СОЦСЕТИ</h2>
+
+                                <div class="social">
+                                    <img src="./images/facebook.svg" alt="">
+                                    <p><span>facebook</span> <br> facebook.com</p>
+                                </div>
+
+                                <div class="social">
+                                    <img src="./images/instagram.svg" alt="">
+                                    <p><span>instagram</span> <br> instagram.com</p>
+                                </div>
+
+                                <div class="social">
+                                    <img src="./images/skype.svg" alt="">
+                                    <p><span>skype</span> <br> skype.com</p>
+                                </div>
+
+                                <div class="social">
+                                    <img src="./images/vk.svg" alt="">
+                                    <p><span>vk</span> <br> vk.com</p>
+                                </div>
+                            </div>
+
+                            <div class="left-info-section">
+                                <h2>КУРСЫ И ТРЕНИНГИ</h2>
+                                <div class="text">
+                                    <p id="сourseNameResume"> Массажное дело</p>
+                                    <p id="additionalEducationResume"> Институт Профессионального Массажа</p>
+                                    <p>2014 - 2015</p>
+                                </div>
+                            </div>
+
+                            <div class="left-info-section">
+                                <h2>ЛИЧНЫЕ КАЧЕСТВА</h2>
+                                <div class="text">
+                                    <ul id="personalQualitiesResume">
+                                        <li>Пунктуален,</li>
+                                        <li>Общителен,</li>
+                                        <li>Стрессоустойчив,</li>
+                                        <li>Доброжелателен,</li>
+                                        <li>Лоялен,</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="right-info">
+                            <h1 id="firstLastFatherNameResume"></h1>
+                            <section class="work-post">
+                                <h2 id="jobTitleResume"></h2>
+                                <div>
+                                    <h4>Занятость: <span id="jobTypeResume"></span></h4>
+                                    <h4>График работы: <span id="jobScheduleResume"></span></h4>
+                                </div>
+                            </section>
+
+                            <div class="contact">
+
+
+                                <section class="contact-info">
+                                    <img src="./images/phone.svg" width="14px" alt="">
+                                    <p><span id="mobileResume"> </span></p>
+                                </section>
+
+                                <section class="contact-info">
+                                    <img src="./images/Email.svg" width="14px" alt="">
+                                    <p><span id="emailResume"> </span></p>
+                                </section>
+
+                                <section class="contact-info">
+                                    <img src="./images/website.svg" width="14px" alt="">
+                                    <p><span id="websiteResume"> </span> </p>
+                                </section>
+
+                            </div>
+
+                            <h2>Обо мне</h2>
+
+                            <hr>
+
+                            <section class="info-about">
+
+                                <div class="birthday">
+                                    <h4>Дата рождения</h4>
+                                    <p style="white-space: nowrap;" id="DOBResume">24.03.1987</p>
+                                </div>
+
+                                <div class="your-city">
+                                    <h4>Город</h4>
+                                    <p id="cityResume">Москва</p>
+                                </div>
+
+                                <div class="kids">
+                                    <h4>Дети</h4>
+                                    <p id="childrenResume">Есть</p>
+                                </div>
+
+                                <div class="сitizenship">
+                                    <h4>Гражданство</h4>
+                                    <p id="сitizenshipResume">РФ</p>
+                                </div>
+
+                                <div class="family">
+                                    <h4>Семейное положение</h4>
+                                    <p id="familyStatusResume">Женат</p>
+                                </div>
+
+                                <div class="army">
+                                    <h4>Служба в армии</h4>
+                                    <p id="armyResume">Служил</p>
+                                </div>
+
+                            </section>
+
+                            <h2>Опыт работы</h2>
+
+                            <hr>
+
+                            <h4>
+                                <span id="postResume"></span>
+                                <span id="isFullTimeResume"></span>
+                            </h4>
+                            <h4 id="companyResume"></h4>
+
+                            <h3>Период работы / <span id="fromResume">24.05.2012</span> - <span
+                                    id="toResume">30.04.2013</span></h3>
+
+                            <div class="exp-class">
+                                <ul>
                                 </ul>
                             </div>
+
+                            <h2>Образование</h2>
+
+                            <hr>
+
+                            <h4 id="facultyResume">Экономический Факультет МГУ</h4>
+                            <h3 id="educationResume">Высшее</h3>
+                            <h3 id="specializationResume">Экономист</h3>
+
+                            <h3>Форма обучения: <span id="formOfTrainingResume"></span></h3>
+
+                            <h3>2014 - 2015</h3>
                         </div>
 
-                    </div>
-
-                    <div class="right-info">
-                        <h1 id="firstLastFatherNameResume"></h1>
-                        <section class="work-post">
-                            <h2 id="jobTitleResume"></h2>
-                            <div>
-                                <h4>Занятость: <span id="jobTypeResume"></span></h4>
-                                <h4>График работы: <span id="jobScheduleResume"></span></h4>
-                            </div>
-                        </section>
-
-                        <div class="contact">
-
-
-                            <section class="contact-info">
-                                <img src="./images/phone.svg" width="14px" alt="">
-                                <p><span>Телефон</span> <br> <span id="mobileResume"> </span></p>
-                            </section>
-
-                            <section class="contact-info">
-                                <img src="./images/Email.svg" width="14px" alt="">
-                                <p><span>Почта</span> <br> <span id="emailResume"> </span></p>
-                            </section>
-
-                            <section class="contact-info">
-                                <img src="./images/website.svg" width="14px" alt="">
-                                <p><span>Мой сайт</span> <br> <span id="websiteResume"> </span> </p>
-                            </section>
-
-                        </div>
-
-                        <h2>Обо мне</h2>
-
-                        <hr>
-
-                        <section class="info-about">
-
-                            <div class="birthday">
-                                <h4>Дата рождения</h4>
-                                <p id="birthResume">24.03.1987</p>
-                            </div>
-
-                            <div class="your-city">
-                                <h4>Город</h4>
-                                <p id="cityResume">Москва</p>
-                            </div>
-
-                            <div class="kids">
-                                <h4>Дети</h4>
-                                <p id="childrenResume">Есть</p>
-                            </div>
-
-                            <div class="сitizenship">
-                                <h4>Гражданство</h4>
-                                <p id="citizenResume">РФ</p>
-                            </div>
-
-                            <div class="family">
-                                <h4>Семейное положение</h4>
-                                <p id="familyStatusResume">Женат</p>
-                            </div>
-
-                            <div class="army">
-                                <h4>Служба в армии</h4>
-                                <p id="armyResume">Служил</p>
-                            </div>
-
-                        </section>
-
-                        <h2>Опыт работы</h2>
-
-                        <hr>
-
-                        <h4>
-                            <span id="postResume"></span>
-                            <span id="isFullTimeResume"></span>
-                        </h4>
-                        <h4 id="companyResume"></h4>
-
-                        <h3>Период работы / <span id="fromResume">24.05.2012</span> - <span
-                                id="toResume">30.04.2013</span></h3>
-
-                        <div class="exp-class">
-                            <ul>
-                                <!-- <li>Выбивание долговых обязательств с клиентов</li>
-                                <li>Выполнение плана</li>
-                                <li>Точно заявленные сроки</li>
-                                <li>Работа в стрессовых ситуациях</li> -->
-                            </ul>
-                        </div>
-
-                        <h2>Образование</h2>
-
-                        <hr>
-
-                        <h4 id="facultyResume">Экономический Факультет МГУ</h4>
-                        <h3 id="educationResume">Высшее</h3>
-                        <h3 id="specializationResume">Экономист</h3>
-
-                        <h3>Форма обучения: <span id="formOfTrainingResume"></span></h3>
-
-                        <h3>2014 - 2015</h3>
-                    </div>
-
+                    </section>
                 </section>
-            </section>
 
-        </section>
+            </section>
+        </div>
 
         <section class="footer">
             <button class="primaryBtn" id="download">Скачать</button>
