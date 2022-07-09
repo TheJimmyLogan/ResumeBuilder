@@ -7,7 +7,7 @@
   background: url(./images/photo/back8.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  margin-top: -50px;
+  /* margin-top: -50px; */
   /* display: none; */
 }
 .resume-size {
@@ -46,7 +46,7 @@ hr {
   width: 150px;
   height: 150px;
   border-radius: 250px;
-  background: url(./images/photo/brut.png);
+  background: url(./images/photo/myfoto.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

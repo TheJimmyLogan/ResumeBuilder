@@ -38,7 +38,7 @@ const addNewDutyForm = (duty) => {
     newInput.type = 'text';
     newInput.placeholder = 'Организация и ведение аудиторских проектов... '
     newInput.value = value;
-    newInput.addEventListener('input', (e) => { 
+    newInput.addEventListener('input', (e) => {
         formData.workExperience.duties[id] = e.target.value;
         refreshResumeDuties(e, newId);
     })
@@ -46,7 +46,7 @@ const addNewDutyForm = (duty) => {
     const newBtn = document.createElement('button');
     newBtn.classList.add('primaryBtn');
     newBtn.innerText = '-';
-    newBtn.addEventListener('click', () => { 
+    newBtn.addEventListener('click', () => {
         document.getElementById(newId).remove();
         delete formData?.workExperience?.duties[newId];
         refreshResumeDuties();
@@ -406,6 +406,11 @@ document.getElementById('isCurrent').addEventListener('change', (e) => {
 document.getElementById('army').addEventListener('change', (e) => {
     formData.privateInformation.army = e.target.checked;
     document.getElementById('armyResume').innerText = e.target.checked ? 'Служил' : 'Не служил';
+})
+
+document.getElementById("foto").addEventListener('change', (e) => {
+    let url = URL.createObjectURL(e.target.files[0]);
+    document.getElementById('fotoResume').style.background = "url(" + url + ") no-repeat";
 })
 
 document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
