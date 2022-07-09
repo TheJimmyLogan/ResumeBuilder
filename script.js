@@ -10,6 +10,7 @@ resizeVh();
 const getFullName = (info) => {
     if (!info) return 'Имя Фамилия Отчество'
     if (!info.firstName && !info.lastName && !info.fatherName) return 'Имя Фамилия Отчество'
+    if (info.firstName && info.lastName && info.fatherName) return `${info.firstName} ${info.lastName} ${info.fatherName}`
     if (info.firstName && info.lastName) return `${info.firstName} ${info.lastName}`
     if (info.firstName && info.fatherName) return `${info.firstName} ${info.fatherName}`
     if (info.lastName && info.fatherName) return `${info.lastName} ${info.fatherName}`
@@ -18,12 +19,15 @@ const getFullName = (info) => {
     if (info.fatherName) return `${info.fatherName}`
 }
 
-const refreshResumeDuties = (e, id) => {
-    formData.workExperience.duties[id] = e.target.value;
-    console.log(formData.workExperience.duties);
+const refreshResumeDuties = () => {
     document.querySelector('.exp-class > ul').innerHTML = '';
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
 }
+
+// Get scroll position for Form
+document.getElementById('formData').addEventListener('scroll', (e) => {
+    formData.scrollTopPosition = e.target.scrollTop;
+})
 
 // Create duties input
 const addNewDutyForm = (duty) => {
@@ -34,12 +38,19 @@ const addNewDutyForm = (duty) => {
     newInput.type = 'text';
     newInput.placeholder = 'Организация и ведение аудиторских проектов... '
     newInput.value = value;
-    newInput.addEventListener('change', (e) => { refreshResumeDuties(e, newId) })
+    newInput.addEventListener('input', (e) => { 
+        formData.workExperience.duties[id] = e.target.value;
+        refreshResumeDuties(e, newId);
+    })
 
     const newBtn = document.createElement('button');
     newBtn.classList.add('primaryBtn');
     newBtn.innerText = '-';
-    newBtn.addEventListener('click', () => { document.getElementById(newId).remove() })
+    newBtn.addEventListener('click', () => { 
+        document.getElementById(newId).remove();
+        delete formData?.workExperience?.duties[newId];
+        refreshResumeDuties();
+    })
 
     const newDiv = document.createElement('div');
     newDiv.classList.add('field-with-button');
@@ -47,6 +58,8 @@ const addNewDutyForm = (duty) => {
 
     newDiv.append(newInput, newBtn);
     document.getElementById('goalsList').append(newDiv);
+    formData.workExperience.duties[newId] = value;
+
 }
 
 // Create duties LI in resume
@@ -68,6 +81,7 @@ const guidGenerator = () => {
 
 // On document load - load data from local storage
 let formData = {
+    scrollTopPosition: 0,
     generalInformation: {
         firstName: '',
         lastName: '',
@@ -80,10 +94,6 @@ let formData = {
         website: '',
         сourseName: '',
         personalQualities: '',
-        city: '',
-        birth: '',
-        сitizen: '',
-        familyStatus: '',
         education: '',
         faculty: '',
         specialization: '',
@@ -91,6 +101,10 @@ let formData = {
         formOfTraining: '',
     },
     privateInformation: {
+        city: '',
+        сitizenship: '',
+        DOB: '',
+        familyStatus: '',
         hasChildren: false,
         army: false,
     },
@@ -124,10 +138,10 @@ const loadFormData = () => {
     document.getElementById('сourseName').value = formData?.generalInformation?.сourseName || '';
     document.getElementById('personalQualities').value = formData?.generalInformation?.personalQualities || '';
     document.getElementById('children').checked = formData?.privateInformation?.hasChildren;
-    document.getElementById('city').value = formData?.generalInformation?.city || '';
-    document.getElementById('birth').value = formData?.generalInformation?.birth || '';
-    document.getElementById('citizen').value = formData?.generalInformation?.citizen || '';
-    document.getElementById('familyStatus').value = formData?.generalInformation?.familyStatus || '';
+    document.getElementById('city').value = formData?.privateInformation?.city || '';
+    document.getElementById('сitizenship').value = formData?.privateInformation?.сitizenship || '';
+    document.getElementById('DOB').value = formData?.privateInformation?.DOB || '';
+    document.getElementById('familyStatus').value = formData?.privateInformation?.familyStatus || '';
     document.getElementById('education').value = formData?.generalInformation?.education || '';
     document.getElementById('faculty').value = formData?.generalInformation?.education || '';
     document.getElementById('specialization').value = formData?.generalInformation?.specialization || '';
@@ -135,6 +149,7 @@ const loadFormData = () => {
     document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
     document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
     document.getElementById('post').value = formData?.workExperience?.post || '';
+    document.getElementById('accordionTitle').innerText = formData?.workExperience?.post || '';
     document.getElementById('company').value = formData?.workExperience?.company || '';
     document.getElementById('from').value = formData?.workExperience?.from || '';
     document.getElementById('to').value = formData?.workExperience?.to || '';
@@ -147,17 +162,17 @@ const loadFormData = () => {
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
     document.getElementById('jobTitleResume').innerText = formData?.generalInformation?.jobTitle || 'Менеджер по маркетингу';
     document.getElementById('jobTypeResume').innerText = formData?.generalInformation?.jobType || 'Полная';
-    document.getElementById('jobScheduleResume').innerText = formData?.generalInformation?.jobScheduleResume || 'Полный день';
-    document.getElementById('emailResume').innerText = formData?.generalInformation?.emailResume || 'Почта';
-    document.getElementById('mobileResume').innerText = formData?.generalInformation?.mobileResume || 'Телефон';
-    document.getElementById('websiteResume').innerText = formData?.generalInformation?.websiteResume || 'Мой сайт';
+    document.getElementById('jobScheduleResume').innerText = formData?.generalInformation?.jobSchedule || 'Полный день';
+    document.getElementById('emailResume').innerText = formData?.generalInformation?.email || 'Почта';
+    document.getElementById('mobileResume').innerText = formData?.generalInformation?.mobile || 'Телефон';
+    document.getElementById('websiteResume').innerText = formData?.generalInformation?.website || 'Мой сайт';
     document.getElementById('сourseNameResume').innerText = formData?.generalInformation?.сourseNameResume || 'Массажное дело';
     document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Пунктуальный, Ответственный, Быстрообучаемый';
     document.getElementById('childrenResume').innerText = formData?.privateInformation?.hasChildren ? 'Да' : 'Нет';
-    document.getElementById('cityResume').innerText = formData?.generalInformation?.cityResume || 'Москва';
-    document.getElementById('birthResume').innerText = formData?.generalInformation?.birthResume || 'Дата рождения';
-    document.getElementById('citizenResume').innerText = formData?.generalInformation?.citizenResume || 'РФ';
-    document.getElementById('familyStatusResume').innerText = formData?.generalInformation?.familyStatusResume || 'Женат';
+    document.getElementById('cityResume').innerText = formData?.privateInformation?.city || 'Москва';
+    document.getElementById('сitizenshipResume').innerText = formData?.privateInformation?.сitizenship || 'РФ';
+    document.getElementById('DOBResume').innerText = formData?.privateInformation?.DOB || 'Дата рождения';
+    document.getElementById('familyStatusResume').innerText = formData?.privateInformation?.familyStatus || 'Женат';
     document.getElementById('educationResume').innerText = formData?.generalInformation?.educationResume || 'Высшее';
     document.getElementById('facultyResume').innerText = formData?.generalInformation?.facultyResume || 'Экономический Факультет МГУ';
     document.getElementById('specializationResume').innerText = formData?.generalInformation?.specializationResume || 'Экономист';
@@ -167,12 +182,17 @@ const loadFormData = () => {
     document.getElementById('isFullTimeResume').innerText = formData?.workExperience?.isFullTime ? ' - Полная занятость' : '';
     document.getElementById('postResume').innerText = formData?.workExperience?.post || 'Должность';
     document.getElementById('companyResume').innerText = formData?.workExperience?.company || 'Организация';
-    document.getElementById('fromResume').innerText = formData?.workExperience?.fromResume || '';
-    document.getElementById('toResume').innerText = formData?.workExperience?.toResume || '';
+    document.getElementById('fromResume').innerText = formData?.workExperience?.from || '';
+    document.getElementById('toResume').innerText = formData?.workExperience?.to || '';
     if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+
+    document.getElementById('formData').scroll({
+        top: formData.scrollTopPosition,
+        behavior: 'smooth'
+    })
 
 }
 loadFormData();
@@ -181,8 +201,6 @@ loadFormData();
 // On document unload - save data to local storage
 
 window.addEventListener('unload', () => {
-    console.log(formData);
-    debugger;
     localStorage.setItem('formData', JSON.stringify(formData));
 })
 //
@@ -274,18 +292,18 @@ document.getElementById('jobSchedule').addEventListener('change', (e) => {
     document.getElementById('jobScheduleResume').innerText = e.target.value || 'Полный день';
 })
 
-document.getElementById('email').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
+document.getElementById('email').addEventListener('input', (e) => {
+    formData.generalInformation.email = e.target.value;
     document.getElementById('emailResume').innerText = e.target.value || 'Почта';
 })
 
-document.getElementById('mobile').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
+document.getElementById('mobile').addEventListener('input', (e) => {
+    formData.generalInformation.mobile = e.target.value;
     document.getElementById('mobileResume').innerText = e.target.value || 'Телефон';
 })
 
-document.getElementById('website').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
+document.getElementById('website').addEventListener('input', (e) => {
+    formData.generalInformation.website = e.target.value;
     document.getElementById('websiteResume').innerText = e.target.value || 'Мой сайт';
 })
 
@@ -309,24 +327,24 @@ document.getElementById('isFullTime').addEventListener('change', (e) => {
     document.getElementById('isFullTimeResume').innerText = e.target.checked ? ' - Полная занятость' : '';;
 })
 
-document.getElementById('city').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
+document.getElementById('city').addEventListener('input', (e) => {
+    formData.privateInformation.city = e.target.value;
     document.getElementById('cityResume').innerText = e.target.value || 'Город';
 })
 
-document.getElementById('birth').addEventListener('change', (e) => {
+document.getElementById('сitizenship').addEventListener('input', (e) => {
+    formData.privateInformation.сitizenship = e.target.value;
+    document.getElementById('сitizenshipResume').innerText = e.target.value || 'Гражданство';
+})
+
+document.getElementById('DOB').addEventListener('change', (e) => {
     const date = e.target.value.split('-').reverse().join('-');
-    formData.generalInformation.jobSchedule = date;
-    document.getElementById('birthResume').innerText = date || 'Дата рождения';
+    formData.privateInformation.DOB = date;
+    document.getElementById('DOBResume').innerText = date || 'Дата рождения';
 })
 
-document.getElementById('citizen').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('citizenResume').innerText = e.target.value || 'Гражданство';
-})
-
-document.getElementById('familyStatus').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
+document.getElementById('familyStatus').addEventListener('input', (e) => {
+    formData.privateInformation.familyStatus = e.target.value;
     document.getElementById('familyStatusResume').innerText = e.target.value || 'Женат';
 })
 
@@ -355,25 +373,26 @@ document.getElementById('formOfTraining').addEventListener('change', (e) => {
     document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
 })
 
-document.getElementById('post').addEventListener('change', (e) => {
+document.getElementById('post').addEventListener('input', (e) => {
     formData.workExperience.post = e.target.value;
     document.getElementById('postResume').innerText = e.target.value || 'Должность';
+    document.getElementById('accordionTitle').innerText = e.target.value || 'Должность';
 })
 
-document.getElementById('company').addEventListener('change', (e) => {
+document.getElementById('company').addEventListener('input', (e) => {
     formData.workExperience.company = e.target.value;
     document.getElementById('companyResume').innerText = e.target.value || 'Организация';
 })
 
 document.getElementById('from').addEventListener('change', (e) => {
     const date = e.target.value.split('-').reverse().join('-');
-    formData.workExperience.from = date;
+    formData.workExperience.from = e.target.value;
     document.getElementById('fromResume').innerText = date || '';
 })
 
 document.getElementById('to').addEventListener('change', (e) => {
     const date = e.target.value.split('-').reverse().join('-');
-    formData.workExperience.to = date;
+    formData.workExperience.to = e.target.value;
     document.getElementById('toResume').innerText = date || '';
 })
 
@@ -393,7 +412,82 @@ document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
     const newId = guidGenerator();
     addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
     document.getElementById('addJobGoalLast').value = '';
+    document.querySelector('.exp-class > ul').innerHTML = '';
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+})
+document.getElementById('addPreviousJob').addEventListener('click', (e) => {
+    const accordionSection = document.createElement('section');
+    accordionSection.classList.add('accordion');
+
+    const accordionTitleH1 = document.createElement('h1');
+    accordionTitleH1.classList.add('accordion-title');
+
+    const accordionTitleSpan = document.createElement('span');
+    accordionTitleSpan.id = accordionTitle;
+
+    const accordionArrowButton = document.createElement('button');
+    accordionTitleSpan.classList.add('accordion-arrow');
+
+    document.getElementById('expirienceList').append();
+})
+
+
+
+
+{/* <section class="accordion">
+    <h1 class="accordion-title">
+        <span id="accordionTitle"></span>
+        <button class="accordion-arrow">
+            <img src="./images/icons/iconArrowRight.svg" alt="" id="accordionArrow">
+        </button>
+    </h1>
+    <section class="accordion-body">
+        <div class="field">
+            <label for="post">Должность</label>
+            <input type="text" id="post" placeholder="Директор">
+        </div>
+        <div class="field">
+            <label for="company">Организация</label>
+            <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
+        </div>
+        <section class="double-field">
+            <section class="field">
+                <label for="from">Дата Начала: </label>
+                <input type="date" id="from" name="date" />
+            </section>
+            <section class="field">
+                <label for="to">Дата конца: </label>
+                <input type="date" id="to" name="date" />
+            </section>
+        </section>
+        <section class="double-field">
+            <div class="checkbox ">
+                <input type="checkbox" id="isCurrent">
+                <label for="isCurrent" class="text"> По настоящее время </label>
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" id="isFullTime">
+                <label for="isFullTime" class="text"> Полная занятость </label>
+            </div>
+        </section>
+
+        <div class="field" id="jobGoals">
+            <label for="Post">Должностные обязянности и достижения</label>
+            <div id="goalsList">
+                <div class="field-with-button">
+                    <input type="text" id="addJobGoalLast"
+                        placeholder="Организация и ведение аудиторских проектов... ">
+                    <button class="primaryBtn" id="addJobGoalBtn">+</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</section> */}
+
+
+document.getElementById('accordionArrow').addEventListener('click', (e) => {
+    document.getElementById('accordionArrow').classList.toggle('closed');
+    document.querySelector('.accordion-body').classList.toggle('closed');
 })
 
 // Preview resume

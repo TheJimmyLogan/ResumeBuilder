@@ -1,272 +1,265 @@
-
 /* Resume */
 
-.resume-container{
-    overflow: auto;
-    width: 100vw;
-    padding: 50px;
-    background: url(./images/photo/back8.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-top: -50px;
-    display: none;
+.resume-container {
+  overflow: auto;
+  width: 100vw;
+  padding: 50px;
+  background: url(./images/photo/back8.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -50px;
+  /* display: none; */
 }
-.resume-size{
-    width: 620px;
-    min-height: 877px;
-    border: solid 1px rgba(0, 0, 0, 0.2);
-    margin:  0 auto;
-    box-shadow: 12px 21px 4px rgba(0, 0, 0, 0.5);
-    background: white
+.resume-size {
+  width: 620px;
+  min-height: 877px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  box-shadow: 12px 21px 4px rgba(0, 0, 0, 0.5);
+  background: white;
 }
 
-.resume1{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 42px;
-    gap: 34px;
-    font-family: 'Noto Sans', sans-serif;
+.resume1 {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 42px;
+  gap: 34px;
+  font-family: "Noto Sans", sans-serif;
 }
 
 /* End hero */
 
-hr{
-    margin: 0;
+hr {
+  margin: 0;
 }
 
 /* left-info */
 
-.left-info{
-    width: 155px;
+.left-info {
+  width: 155px;
 }
 
-.foto{
-    /* margin-left: 25px; */
-    /* margin-bottom: -95px; */
-    width: 150px;
-    height: 150px;
-    border-radius: 250px;
-    background: url(./images/photo/brut.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 1px solid #404041;
+.foto {
+  /* margin-left: 25px; */
+  /* margin-bottom: -95px; */
+  width: 150px;
+  height: 150px;
+  border-radius: 250px;
+  background: url(./images/photo/brut.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #404041;
 }
 
-
-.left-info .left-info-section{
-    margin-top: 36px;
-    font-size: 10px;
+.left-info .left-info-section {
+  margin-top: 36px;
+  font-size: 10px;
 }
 
-.social{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #BCBDC0;
+.social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #bcbdc0;
 }
 
 .social:nth-child(2) {
-    border-top: 1px solid #BCBDC0;
+  border-top: 1px solid #bcbdc0;
 }
 
-.text{
-    border-bottom: 1px solid #BCBDC0;
-    font-style: italic;
+.resume-container .text {
+  border-bottom: 1px solid #bcbdc0;
+  font-style: italic;
 }
 
-
-.text ul{
-    padding: 16px 13px;
-    font-style: normal;
-    margin: 0;
+.text ul {
+  padding: 16px 13px;
+  font-style: normal;
+  margin: 0;
 }
 
-.text li{
-    padding: 4px 13px;
-    font-style: normal;
-    margin: 0;
+.text li {
+  padding: 4px 13px;
+  font-style: normal;
+  margin: 0;
 }
 
-.text p{
-    margin: 4px 0;
+.text p {
+  margin: 4px 0;
 }
 
-.text:nth-child(2) {
-    border-top: 1px solid #BCBDC0;
+.resume-container .text:nth-child(2) {
+  border-top: 1px solid #bcbdc0;
 }
 
-.text p:first-child{
-    font-style: normal;
-    font-weight: bold;
+.text p:first-child {
+  font-style: normal;
+  font-weight: bold;
 }
 
-.left-info-section p span{
-    font-weight: bolder;
+.left-info-section p span {
+  font-weight: bolder;
 }
 
-.left-info-section img{
-    width: 20px;
-    height: 20px;
+.left-info-section img {
+  width: 20px;
+  height: 20px;
 }
 
-.contact{
-    display: flex;
-    column-gap: 24px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 8px 0;
-    border-bottom: solid 1px grey;
-    border-top: solid 1px grey;
-    
+.contact {
+  display: flex;
+  column-gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  border-bottom: solid 1px grey;
+  border-top: solid 1px grey;
 }
 
-.right-info .work-post h2{ 
-    margin: 8px 0;  
-    font-size: 16px;
+.right-info .work-post h2 {
+  margin: 8px 0;
+  font-size: 16px;
 }
-.right-info .work-post h4{ 
-    font-size: 10px;
-    margin: 4px 0;
-    color: rgb(90, 90, 90);
+.right-info .work-post h4 {
+  font-size: 10px;
+  margin: 4px 0;
+  color: rgb(90, 90, 90);
 }
-.right-info .work-post div{ 
-    display: flex; 
-    gap: 12px;
+.right-info .work-post div {
+  display: flex;
+  gap: 12px;
 }
-
-
 
 /* h2{
    margin: 43px 0 15px; 
 } */
 
-.contact .contact-info{
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    /* font-size: 8px; */
+.contact .contact-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  /* font-size: 8px; */
 }
 
-.contact .contact-info p{
-    margin: 8px;
+.contact .contact-info p {
+  margin: 8px;
 }
 
-.contact .contact-info p span{
-    font-weight: bolder;
+.contact .contact-info p span {
+  font-weight: bolder;
 }
 
-.contact img{
-    border-bottom: solid 1px #231F20;
-    padding: 4px 0;
-    /* padding: 2px; */
+.contact img {
+  border-bottom: solid 1px #231f20;
+  padding: 4px 0;
+  /* padding: 2px; */
 }
 
 /* End left-info */
 
 /* right-info */
 
-.right-info h1{
-    font-size: 25px;
-    margin: 0
+.right-info h1 {
+  font-size: 25px;
+  margin: 0;
 }
 
-.right-info h2{
-    font-size: 16px;
+.right-info h2 {
+  font-size: 16px;
 }
 
-.right-info p{
-    font-size: 10px;
-    /* padding-left: 25px; */
+.right-info p {
+  font-size: 10px;
+  /* padding-left: 25px; */
 }
 
-.right-info .about{
-   margin-bottom: 30px;
+.right-info .about {
+  margin-bottom: 30px;
 }
 
-.info-about{
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
+.info-about {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: flex-start;
 }
 
-.info-about .your-city h4{
-    font-size: 8px;
+.info-about .your-city h4 {
+  font-size: 8px;
 }
 
-.info-about .your-city p{
-    font-size: 10px;
+.info-about .your-city p {
+  font-size: 10px;
 }
 
-.info-about .birthday h4{
-    font-size: 8px;
+.info-about .birthday h4 {
+  font-size: 8px;
 }
 
-.info-about .birthday p{
-    font-size: 10px;
+.info-about .birthday p {
+  font-size: 10px;
 }
 
-.info-about .kids h4{
-    font-size: 8px;
+.info-about .kids h4 {
+  font-size: 8px;
 }
 
-.info-about .kids p{
-    font-size: 10px;
+.info-about .kids p {
+  font-size: 10px;
 }
 
-.info-about .сitizenship h4{
-    font-size: 8px;
+.info-about .сitizenship h4 {
+  font-size: 8px;
 }
 
-.info-about .сitizenship p{
-    font-size: 10px;
+.info-about .сitizenship p {
+  font-size: 10px;
 }
 
-.info-about .family h4{
-    font-size: 8px;
+.info-about .family h4 {
+  font-size: 8px;
 }
 
-.info-about .family p{
-    font-size: 10px;
+.info-about .family p {
+  font-size: 10px;
 }
 
-.info-about .army h4{
-    font-size: 8px;
+.info-about .army h4 {
+  font-size: 8px;
 }
 
-.info-about .army p{
-    font-size: 10px;
+.info-about .army p {
+  font-size: 10px;
 }
 
-
-.right-info h3{
-    font-size: 12px;
-    font-style: italic;
-    font-weight: normal;
-    margin: 4px 0;
+.right-info h3 {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: normal;
+  margin: 4px 0;
 }
 
-.right-info h4{
-    font-size: 12px;
-    margin: 20px 0 0px;
+.right-info h4 {
+  font-size: 12px;
+  margin: 20px 0 0px;
 }
 
-.exp-class{
-    margin-bottom: 50px;
+.exp-class {
+  margin-bottom: 50px;
 }
 
-.exp-class li{
-    font-size: 10px;
+.exp-class li {
+  font-size: 10px;
 }
 
 /* End right-info */
 
 /* resume steps */
 
-.resume-steps{
-    padding: 16px 0;
+.resume-steps {
+  padding: 16px 0;
 }
 
 /* End resume steps */
