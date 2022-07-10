@@ -425,6 +425,12 @@ function getBase64Image(img) {
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
 
+document.getElementById('addJobGoalLast').addEventListener('input', (e) => {
+    const value = e.target.value;
+    if (!value) { document.getElementById('addJobGoalBtn').disabled = true; return }
+    document.getElementById('addJobGoalBtn').disabled = false;
+})
+
 document.getElementById("foto").addEventListener('change', (e) => {
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
@@ -440,10 +446,34 @@ document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
     const newId = guidGenerator();
     addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
     document.getElementById('addJobGoalLast').value = '';
+    document.getElementById('addJobGoalBtn').disabled = true;
     document.querySelector('.exp-class > ul').innerHTML = '';
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
 })
+
+const createField = (labelText, placeholder, inputType, divClass) => {
+    const newId = guidGenerator();
+
+    const div = document.createElement('div');
+    div.classList.add(divClass);
+
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    label.setAttribute('for', newId);
+
+    const input = document.createElement('input');
+    input.id = newId;
+    input.setAttribute('type', inputType);
+    input.setAttribute('placeholder', placeholder);
+
+    if (inputType === "checkbox") div.append(input, label)
+    else div.append(label, input);
+
+    return div;
+}
+
 document.getElementById('addPreviousJob').addEventListener('click', (e) => {
+
     const accordionSection = document.createElement('section');
     accordionSection.classList.add('accordion');
 
@@ -451,66 +481,80 @@ document.getElementById('addPreviousJob').addEventListener('click', (e) => {
     accordionTitleH1.classList.add('accordion-title');
 
     const accordionTitleSpan = document.createElement('span');
-    accordionTitleSpan.id = accordionTitle;
+    accordionTitleSpan.innerText = "Должность";
 
     const accordionArrowButton = document.createElement('button');
-    accordionTitleSpan.classList.add('accordion-arrow');
+    accordionArrowButton.classList.add('accordion-arrow');
+    
+    const accordionArrowButtonImg = document.createElement('img');
+    accordionArrowButtonImg.src = './images/icons/iconArrowRight.svg';
+    accordionArrowButtonImg.addEventListener('click', (e) => {
+        accordionArrowButtonImg.classList.toggle('closed');
+        accordionBodySection.classList.toggle('closed');
+    })
 
-    document.getElementById('expirienceList').append();
+    accordionArrowButton.append(accordionArrowButtonImg);
+    accordionTitleH1.append(accordionTitleSpan, accordionArrowButton);
+    accordionSection.append(accordionTitleH1);
+
+    const accordionBodySection = document.createElement('section');
+    accordionBodySection.classList.add('accordion-body');
+
+    accordionSection.append(accordionBodySection);
+
+    const postDiv = createField('Должность', 'Директор', 'text', 'field');
+    const companyDiv = createField('Организация', 'Организация', 'text', 'field');
+
+    accordionBodySection.append(postDiv, companyDiv);
+
+    const fromToSection = document.createElement('section');
+    fromToSection.classList.add('double-field');
+
+    const fromDiv = createField('Дата Начала', '', 'date', 'field');
+    const toDiv = createField('Дата конца:', '', 'date', 'field');
+
+    fromToSection.append(fromDiv, toDiv);
+
+    accordionBodySection.append(fromToSection);
+
+    const isCurrentIsFullTimeSection = document.createElement('section');
+    isCurrentIsFullTimeSection.classList.add('double-field');
+
+    const isCurrentDiv = createField('По настоящее время', '', 'checkbox', 'checkbox');
+    const isFullTime = createField('Полная занятость', '', 'checkbox', 'checkbox');
+
+    isCurrentIsFullTimeSection.append(isCurrentDiv, isFullTime)
+
+    accordionBodySection.append(isCurrentIsFullTimeSection);
+
+    const jobGoalsDiv = document.createElement('div');
+    jobGoalsDiv.classList.add('field');
+
+    const jobGoalLabel = document.createElement('label');
+    jobGoalLabel.innerText = 'Должностные обязянности и достижения';
+
+    const goalListDiv = document.createElement('div');
+
+    const fieldWithButton = document.createElement('div');
+    fieldWithButton.classList.add('field-with-button');
+
+    const addJobGoalInput = document.createElement('input');
+    addJobGoalInput.type = 'text';
+    addJobGoalInput.placeholder = 'Организация и ведение аудиторских проектов...';
+
+    const addJobGoalBtn = document.createElement('button');
+    addJobGoalBtn.disabled = true;
+    addJobGoalBtn.classList.add('primaryBtn');
+    addJobGoalBtn.innerText = "+";
+
+    fieldWithButton.append(addJobGoalInput, addJobGoalBtn);
+    goalListDiv.append(fieldWithButton);
+    jobGoalsDiv.append(jobGoalLabel, goalListDiv);
+
+    accordionBodySection.append(jobGoalsDiv);
+
+    document.getElementById('expirienceList').append(accordionSection);
 })
-
-
-
-
-{/* <section class="accordion">
-    <h1 class="accordion-title">
-        <span id="accordionTitle"></span>
-        <button class="accordion-arrow">
-            <img src="./images/icons/iconArrowRight.svg" alt="" id="accordionArrow">
-        </button>
-    </h1>
-    <section class="accordion-body">
-        <div class="field">
-            <label for="post">Должность</label>
-            <input type="text" id="post" placeholder="Директор">
-        </div>
-        <div class="field">
-            <label for="company">Организация</label>
-            <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
-        </div>
-        <section class="double-field">
-            <section class="field">
-                <label for="from">Дата Начала: </label>
-                <input type="date" id="from" name="date" />
-            </section>
-            <section class="field">
-                <label for="to">Дата конца: </label>
-                <input type="date" id="to" name="date" />
-            </section>
-        </section>
-        <section class="double-field">
-            <div class="checkbox ">
-                <input type="checkbox" id="isCurrent">
-                <label for="isCurrent" class="text"> По настоящее время </label>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="isFullTime">
-                <label for="isFullTime" class="text"> Полная занятость </label>
-            </div>
-        </section>
-
-        <div class="field" id="jobGoals">
-            <label for="Post">Должностные обязянности и достижения</label>
-            <div id="goalsList">
-                <div class="field-with-button">
-                    <input type="text" id="addJobGoalLast"
-                        placeholder="Организация и ведение аудиторских проектов... ">
-                    <button class="primaryBtn" id="addJobGoalBtn">+</button>
-                </div>
-            </div>
-        </div>
-    </section>
-</section> */}
 
 
 document.getElementById('accordionArrow').addEventListener('click', (e) => {

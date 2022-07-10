@@ -61,11 +61,14 @@ select:focus {
 .steps {
   /* margin-top: -120px; */
   position: relative;
-  background: rgb(255,255,255);
-  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, 
-  rgba(255,255,255,1) 28%, 
-  rgba(9,9,121,1) 28%,
-  rgba(2,0,36,1) 100%);
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 28%,
+    rgba(9, 9, 121, 1) 28%,
+    rgba(2, 0, 36, 1) 100%
+  );
 }
 
 .steps#resumeSteps {
@@ -81,7 +84,7 @@ select:focus {
   margin: 16px;
 }
 
-.steps-buttons{
+.steps-buttons {
   display: flex;
   justify-content: center;
 }
@@ -151,23 +154,23 @@ select:focus {
   overflow: auto;
 }
 
-.foto-form label{
+.foto-form label {
   display: flex;
   justify-content: center;
 }
 
-.foto-form{
-  position:relative;
+.foto-form {
+  position: relative;
 }
 
-.foto-form input{
+.foto-form input {
   height: 40px;
   width: 100%;
-  position:absolute;
+  position: absolute;
   top: 30px;
-  left:0;
-  opacity:0;
-  cursor:pointer;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
   outline: solid 1px red;
 }
 
@@ -335,8 +338,12 @@ input[type="checkbox"] {
   font-weight: 700;
   cursor: pointer;
 }
+.primaryBtn:disabled {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
 
-#preview{
+#preview {
   display: none;
 }
 
@@ -345,10 +352,10 @@ input[type="checkbox"] {
 /* Media */
 
 @media screen and (max-width: 480px) {
-  #preview{
+  #preview {
     display: inline-block;
   }
-  .resume-container{
+  .resume-container {
     display: none;
   }
 }
