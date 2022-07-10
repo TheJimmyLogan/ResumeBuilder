@@ -151,6 +151,26 @@ select:focus {
   overflow: auto;
 }
 
+.foto-form label{
+  display: flex;
+  justify-content: center;
+}
+
+.foto-form{
+  position:relative;
+}
+
+.foto-form input{
+  height: 40px;
+  width: 100%;
+  position:absolute;
+  top: 30px;
+  left:0;
+  opacity:0;
+  cursor:pointer;
+  outline: solid 1px red;
+}
+
 .content {
   /* margin: 23px 0; */
   padding: 16px;

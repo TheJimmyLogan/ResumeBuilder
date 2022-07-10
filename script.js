@@ -81,6 +81,7 @@ const guidGenerator = () => {
 
 // On document load - load data from local storage
 let formData = {
+    foto: null,
     scrollTopPosition: 0,
     generalInformation: {
         firstName: '',
@@ -158,6 +159,7 @@ const loadFormData = () => {
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyForm(duty); })
 
 
+
     // Enter Resume Data
     document.getElementById('firstLastFatherNameResume').innerText = getFullName(formData?.generalInformation);
     document.getElementById('jobTitleResume').innerText = formData?.generalInformation?.jobTitle || 'Менеджер по маркетингу';
@@ -188,6 +190,8 @@ const loadFormData = () => {
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+    document.getElementById('fotoResume').style.background = "url(" + formData?.foto + ") no-repeat";
+    document.getElementById('fotoResume').style.backgroundSize = "cover";
 
     document.getElementById('formData').scroll({
         top: formData.scrollTopPosition,
@@ -408,9 +412,28 @@ document.getElementById('army').addEventListener('change', (e) => {
     document.getElementById('armyResume').innerText = e.target.checked ? 'Служил' : 'Не служил';
 })
 
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
 document.getElementById("foto").addEventListener('change', (e) => {
-    let url = URL.createObjectURL(e.target.files[0]);
-    document.getElementById('fotoResume').style.background = "url(" + url + ") no-repeat";
+    let reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onloadend = function () {
+        let base64data = reader.result;
+        formData.foto = base64data;
+        document.getElementById('fotoResume').style.background = "url(" + base64data + ") no-repeat";
+        document.getElementById('fotoResume').style.backgroundSize = "cover";
+    }
 })
 
 document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
