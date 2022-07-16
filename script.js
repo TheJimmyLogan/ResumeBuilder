@@ -29,37 +29,264 @@ document.getElementById('formData').addEventListener('scroll', (e) => {
     formData.scrollTopPosition = e.target.scrollTop;
 })
 
+const createField = ({
+    labelText, 
+    placeholder, 
+    inputType, 
+    divClass, 
+    onInput = () => {}, 
+    onChange = () => {},
+    defaultValue = '',
+    defaultChecked = false,
+    isDisabled = false,
+}) => {
+const newId = guidGenerator();
+
+const div = document.createElement('div');
+div.classList.add(divClass);
+
+const label = document.createElement('label');
+label.innerText = labelText;
+label.setAttribute('for', newId);
+
+const input = document.createElement('input');
+input.id = newId;
+input.value = defaultValue;
+input.disabled = isDisabled;
+input.setAttribute('type', inputType);
+input.setAttribute('placeholder', placeholder);
+input.addEventListener('input', (e)=>{ onInput(e.target) })
+input.addEventListener('change', (e)=>{ onChange(e.target) })
+
+if (inputType === "checkbox") {
+    input.checked = defaultChecked;
+    div.append(input, label)
+}
+else div.append(label, input);
+
+return div;
+}
+
 // Create duties input
-const addNewDutyForm = (duty) => {
-    const newId = Object.values(duty)[0]
-    const value = Object.values(duty)[1]
+const addNewDutyInput = (value, onChange) => {
 
-    const newInput = document.createElement('input');
-    newInput.type = 'text';
-    newInput.placeholder = 'Организация и ведение аудиторских проектов... '
-    newInput.value = value;
-    newInput.addEventListener('input', (e) => {
-        formData.workExperience.duties[id] = e.target.value;
-        refreshResumeDuties(e, newId);
+const newInput = document.createElement('input');
+newInput.type = 'text';
+newInput.placeholder = 'Организация и ведение аудиторских проектов... '
+newInput.value = value;
+newInput.addEventListener('input', (e) => {
+    const value = e?.target?.value || '';
+    onChange(value);
+    // formData.workExperience.duties[id] = e.target.value;
+    // refreshResumeDuties(e);
+})
+
+const newBtn = document.createElement('button');
+newBtn.classList.add('primaryBtn');
+newBtn.innerText = '-';
+newBtn.addEventListener('click', () => {
+    newDiv.remove();
+    onChange('');
+    // delete formData?.workExperience?.duties[newId];
+    // refreshResumeDuties();
+})
+
+const newDiv = document.createElement('div');
+newDiv.classList.add('field-with-button');
+
+newDiv.append(newInput, newBtn);
+// formData.workExperience.duties[newId] = value;
+return newDiv;
+
+}
+
+const createWorkExperience = (data) => {
+
+    const accordionSection = document.createElement('section');
+    accordionSection.classList.add('accordion');
+
+    const accordionTitleH1 = document.createElement('h1');
+    accordionTitleH1.classList.add('accordion-title');
+
+    const accordionTitleSpan = document.createElement('span');
+    accordionTitleSpan.innerText = data?.position || 'Должность';
+
+    const accordionArrowButton = document.createElement('button');
+    accordionArrowButton.classList.add('accordion-arrow');
+    
+    const accordionArrowButtonImg = document.createElement('img');
+    accordionArrowButtonImg.src = './images/icons/iconArrowRight.svg';
+    accordionArrowButtonImg.addEventListener('click', () => {
+        data.isClosed = !data.isClosed;
+        accordionArrowButtonImg.classList.toggle('closed');
+        accordionBodySection.classList.toggle('closed');
     })
 
-    const newBtn = document.createElement('button');
-    newBtn.classList.add('primaryBtn');
-    newBtn.innerText = '-';
-    newBtn.addEventListener('click', () => {
-        document.getElementById(newId).remove();
-        delete formData?.workExperience?.duties[newId];
-        refreshResumeDuties();
+    accordionArrowButton.append(accordionArrowButtonImg);
+    accordionTitleH1.append(accordionTitleSpan, accordionArrowButton);
+    accordionSection.append(accordionTitleH1);
+
+    const accordionBodySection = document.createElement('section');
+    accordionBodySection.classList.add('accordion-body');
+    if (data.isClosed) {
+        accordionBodySection.classList.add('closed')
+        accordionArrowButtonImg.classList.add('closed')
+    }
+
+    accordionSection.append(accordionBodySection);
+
+    const postDiv = createField({ 
+        labelText: 'Должность', 
+        placeholder: 'Должность', 
+        inputType: 'text', 
+        divClass: 'field',
+        defaultValue: data?.position,
+        onInput: ({value}) => { 
+            accordionTitleSpan.innerText = value || 'Должность'; 
+            data.position = value;
+        }
+    });
+    const companyDiv = createField({ 
+        labelText: 'Организация', 
+        placeholder: 'Организация', 
+        inputType: 'text', 
+        divClass: 'field',
+        defaultValue: data?.company,
+        onInput: ({value}) => { 
+            data.company = value;
+        }
+    });
+
+    accordionBodySection.append(postDiv, companyDiv);
+
+    const fromToSection = document.createElement('section');
+    fromToSection.classList.add('double-field');
+
+    const fromDiv = createField({ 
+        labelText: 'Дата Начала', 
+        placeholder: '', 
+        inputType: 'date', 
+        divClass: 'field',
+        defaultValue: data?.from,
+        onChange: ({value}) => { 
+            data.from = value;
+        }
+    });
+    const toDiv = createField({ 
+        labelText: 'Дата конца', 
+        placeholder: '', 
+        inputType: 'date', 
+        divClass: 'field',
+        defaultValue: data?.to,
+        isDisabled: data?.isCurrent,
+        onChange: ({value}) => { 
+            data.to = value;
+        }
+    });
+
+    fromToSection.append(fromDiv, toDiv);
+
+    accordionBodySection.append(fromToSection);
+
+    const isCurrentIsFullTimeSection = document.createElement('section');
+    isCurrentIsFullTimeSection.classList.add('double-field');
+
+    const isCurrentDiv = createField({ 
+        labelText: 'По настоящее время', 
+        placeholder: '', 
+        inputType: 'checkbox', 
+        divClass: 'checkbox',
+        defaultChecked: data?.isCurrent,
+        onChange: ({checked}) => { 
+            toDiv.querySelector('input').disabled = checked;
+            data.isCurrent = checked;
+        }
+    });
+    const isFullTime = createField({ 
+        labelText: 'Полная занятость', 
+        placeholder: '', 
+        inputType: 'checkbox', 
+        divClass: 'checkbox',
+        defaultChecked: data?.isFullTime,
+        onChange: ({checked}) => { 
+            data.isFullTime = checked;
+        }
+    });
+
+    isCurrentIsFullTimeSection.append(isCurrentDiv, isFullTime)
+
+    accordionBodySection.append(isCurrentIsFullTimeSection);
+
+    const jobGoalsDiv = document.createElement('div');
+    jobGoalsDiv.classList.add('field');
+
+    const jobGoalLabel = document.createElement('label');
+    jobGoalLabel.innerText = 'Должностные обязянности и достижения';
+
+    const goalListDiv = document.createElement('div');
+
+    const fieldWithButton = document.createElement('div');
+    fieldWithButton.classList.add('field-with-button');
+
+    const addJobGoalBtn = document.createElement('button');
+    addJobGoalBtn.disabled = true;
+    addJobGoalBtn.classList.add('primaryBtn');
+    addJobGoalBtn.innerText = "+";
+
+    addJobGoalBtn.addEventListener('click', (e) => {
+        const newDuty = { text: addJobGoalInput.value }
+        const newDutyFieldDiv = addNewDutyInput(
+            addJobGoalInput.value, 
+            (text)=>{ newDuty.text = text }
+        );
+        jobGoalsDiv.append(newDutyFieldDiv);
+        addJobGoalInput.value = '';
+        addJobGoalBtn.disabled = true;
+        data.duties.push(newDuty);
+        // document.querySelector('.exp-class > ul').innerHTML = '';
+        // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
     })
 
-    const newDiv = document.createElement('div');
-    newDiv.classList.add('field-with-button');
-    newDiv.id = newId;
+    const addJobGoalInput = document.createElement('input');
+    addJobGoalInput.type = 'text';
+    addJobGoalInput.placeholder = 'Организация и ведение аудиторских проектов...';
+    addJobGoalInput.addEventListener('input', ()=>{
+        const value = addJobGoalInput.value;
+        if (!value) { addJobGoalBtn.disabled = true; return }
+        addJobGoalBtn.disabled = false;
+    })
 
-    newDiv.append(newInput, newBtn);
-    document.getElementById('goalsList').append(newDiv);
-    formData.workExperience.duties[newId] = value;
+    fieldWithButton.append(addJobGoalInput, addJobGoalBtn);
+    goalListDiv.append(fieldWithButton);
+    jobGoalsDiv.append(jobGoalLabel, goalListDiv);
 
+    // Adding Duties
+    
+    data.duties.length > 0 && data.duties.forEach(duty => {
+        const newDutyFieldDiv = addNewDutyInput(
+            duty.text, 
+            (text)=>{ duty.text = text }
+        );
+        jobGoalsDiv.append(newDutyFieldDiv);
+    })
+
+    accordionBodySection.append(jobGoalsDiv);
+    document.getElementById('experienceListResume').innerHTML += `
+        <h4>
+            <span>${data.position}</span>
+            <span>${data.isFullTime ? ' - По настоящее время' : ''}</span>
+        </h4>
+        <h4>${data.company}</h4>
+
+        <h3>Период работы / <span>${data.from}</span> - <span>${data.to}</span></h3>
+
+        <div class="exp-class">
+            <ul>
+            ${ data.duties.map(duty => `<li>${duty.text}</li>`).join('') }
+            </ul>
+        </div>
+    `
+    document.getElementById('expirienceList').append(accordionSection);
 }
 
 // Create duties LI in resume
@@ -80,7 +307,7 @@ const guidGenerator = () => {
 //
 
 // On document load - load data from local storage
-let formData = {
+let initialState = {
     foto: null,
     scrollTopPosition: 0,
     generalInformation: {
@@ -109,22 +336,24 @@ let formData = {
         hasChildren: false,
         army: false,
     },
-
-    workExperience: {
-        isFullTime: false,
-        post: '',
-        company: '',
-        from: '',
-        to: '',
-        isCurrent: false,
-        duties: {}
-    }
+    workExperience: []
 };
+
+let formData = initialState;
+
+const clearDataBtn = document.createElement('button');
+clearDataBtn.innerText = 'Clear';
+clearDataBtn.addEventListener('click', ()=>{ formData = initialState })
+document.body.prepend(clearDataBtn)
+
 
 const loadFormData = () => {
     localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
 
     if (localStorageObject !== null) formData = localStorageObject;
+    formData.workExperience.forEach(experience => {
+        experience.duties = experience.duties.filter(({text}) => text)
+    })
 
     // Enter Form Data
     document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
@@ -148,15 +377,16 @@ const loadFormData = () => {
     document.getElementById('specialization').value = formData?.generalInformation?.specialization || '';
     document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || '';
     document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
-    document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
-    document.getElementById('post').value = formData?.workExperience?.post || '';
-    document.getElementById('accordionTitle').innerText = formData?.workExperience?.post || '';
-    document.getElementById('company').value = formData?.workExperience?.company || '';
-    document.getElementById('from').value = formData?.workExperience?.from || '';
-    document.getElementById('to').value = formData?.workExperience?.to || '';
-    document.getElementById('isCurrent').checked = formData?.workExperience?.isCurrent;
+    formData.workExperience.forEach(expirience => createWorkExperience(expirience))
+    // document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
+    // document.getElementById('post').value = formData?.workExperience?.post || '';
+    // document.getElementById('accordionTitle').innerText = formData?.workExperience?.post || '';
+    // document.getElementById('company').value = formData?.workExperience?.company || '';
+    // document.getElementById('from').value = formData?.workExperience?.from || '';
+    // document.getElementById('to').value = formData?.workExperience?.to || '';
+    // document.getElementById('isCurrent').checked = formData?.workExperience?.isCurrent;
     document.getElementById('army').checked = formData?.privateInformation?.army;
-    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyForm(duty); })
+    // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyForm(duty); })
 
 
 
@@ -181,15 +411,15 @@ const loadFormData = () => {
     document.getElementById('additionalEducationResume').innerText = formData?.generalInformation?.additionalEducationResume || 'Институт Профессионального Массажа';
     document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
     document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
-    document.getElementById('isFullTimeResume').innerText = formData?.workExperience?.isFullTime ? ' - Полная занятость' : '';
-    document.getElementById('postResume').innerText = formData?.workExperience?.post || 'Должность';
-    document.getElementById('companyResume').innerText = formData?.workExperience?.company || 'Организация';
-    document.getElementById('fromResume').innerText = formData?.workExperience?.from || '';
-    document.getElementById('toResume').innerText = formData?.workExperience?.to || '';
-    if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
+    // document.getElementById('isFullTimeResume').innerText = formData?.workExperience?.isFullTime ? ' - Полная занятость' : '';
+    // document.getElementById('postResume').innerText = formData?.workExperience?.post || 'Должность';
+    // document.getElementById('companyResume').innerText = formData?.workExperience?.company || 'Организация';
+    // document.getElementById('fromResume').innerText = formData?.workExperience?.from || '';
+    // document.getElementById('toResume').innerText = formData?.workExperience?.to || '';
+    // if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
-    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+    // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
     document.getElementById('fotoResume').style.background = "url(" + formData?.foto + ") no-repeat";
     document.getElementById('fotoResume').style.backgroundSize = "cover";
 
@@ -204,7 +434,7 @@ loadFormData();
 
 // On document unload - save data to local storage
 
-window.addEventListener('unload', () => {
+window.addEventListener('unload', () => {   
     localStorage.setItem('formData', JSON.stringify(formData));
 })
 //
@@ -326,10 +556,10 @@ document.getElementById('children').addEventListener('change', (e) => {
     document.getElementById('childrenResume').innerText = e.target.checked ? 'Да' : 'Нет';
 })
 
-document.getElementById('isFullTime').addEventListener('change', (e) => {
-    formData.workExperience.isFullTime = e.target.checked;
-    document.getElementById('isFullTimeResume').innerText = e.target.checked ? ' - Полная занятость' : '';;
-})
+// document.getElementById('isFullTime').addEventListener('change', (e) => {
+//     formData.workExperience.isFullTime = e.target.checked;
+//     document.getElementById('isFullTimeResume').innerText = e.target.checked ? ' - Полная занятость' : '';;
+// })
 
 document.getElementById('city').addEventListener('input', (e) => {
     formData.privateInformation.city = e.target.value;
@@ -377,35 +607,35 @@ document.getElementById('formOfTraining').addEventListener('change', (e) => {
     document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
 })
 
-document.getElementById('post').addEventListener('input', (e) => {
-    formData.workExperience.post = e.target.value;
-    document.getElementById('postResume').innerText = e.target.value || 'Должность';
-    document.getElementById('accordionTitle').innerText = e.target.value || 'Должность';
-})
+// document.getElementById('post').addEventListener('input', (e) => {
+//     formData.workExperience.post = e.target.value;
+//     document.getElementById('postResume').innerText = e.target.value || 'Должность';
+//     document.getElementById('accordionTitle').innerText = e.target.value || 'Должность';
+// })
 
-document.getElementById('company').addEventListener('input', (e) => {
-    formData.workExperience.company = e.target.value;
-    document.getElementById('companyResume').innerText = e.target.value || 'Организация';
-})
+// document.getElementById('company').addEventListener('input', (e) => {
+//     formData.workExperience.company = e.target.value;
+//     document.getElementById('companyResume').innerText = e.target.value || 'Организация';
+// })
 
-document.getElementById('from').addEventListener('change', (e) => {
-    const date = e.target.value.split('-').reverse().join('-');
-    formData.workExperience.from = e.target.value;
-    document.getElementById('fromResume').innerText = date || '';
-})
+// document.getElementById('from').addEventListener('change', (e) => {
+//     const date = e.target.value.split('-').reverse().join('-');
+//     formData.workExperience.from = e.target.value;
+//     document.getElementById('fromResume').innerText = date || '';
+// })
 
-document.getElementById('to').addEventListener('change', (e) => {
-    const date = e.target.value.split('-').reverse().join('-');
-    formData.workExperience.to = e.target.value;
-    document.getElementById('toResume').innerText = date || '';
-})
+// document.getElementById('to').addEventListener('change', (e) => {
+//     const date = e.target.value.split('-').reverse().join('-');
+//     formData.workExperience.to = e.target.value;
+//     document.getElementById('toResume').innerText = date || '';
+// })
 
-document.getElementById('isCurrent').addEventListener('change', (e) => {
-    formData.workExperience.isCurrent = e.target.checked;
-    document.getElementById('to').disabled = e.target.checked;
-    if (formData.workExperience.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время'
-    else { document.getElementById('toResume').innerText = document.getElementById('to').value }
-})
+// document.getElementById('isCurrent').addEventListener('change', (e) => {
+//     formData.workExperience.isCurrent = e.target.checked;
+//     document.getElementById('to').disabled = e.target.checked;
+//     if (formData.workExperience.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время'
+//     else { document.getElementById('toResume').innerText = document.getElementById('to').value }
+// })
 
 document.getElementById('army').addEventListener('change', (e) => {
     formData.privateInformation.army = e.target.checked;
@@ -425,6 +655,12 @@ function getBase64Image(img) {
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
 
+// document.getElementById('addJobGoalLast').addEventListener('input', (e) => {
+//     const value = e.target.value;
+//     if (!value) { document.getElementById('addJobGoalBtn').disabled = true; return }
+//     document.getElementById('addJobGoalBtn').disabled = false;
+// })
+
 document.getElementById("foto").addEventListener('change', (e) => {
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
@@ -436,87 +672,40 @@ document.getElementById("foto").addEventListener('change', (e) => {
     }
 })
 
-document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
-    const newId = guidGenerator();
-    addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
-    document.getElementById('addJobGoalLast').value = '';
-    document.querySelector('.exp-class > ul').innerHTML = '';
-    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
-})
+// document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
+//     const newId = guidGenerator();
+//     addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
+//     document.getElementById('addJobGoalLast').value = '';
+//     document.getElementById('addJobGoalBtn').disabled = true;
+//     document.querySelector('.exp-class > ul').innerHTML = '';
+//     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
+// })
+
+
+
 document.getElementById('addPreviousJob').addEventListener('click', (e) => {
-    const accordionSection = document.createElement('section');
-    accordionSection.classList.add('accordion');
 
-    const accordionTitleH1 = document.createElement('h1');
-    accordionTitleH1.classList.add('accordion-title');
+    const newWorkExpirience = {
+        isClosed: false,
+        position: '',
+        company: '',
+        from: '',
+        to: '',
+        isCurrent: false,
+        isFullTime: false,
+        duties: []
+    }
 
-    const accordionTitleSpan = document.createElement('span');
-    accordionTitleSpan.id = accordionTitle;
+    createWorkExperience(newWorkExpirience);
 
-    const accordionArrowButton = document.createElement('button');
-    accordionTitleSpan.classList.add('accordion-arrow');
-
-    document.getElementById('expirienceList').append();
+    formData.workExperience.push(newWorkExpirience);
 })
 
 
-
-
-{/* <section class="accordion">
-    <h1 class="accordion-title">
-        <span id="accordionTitle"></span>
-        <button class="accordion-arrow">
-            <img src="./images/icons/iconArrowRight.svg" alt="" id="accordionArrow">
-        </button>
-    </h1>
-    <section class="accordion-body">
-        <div class="field">
-            <label for="post">Должность</label>
-            <input type="text" id="post" placeholder="Директор">
-        </div>
-        <div class="field">
-            <label for="company">Организация</label>
-            <input type="text" id="company" placeholder="ООО Фортепьяно г. Москва">
-        </div>
-        <section class="double-field">
-            <section class="field">
-                <label for="from">Дата Начала: </label>
-                <input type="date" id="from" name="date" />
-            </section>
-            <section class="field">
-                <label for="to">Дата конца: </label>
-                <input type="date" id="to" name="date" />
-            </section>
-        </section>
-        <section class="double-field">
-            <div class="checkbox ">
-                <input type="checkbox" id="isCurrent">
-                <label for="isCurrent" class="text"> По настоящее время </label>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="isFullTime">
-                <label for="isFullTime" class="text"> Полная занятость </label>
-            </div>
-        </section>
-
-        <div class="field" id="jobGoals">
-            <label for="Post">Должностные обязянности и достижения</label>
-            <div id="goalsList">
-                <div class="field-with-button">
-                    <input type="text" id="addJobGoalLast"
-                        placeholder="Организация и ведение аудиторских проектов... ">
-                    <button class="primaryBtn" id="addJobGoalBtn">+</button>
-                </div>
-            </div>
-        </div>
-    </section>
-</section> */}
-
-
-document.getElementById('accordionArrow').addEventListener('click', (e) => {
-    document.getElementById('accordionArrow').classList.toggle('closed');
-    document.querySelector('.accordion-body').classList.toggle('closed');
-})
+// document.getElementById('accordionArrow').addEventListener('click', (e) => {
+//     document.getElementById('accordionArrow').classList.toggle('closed');
+//     document.querySelector('.accordion-body').classList.toggle('closed');
+// })
 
 // Preview resume
 

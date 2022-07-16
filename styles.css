@@ -47,6 +47,11 @@ select {
   width: 100%;
 }
 
+input[type="date"]:disabled {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
 input:focus,
 select:focus {
   background: white;
@@ -188,6 +193,7 @@ select:focus {
 }
 
 .accordion {
+  margin-bottom: 8px;
 }
 
 .accordion-body {
