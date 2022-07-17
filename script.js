@@ -30,72 +30,73 @@ document.getElementById('formData').addEventListener('scroll', (e) => {
 })
 
 const createField = ({
-    labelText, 
-    placeholder, 
-    inputType, 
-    divClass, 
-    onInput = () => {}, 
-    onChange = () => {},
+    labelText,
+    placeholder,
+    inputType,
+    divClass,
+    onInput = () => { },
+    onChange = () => { },
     defaultValue = '',
     defaultChecked = false,
     isDisabled = false,
 }) => {
-const newId = guidGenerator();
+    const newId = guidGenerator();
 
-const div = document.createElement('div');
-div.classList.add(divClass);
+    const div = document.createElement('div');
+    div.classList.add(divClass);
 
-const label = document.createElement('label');
-label.innerText = labelText;
-label.setAttribute('for', newId);
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    label.setAttribute('for', newId);
 
-const input = document.createElement('input');
-input.id = newId;
-input.value = defaultValue;
-input.disabled = isDisabled;
-input.setAttribute('type', inputType);
-input.setAttribute('placeholder', placeholder);
-input.addEventListener('input', (e)=>{ onInput(e.target) })
-input.addEventListener('change', (e)=>{ onChange(e.target) })
+    const input = document.createElement('input');
+    input.id = newId;
+    input.value = defaultValue;
+    input.disabled = isDisabled;
+    input.setAttribute('type', inputType);
+    input.setAttribute('placeholder', placeholder);
+    input.addEventListener('input', (e) => { onInput(e.target) })
+    input.addEventListener('change', (e) => { onChange(e.target) })
 
-if (inputType === "checkbox") {
-    input.checked = defaultChecked;
-    div.append(input, label)
-}
-else div.append(label, input);
+    if (inputType === "checkbox") {
+        input.checked = defaultChecked;
+        div.append(input, label)
+    }
+    else div.append(label, input);
 
-return div;
+    return div;
 }
 
 // Create duties input
 const addNewDutyInput = ({
-    defaultValue, 
-    onInput, 
-    onDelete
+    defaultValue,
+    onInput,
+    onDelete,
+    placeholder = ''
 }) => {
 
-const newInput = document.createElement('input');
-newInput.type = 'text';
-newInput.placeholder = 'Организация и ведение аудиторских проектов... '
-newInput.value = defaultValue;
-newInput.addEventListener('input', (e) => { onInput(e.target) })
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.placeholder = placeholder;
+    newInput.value = defaultValue;
+    newInput.addEventListener('input', (e) => { onInput(e.target) })
 
-const newBtn = document.createElement('button');
-newBtn.classList.add('primaryBtn');
-newBtn.innerText = '-';
-newBtn.addEventListener('click', () => {
-    newDiv.remove();
-    onDelete();
-    // delete formData?.workExperience?.duties[newId];
-    // refreshResumeDuties();
-})
+    const newBtn = document.createElement('button');
+    newBtn.classList.add('primaryBtn');
+    newBtn.innerText = '-';
+    newBtn.addEventListener('click', () => {
+        newDiv.remove();
+        onDelete();
+        // delete formData?.workExperience?.duties[newId];
+        // refreshResumeDuties();
+    })
 
-const newDiv = document.createElement('div');
-newDiv.classList.add('field-with-button');
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('field-with-button');
 
-newDiv.append(newInput, newBtn);
-// formData.workExperience.duties[newId] = value;
-return newDiv;
+    newDiv.append(newInput, newBtn);
+    // formData.workExperience.duties[newId] = value;
+    return newDiv;
 
 }
 
@@ -133,7 +134,7 @@ const createWorkExperience = (data) => {
     const experienceSectionResume = document.createElement('section');
     experienceSectionResume.style.borderBottom = "solid 1px lightgray"
 
-    experienceSectionResume.append(        
+    experienceSectionResume.append(
         positionIsFullTimeH4Resume,
         companyH4Resume,
         fromToH3Resume,
@@ -210,25 +211,25 @@ const createWorkExperience = (data) => {
 
     accordionSection.append(accordionBodySection);
 
-    const postDiv = createField({ 
-        labelText: 'Должность', 
-        placeholder: 'Должность', 
-        inputType: 'text', 
+    const postDiv = createField({
+        labelText: 'Должность',
+        placeholder: 'Должность',
+        inputType: 'text',
         divClass: 'field',
         defaultValue: data?.position,
-        onInput: ({value}) => { 
+        onInput: ({ value }) => {
             accordionTitleSpan.innerText = value || 'Должность';
             positionIsFullTimeH4Resume.innerText = value || 'Должность';
             data.position = value;
         }
     });
-    const companyDiv = createField({ 
-        labelText: 'Организация', 
-        placeholder: 'Организация', 
-        inputType: 'text', 
+    const companyDiv = createField({
+        labelText: 'Организация',
+        placeholder: 'Организация',
+        inputType: 'text',
         divClass: 'field',
         defaultValue: data?.company,
-        onInput: ({value}) => { 
+        onInput: ({ value }) => {
             companyH4Resume.innerText = value || 'Должность';
             data.company = value;
         }
@@ -239,25 +240,25 @@ const createWorkExperience = (data) => {
     const fromToSection = document.createElement('section');
     fromToSection.classList.add('double-field');
 
-    const fromDiv = createField({ 
-        labelText: 'Дата Начала', 
-        placeholder: '', 
-        inputType: 'date', 
+    const fromDiv = createField({
+        labelText: 'Дата Начала',
+        placeholder: '',
+        inputType: 'date',
         divClass: 'field',
         defaultValue: data?.from,
-        onChange: ({value}) => {
+        onChange: ({ value }) => {
             fromSpanResume.innerText = value || 'Дата начала';
             data.from = value;
         }
     });
-    const toDiv = createField({ 
-        labelText: 'Дата конца', 
-        placeholder: '', 
-        inputType: 'date', 
+    const toDiv = createField({
+        labelText: 'Дата конца',
+        placeholder: '',
+        inputType: 'date',
         divClass: 'field',
         defaultValue: data?.to,
         isDisabled: data?.isCurrent,
-        onChange: ({value}) => {
+        onChange: ({ value }) => {
             ToSpanResume.innerText = value || 'Дата конца';
             data.to = value;
         }
@@ -270,25 +271,25 @@ const createWorkExperience = (data) => {
     const isCurrentIsFullTimeSection = document.createElement('section');
     isCurrentIsFullTimeSection.classList.add('double-field');
 
-    const isCurrentDiv = createField({ 
-        labelText: 'По настоящее время', 
-        placeholder: '', 
-        inputType: 'checkbox', 
+    const isCurrentDiv = createField({
+        labelText: 'По настоящее время',
+        placeholder: '',
+        inputType: 'checkbox',
         divClass: 'checkbox',
         defaultChecked: data?.isCurrent,
-        onChange: ({checked}) => {
+        onChange: ({ checked }) => {
             ToSpanResume.innerText = checked ? 'по настоящее время' : toDiv.querySelector('input').value;
             toDiv.querySelector('input').disabled = checked;
             data.isCurrent = checked;
         }
     });
-    const isFullTime = createField({ 
-        labelText: 'Полная занятость', 
-        placeholder: '', 
-        inputType: 'checkbox', 
+    const isFullTime = createField({
+        labelText: 'Полная занятость',
+        placeholder: '',
+        inputType: 'checkbox',
         divClass: 'checkbox',
         defaultChecked: data?.isFullTime,
-        onChange: ({checked}) => { 
+        onChange: ({ checked }) => {
             isFullTimeSpanResume.innerText = checked ? ' - Полная занятость' : '';
             data.isFullTime = checked;
         }
@@ -324,8 +325,8 @@ const createWorkExperience = (data) => {
 
         // Add new duty to form
         const newDutyFieldDiv = addNewDutyInput({
-            defaultValue: addJobGoalInput.value, 
-            onInput: ({value}) => {
+            defaultValue: addJobGoalInput.value,
+            onInput: ({ value }) => {
                 newDuty.text = value;
                 dutyLi.innerText = value;
             },
@@ -333,10 +334,10 @@ const createWorkExperience = (data) => {
                 dutyLi.remove();
                 newDuty.text = '';
             }
-            
-    });
 
-        
+        });
+
+
         jobGoalsDiv.append(newDutyFieldDiv);
         addJobGoalInput.value = '';
         addJobGoalBtn.disabled = true;
@@ -348,7 +349,7 @@ const createWorkExperience = (data) => {
     const addJobGoalInput = document.createElement('input');
     addJobGoalInput.type = 'text';
     addJobGoalInput.placeholder = 'Организация и ведение аудиторских проектов...';
-    addJobGoalInput.addEventListener('input', ()=>{
+    addJobGoalInput.addEventListener('input', () => {
         const value = addJobGoalInput.value;
         if (!value) { addJobGoalBtn.disabled = true; return }
         addJobGoalBtn.disabled = false;
@@ -361,8 +362,8 @@ const createWorkExperience = (data) => {
     // Adding saved duties to form
     data.duties.length > 0 && data.duties.forEach((duty, index) => {
         const newDutyFieldDiv = addNewDutyInput({
-            defaultValue: duty.text, 
-            onInput: ({value})=>{ 
+            defaultValue: duty.text,
+            onInput: ({ value }) => {
                 duty.text = text;
                 experienceListUlResume.querySelectorAll('li')[index].innerText = value;
             },
@@ -370,7 +371,7 @@ const createWorkExperience = (data) => {
                 experienceListUlResume.querySelectorAll('li')[index].remove();
                 duty.text = '';
             }
-    });
+        });
         jobGoalsDiv.append(newDutyFieldDiv);
     })
 
@@ -399,6 +400,7 @@ const guidGenerator = () => {
 let initialState = {
     foto: null,
     scrollTopPosition: 0,
+    activeStepId: 'generalInfoBtn',
     generalInformation: {
         firstName: '',
         lastName: '',
@@ -423,16 +425,17 @@ let initialState = {
         DOB: '',
         familyStatus: '',
         hasChildren: false,
-        army: false,
+        army: false
     },
-    workExperience: []
+    workExperience: [],
+    social: []
 };
 
 let formData = initialState;
 
 const clearDataBtn = document.createElement('button');
 clearDataBtn.innerText = 'Clear';
-clearDataBtn.addEventListener('click', ()=>{ formData = initialState })
+clearDataBtn.addEventListener('click', () => { formData = initialState })
 document.body.prepend(clearDataBtn)
 
 
@@ -441,7 +444,7 @@ const loadFormData = () => {
 
     if (localStorageObject !== null) formData = localStorageObject;
     formData.workExperience.forEach(experience => {
-        experience.duties = experience.duties.filter(({text}) => text)
+        experience.duties = experience.duties.filter(({ text }) => text)
     })
 
     // Enter Form Data
@@ -466,6 +469,7 @@ const loadFormData = () => {
     document.getElementById('specialization').value = formData?.generalInformation?.specialization || '';
     document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || '';
     document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
+    document.getElementById(formData.activeStepId).classList.add('active-step');
     formData.workExperience.forEach(expirience => createWorkExperience(expirience))
     // document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
     // document.getElementById('post').value = formData?.workExperience?.post || '';
@@ -509,7 +513,7 @@ const loadFormData = () => {
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
     // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
-    document.getElementById('fotoResume').style.background = "url(" + formData?.foto + ") no-repeat";
+    if (formData?.foto !== null) document.getElementById('fotoResume').style.background = "url(" + formData?.foto + ") no-repeat";
     document.getElementById('fotoResume').style.backgroundSize = "cover";
 
     document.getElementById('formData').scroll({
@@ -523,64 +527,76 @@ loadFormData();
 
 // On document unload - save data to local storage
 
-window.addEventListener('unload', () => {   
+window.addEventListener('unload', () => {
     localStorage.setItem('formData', JSON.stringify(formData));
 })
 //
 
 window.addEventListener('resize', resizeVh);
+
+// Steps
+
 document.getElementById('generalInfoBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '1';
+    formData.activeStepId = e.target.id;
     document.getElementById('generalInfoSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
 document.getElementById('personalInfoBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '2';
+    formData.activeStepId = e.target.id;
     document.getElementById('personalInfoSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
 document.getElementById('experienceBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '3';
+    formData.activeStepId = e.target.id;
     document.getElementById('experienceSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
 document.getElementById('eduBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '4';
+    formData.activeStepId = e.target.id;
     document.getElementById('eduSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
-document.getElementById('courseTraingBtn').addEventListener('click', (e) => {
+document.getElementById('socialBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '5';
-    document.getElementById('courseTraingSection').scrollIntoView({ behavior: 'smooth' });
+    formData.activeStepId = e.target.id;
+    document.getElementById('socialSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
-document.getElementById('languageBtn').addEventListener('click', (e) => {
+document.getElementById('courseTraingBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '6';
-    document.getElementById('languageSection').scrollIntoView({ behavior: 'smooth' });
+    formData.activeStepId = e.target.id;
+    document.getElementById('courseTraingSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-window.addEventListener('resize', resizeVh);
-document.getElementById('additionalBtn').addEventListener('click', (e) => {
+document.getElementById('languageBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
     document.getElementById('stepCount').innerText = '7';
+    formData.activeStepId = e.target.id;
+    document.getElementById('languageSection').scrollIntoView({ behavior: 'smooth' });
+})
+
+document.getElementById('additionalBtn').addEventListener('click', (e) => {
+    document.querySelector('.active-step').classList.remove("active-step");
+    e.target.classList.add('active-step');
+    document.getElementById('stepCount').innerText = '8';
+    formData.activeStepId = e.target.id;
     document.getElementById('additionalSection').scrollIntoView({ behavior: 'smooth' });
 })
 
@@ -772,6 +788,30 @@ document.getElementById("foto").addEventListener('change', (e) => {
 
 
 
+document.getElementById('addSocial').addEventListener('click', (e) => {
+    const newSocial = {
+        name: '',
+        url: ''
+    }
+
+    const newSocialDiv = addNewDutyInput({
+        defaultValue: document.getElementById('socialURL').value,
+        placeholder: 'Ссылка',
+        onInput: ({ value }) => {
+
+        },
+        onDelete: () => {
+        }
+    });
+
+    newSocial.url = document.getElementById('socialURL').value;
+    formData.social.push(newSocial)
+
+    document.getElementById('socialList').append(newSocialDiv);
+    document.getElementById('socialURL').value = '';
+    document.getElementById('socialURL').focus();
+
+})
 document.getElementById('addPreviousJob').addEventListener('click', (e) => {
     const newWorkExpirience = {
         isClosed: false,

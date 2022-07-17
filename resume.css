@@ -43,10 +43,13 @@ hr {
 .foto {
   /* margin-left: 25px; */
   /* margin-bottom: -95px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 150px;
   height: 150px;
   border-radius: 250px;
-  background: url(./images/photo/myfoto.jpg);
+  background: url(./images/photo/blank.svg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

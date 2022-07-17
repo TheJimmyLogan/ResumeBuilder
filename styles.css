@@ -246,6 +246,23 @@ select:focus {
   gap: 8px;
 }
 
+.socialItem button{
+  background: none;
+  outline: none;
+  border: none;
+}
+
+.socialItem{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.socialItem img{
+  height: 20px;
+  width: 20px;
+}
+
 #goalsList {
   display: flex;
   flex-direction: column;

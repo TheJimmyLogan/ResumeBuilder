@@ -38,13 +38,14 @@
 
         <!-- Form Steps  -->
         <section class="steps" id="formSteps">
-            <h1>Шаг <span id="stepCount">1</span> из 7</h1>
+            <h1>Шаг <span id="stepCount">1</span> из 8</h1>
             <div class="steps-buttons">
                 <div>
-                    <button class="active-step" id="generalInfoBtn">Основная информация</button>
+                    <button id="generalInfoBtn">Основная информация</button>
                     <button id="personalInfoBtn">Личная информация</button>
                     <button id="experienceBtn">Опыт работы</button>
                     <button id="eduBtn">Образование</button>
+                    <button id="socialBtn">Соцсети</button>
                     <button id="courseTraingBtn">Курсы и тренинги</button>
                     <button id="languageBtn">Иностранные языки и компьютерные навыки</button>
                     <button id="additionalBtn">Дополнительная информация</button>
@@ -198,6 +199,30 @@
                             <option label="" value="Очная">Очная</option>
                         </select>
                     </section>
+                </section>
+
+                <section class="sub-section" id="socialSection">
+                    <h1 class="sub-title">СОЦСЕТИ</h1>
+
+                    <section class="field">
+                        <label for="socialName">Название соцсети</label>
+                        <select id="socialName">
+                            <option label="" value="facebook">Facebook</option>
+                            <option label="" value="instagram">Instagram</option>
+                            <option label="" value="skype">Skype</option>
+                            <option label="" value="vk">VK</option>
+                        </select>
+                    </section>
+                    <section class="field">
+                        <label for="socialURL">Ссылка </label>
+                        <input type="text" id="socialURL" />
+                    </section>
+
+                    <section id="socialList">
+                    </section>
+
+                    <button class="primaryBtn full-width" id="addSocial">Добавить соцсеть</button>
+
                 </section>
 
                 <section class="sub-section" id="courseTraingSection">
