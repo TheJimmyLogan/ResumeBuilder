@@ -28,7 +28,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #30258e;
+  background: linear-gradient(55.75deg, #6115d8 29.75%, #25f1f2 84.23%);
   width: 100%;
   padding-top: 24px;
   padding-bottom: 24px;
