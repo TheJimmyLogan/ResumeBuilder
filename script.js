@@ -68,25 +68,24 @@ return div;
 }
 
 // Create duties input
-const addNewDutyInput = (value, onChange) => {
+const addNewDutyInput = ({
+    defaultValue, 
+    onInput, 
+    onDelete
+}) => {
 
 const newInput = document.createElement('input');
 newInput.type = 'text';
 newInput.placeholder = 'Организация и ведение аудиторских проектов... '
-newInput.value = value;
-newInput.addEventListener('input', (e) => {
-    const value = e?.target?.value || '';
-    onChange(value);
-    // formData.workExperience.duties[id] = e.target.value;
-    // refreshResumeDuties(e);
-})
+newInput.value = defaultValue;
+newInput.addEventListener('input', (e) => { onInput(e.target) })
 
 const newBtn = document.createElement('button');
 newBtn.classList.add('primaryBtn');
 newBtn.innerText = '-';
 newBtn.addEventListener('click', () => {
     newDiv.remove();
-    onChange('');
+    onDelete();
     // delete formData?.workExperience?.duties[newId];
     // refreshResumeDuties();
 })
@@ -102,6 +101,69 @@ return newDiv;
 
 const createWorkExperience = (data) => {
 
+    const newId = guidGenerator()
+    data.id = newId;
+
+    // Adding Job Expirience Data to Resume
+    const positionIsFullTimeH4Resume = document.createElement('h4');
+    const positionSpanResume = document.createElement('span');
+    positionSpanResume.innerText = data.position || 'Должность';
+    const isFullTimeSpanResume = document.createElement('span');
+    isFullTimeSpanResume.innerText = data.isFullTime ? ' - Полная занятость' : '';
+    positionIsFullTimeH4Resume.append(positionSpanResume, isFullTimeSpanResume)
+
+    const companyH4Resume = document.createElement('h4');
+    companyH4Resume.innerText = data.company || 'Организация';
+
+    const fromToH3Resume = document.createElement('h3');
+    const fromSpanResume = document.createElement('span');
+    fromSpanResume.innerText = data.from || 'Дата начала'
+    const ToSpanResume = document.createElement('span');
+    ToSpanResume.innerText = data.isCurrent ? 'по настоящее время' : data.to || 'Дата конца'
+    fromToH3Resume.append(fromSpanResume, ' - ', ToSpanResume);
+
+    const experienceListUlResume = document.createElement('ul');
+    experienceListUlResume.classList.add('exp-class');
+    data.duties.length > 0 && data.duties.forEach(duty => {
+        const dutyLi = document.createElement('li');
+        dutyLi.innerText = duty.text;
+        experienceListUlResume.append(dutyLi);
+    })
+
+    const experienceSectionResume = document.createElement('section');
+    experienceSectionResume.style.borderBottom = "solid 1px lightgray"
+
+    experienceSectionResume.append(        
+        positionIsFullTimeH4Resume,
+        companyH4Resume,
+        fromToH3Resume,
+        experienceListUlResume
+    )
+
+    document.getElementById('experienceListResume').append(experienceSectionResume)
+
+
+
+
+    // document.getElementById('experienceListResume').innerHTML += `
+    //     <h4>
+    //         <span>${data.position}</span>
+    //         <span>${data.isFullTime ? ` - По настоящее время` : ``}</span>
+    //     </h4>
+    //     <h4>${data.company}</h4>
+
+    //     <h3>Период работы / <span>${data.from}</span> - <span>${ data.isCurrent ? 'по настоящее время' : data.to}</span></h3>
+
+    //     <div class="exp-class">
+    //         <ul>
+    //         ${ data.duties.map(duty => `<li>${duty.text}</li>`).join('') }
+    //         </ul>
+    //     </div>
+    // `
+
+
+    // Adding Job Expirience Data to Form
+
     const accordionSection = document.createElement('section');
     accordionSection.classList.add('accordion');
 
@@ -113,7 +175,6 @@ const createWorkExperience = (data) => {
 
     const accordionArrowButton = document.createElement('button');
     accordionArrowButton.classList.add('accordion-arrow');
-    
     const accordionArrowButtonImg = document.createElement('img');
     accordionArrowButtonImg.src = './images/icons/iconArrowRight.svg';
     accordionArrowButtonImg.addEventListener('click', () => {
@@ -122,8 +183,22 @@ const createWorkExperience = (data) => {
         accordionBodySection.classList.toggle('closed');
     })
 
+    const accordionDeleteButton = document.createElement('button');
+    accordionDeleteButton.classList.add('accordion-arrow');
+
+    const deleteButtonImg = document.createElement('img');
+    deleteButtonImg.src = './images/icons/iconDelete.svg';
+
+    accordionDeleteButton.append(deleteButtonImg);
+    deleteButtonImg.addEventListener('click', () => {
+        experienceSectionResume.remove();
+        accordionSection.remove();
+        const pos = formData.workExperience.map((e) => { return e.id; }).indexOf(newId);
+        formData.workExperience.splice(pos, 1);
+    })
+
     accordionArrowButton.append(accordionArrowButtonImg);
-    accordionTitleH1.append(accordionTitleSpan, accordionArrowButton);
+    accordionTitleH1.append(accordionTitleSpan, accordionDeleteButton, accordionArrowButton);
     accordionSection.append(accordionTitleH1);
 
     const accordionBodySection = document.createElement('section');
@@ -142,7 +217,8 @@ const createWorkExperience = (data) => {
         divClass: 'field',
         defaultValue: data?.position,
         onInput: ({value}) => { 
-            accordionTitleSpan.innerText = value || 'Должность'; 
+            accordionTitleSpan.innerText = value || 'Должность';
+            positionIsFullTimeH4Resume.innerText = value || 'Должность';
             data.position = value;
         }
     });
@@ -153,6 +229,7 @@ const createWorkExperience = (data) => {
         divClass: 'field',
         defaultValue: data?.company,
         onInput: ({value}) => { 
+            companyH4Resume.innerText = value || 'Должность';
             data.company = value;
         }
     });
@@ -168,7 +245,8 @@ const createWorkExperience = (data) => {
         inputType: 'date', 
         divClass: 'field',
         defaultValue: data?.from,
-        onChange: ({value}) => { 
+        onChange: ({value}) => {
+            fromSpanResume.innerText = value || 'Дата начала';
             data.from = value;
         }
     });
@@ -179,7 +257,8 @@ const createWorkExperience = (data) => {
         divClass: 'field',
         defaultValue: data?.to,
         isDisabled: data?.isCurrent,
-        onChange: ({value}) => { 
+        onChange: ({value}) => {
+            ToSpanResume.innerText = value || 'Дата конца';
             data.to = value;
         }
     });
@@ -197,7 +276,8 @@ const createWorkExperience = (data) => {
         inputType: 'checkbox', 
         divClass: 'checkbox',
         defaultChecked: data?.isCurrent,
-        onChange: ({checked}) => { 
+        onChange: ({checked}) => {
+            ToSpanResume.innerText = checked ? 'по настоящее время' : toDiv.querySelector('input').value;
             toDiv.querySelector('input').disabled = checked;
             data.isCurrent = checked;
         }
@@ -209,6 +289,7 @@ const createWorkExperience = (data) => {
         divClass: 'checkbox',
         defaultChecked: data?.isFullTime,
         onChange: ({checked}) => { 
+            isFullTimeSpanResume.innerText = checked ? ' - Полная занятость' : '';
             data.isFullTime = checked;
         }
     });
@@ -235,10 +316,27 @@ const createWorkExperience = (data) => {
 
     addJobGoalBtn.addEventListener('click', (e) => {
         const newDuty = { text: addJobGoalInput.value }
-        const newDutyFieldDiv = addNewDutyInput(
-            addJobGoalInput.value, 
-            (text)=>{ newDuty.text = text }
-        );
+
+        // Add new duty to resume
+        const dutyLi = document.createElement('li');
+        dutyLi.innerText = addJobGoalInput.value;
+        experienceListUlResume.append(dutyLi);
+
+        // Add new duty to form
+        const newDutyFieldDiv = addNewDutyInput({
+            defaultValue: addJobGoalInput.value, 
+            onInput: ({value}) => {
+                newDuty.text = value;
+                dutyLi.innerText = value;
+            },
+            onDelete: () => {
+                dutyLi.remove();
+                newDuty.text = '';
+            }
+            
+    });
+
+        
         jobGoalsDiv.append(newDutyFieldDiv);
         addJobGoalInput.value = '';
         addJobGoalBtn.disabled = true;
@@ -260,32 +358,23 @@ const createWorkExperience = (data) => {
     goalListDiv.append(fieldWithButton);
     jobGoalsDiv.append(jobGoalLabel, goalListDiv);
 
-    // Adding Duties
-    
-    data.duties.length > 0 && data.duties.forEach(duty => {
-        const newDutyFieldDiv = addNewDutyInput(
-            duty.text, 
-            (text)=>{ duty.text = text }
-        );
+    // Adding saved duties to form
+    data.duties.length > 0 && data.duties.forEach((duty, index) => {
+        const newDutyFieldDiv = addNewDutyInput({
+            defaultValue: duty.text, 
+            onInput: ({value})=>{ 
+                duty.text = text;
+                experienceListUlResume.querySelectorAll('li')[index].innerText = value;
+            },
+            onDelete: () => {
+                experienceListUlResume.querySelectorAll('li')[index].remove();
+                duty.text = '';
+            }
+    });
         jobGoalsDiv.append(newDutyFieldDiv);
     })
 
     accordionBodySection.append(jobGoalsDiv);
-    document.getElementById('experienceListResume').innerHTML += `
-        <h4>
-            <span>${data.position}</span>
-            <span>${data.isFullTime ? ' - По настоящее время' : ''}</span>
-        </h4>
-        <h4>${data.company}</h4>
-
-        <h3>Период работы / <span>${data.from}</span> - <span>${data.to}</span></h3>
-
-        <div class="exp-class">
-            <ul>
-            ${ data.duties.map(duty => `<li>${duty.text}</li>`).join('') }
-            </ul>
-        </div>
-    `
     document.getElementById('expirienceList').append(accordionSection);
 }
 
@@ -573,7 +662,7 @@ document.getElementById('сitizenship').addEventListener('input', (e) => {
 
 document.getElementById('DOB').addEventListener('change', (e) => {
     const date = e.target.value.split('-').reverse().join('-');
-    formData.privateInformation.DOB = date;
+    formData.privateInformation.DOB = e.target.value;
     document.getElementById('DOBResume').innerText = date || 'Дата рождения';
 })
 
@@ -684,7 +773,6 @@ document.getElementById("foto").addEventListener('change', (e) => {
 
 
 document.getElementById('addPreviousJob').addEventListener('click', (e) => {
-
     const newWorkExpirience = {
         isClosed: false,
         position: '',
@@ -695,9 +783,7 @@ document.getElementById('addPreviousJob').addEventListener('click', (e) => {
         isFullTime: false,
         duties: []
     }
-
     createWorkExperience(newWorkExpirience);
-
     formData.workExperience.push(newWorkExpirience);
 })
 
