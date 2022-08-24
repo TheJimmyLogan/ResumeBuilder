@@ -1423,16 +1423,16 @@ document.getElementById('downloadResumeBtn').addEventListener('click', () => {
     const pdfMake = window.pdfMake;
     pdfMake.fonts = {
         Silkscreen: {
-          normal: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          bolditalics: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          italics: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          bold: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Bold.ttf',
+          normal: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          bolditalics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          italics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          bold: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Bold.ttf',
         },
         Montserrat: {
-          normal: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          bolditalics: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          italics: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          bold: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Bold.ttf',
+          normal: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          bolditalics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          italics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          bold: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Bold.ttf',
         },
      }
     const resumeDocDefinition = strict(formData, 'Montserrat');
