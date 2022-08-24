@@ -26,19 +26,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="resume.css">
-    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"
+        integrity="sha512-rDbVu5s98lzXZsmJoMa0DjHNE+RwPJACogUCLyq3Xxm2kJO6qsQwjbE5NDk2DqmlKcxDirCnU1wAzVLe12IM3w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"
+        integrity="sha512-cktKDgjEiIkPVHYbn8bh/FEyYxmt4JDJJjOCu5/FQAkW4bc911XtKYValiyzBiJigjVEvrIAyQFEbRJZyDA1wQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script.js" type="module" defer></script>
     <title>ResumeBuilder - создай своё резюме</title>
 </head>
 
 <body>
-    <div class="main-container">
+    <div class=" main-container">
         <section class="header">
             <img src="./images/logo.svg" alt="">
         </section>
 
         <!-- Form Steps  -->
         <section class="steps" id="formSteps">
-            <h1>Шаг <span id="stepCount">1</span> из 8</h1>
             <div class="steps-buttons">
                 <div>
                     <button id="generalInfoBtn">Основная информация</button>
@@ -47,8 +52,9 @@
                     <button id="eduBtn">Образование</button>
                     <button id="socialBtn">Соцсети</button>
                     <button id="courseTraingBtn">Курсы и тренинги</button>
-                    <button id="languageBtn">Иностранные языки и компьютерные навыки</button>
-                    <button id="additionalBtn">Дополнительная информация</button>
+                    <button id="softwareBtn">Компьютерные навыки</button>
+                    <button id="personalQualitiesBtn">Личные качества</button>
+                    <button id="customBtn">Дополнительно</button>
                 </div>
             </div>
         </section>
@@ -67,329 +73,254 @@
         <div class="form-resume-container">
             <section class="content" id="formData">
 
+                <!-- <button class="primaryBtn align-self-center " id="downloadResumeBtn">Скачать</button> -->
+
+
                 <section class="sub-section" id="generalInfoSection">
-                    <h1 class="sub-title">Основная информация</h1>
+                    <section class="sub-title">
+                        <h1>Основная информация</h1>
+                        <button class="expand-btn"></button>
+                    </section>
 
-                    <div class="field">
+                    <section class="sub-section-body">
+                        <div class="field">
+                            <div class="foto-form">
+                                <div id="fotoFormHolder"></div>
+                                <div>
+                                    <input type="file" id="foto" placeholder="Фото">
+                                    <button class="primaryBtn" id="addPhoto">Добавить фото</button>
+                                    <label for="showPhoto" class="text">
+                                        <input type="checkbox" id="showPhoto" checked>
+                                        Показывать фото в резюме
+                                    </label>
+                                </div>
+                            </div>
 
-                        <div class="foto-form">
-                            <label for="">Фото</label>
-                            <input type="file" id="foto" placeholder="Фото">
-
-                            <button class="primaryBtn full-width" id="addPhoto">Выберите фото</button>
+                        </div>
+                        <div class="field">
+                            <label for="firstName">Имя</label>
+                            <input type="text" id="firstName" placeholder="Имя">
+                        </div>
+                        <div class="field">
+                            <label for="Surname">Фамилия</label>
+                            <input type="text" id="lastName" placeholder="Фамилия">
+                        </div>
+                        <div class="field">
+                            <label for="Middle name">Отчество</label>
+                            <input type="text" id="fatherName" placeholder="Отчество">
                         </div>
 
-                    </div>
-                    <div class="field">
-                        <label for="firstName">Имя</label>
-                        <input type="text" id="firstName" placeholder="Имя">
-                    </div>
-                    <div class="field">
-                        <label for="Surname">Фамилия</label>
-                        <input type="text" id="lastName" placeholder="Фамилия">
-                    </div>
-                    <div class="field">
-                        <label for="Middle name">Отчество</label>
-                        <input type="text" id="fatherName" placeholder="Отчество">
-                    </div>
+                        <div class="field">
+                            <label for="Post">Должность</label>
+                            <input type="text" id="jobTitle" placeholder="Ваша должность">
+                        </div>
 
-                    <div class="field">
-                        <label for="Post">Должность</label>
-                        <input type="text" id="jobTitle" placeholder="Ваша должность">
-                    </div>
+                        <div class="field">
+                            <label for="jobType">Занятость</label>
+                            <select id="jobType">
+                                <option value="Полная" selected>Полная</option>
+                                <option value="Частичная">Частичная</option>
+                                <option value="Сменная">Сменная</option>
+                            </select>
 
-                    <div class="field">
-                        <label for="jobType">Занятость</label>
-                        <select id="jobType">
-                            <option value="Полная" selected>Полная</option>
-                            <option value="Частичная">Частичная</option>
-                            <option value="Сменная">Сменная</option>
-                        </select>
-
-                    </div>
-                    <div class="field">
-                        <label for="Work schedule">График работы</label>
-                        <select id="jobSchedule">
-                            <option value="Полный день" selected>Полный день</option>
-                            <option value="Сменный график">Сменный график</option>
-                            <option value="Гибкий график">Гибкий график</option>
-                            <option value="Удалённая работа">Удалённая работа</option>
-                            <option value="Вахта">Вахта</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label for="email">Электронная почта</label>
-                        <input type="text" id="email" placeholder="Email">
-                    </div>
-                    <div class="field">
-                        <label for="mobile">Телефон</label>
-                        <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
-                    </div>
-                    <div class="field">
-                        <label for="website">Мой сайт</label>
-                        <input type="text" id="website" placeholder="Website">
-                    </div>
+                        </div>
+                        <div class="field">
+                            <label for="Work schedule">График работы</label>
+                            <select id="jobSchedule">
+                                <option value="Полный день" selected>Полный день</option>
+                                <option value="Сменный график">Сменный график</option>
+                                <option value="Гибкий график">Гибкий график</option>
+                                <option value="Удалённая работа">Удалённая работа</option>
+                                <option value="Вахта">Вахта</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="email">Электронная почта</label>
+                            <input type="text" id="email" placeholder="Email">
+                        </div>
+                        <div class="field">
+                            <label for="mobile">Телефон</label>
+                            <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
+                        </div>
+                        <div class="field">
+                            <label for="website">Мой сайт</label>
+                            <input type="text" id="website" placeholder="Website">
+                        </div>
+                    </section>
 
 
                 </section>
 
 
                 <section class="sub-section" id="personalInfoSection">
-                    <h1 class="sub-title">Личная информация</h1>
-
-                    <div class="field">
-                        <label for="city">Город проживания</label>
-                        <input type="text" id="city" placeholder="Город">
-                    </div>
-                    <div class="field">
-                        <label for="сitizenship">Гражданство</label>
-                        <input type="text" id="сitizenship" placeholder="РФ">
-                    </div>
-                    <section class="field">
-                        <label for="DOB">Дата рождения: </label>
-                        <input type="date" id="DOB" />
+                    <section class="sub-title">
+                        <h1>Личная информация</h1>
+                        <button class="expand-btn"></button>
                     </section>
-                    <div class="field">
-                        <label for="Marital status">Семейное положение</label>
-                        <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox" id="children">
-                        <label for="children" class="text"> Есть ли дети </label>
-                    </div>
-
+                    <section class="sub-section-body">
+                        <div class="field">
+                            <label for="city">Город проживания</label>
+                            <input type="text" id="city" placeholder="Город">
+                        </div>
+                        <div class="field">
+                            <label for="сitizenship">Гражданство</label>
+                            <input type="text" id="сitizenship" placeholder="Гражданство">
+                        </div>
+                        <section class="field">
+                            <label for="DOB">Дата рождения: </label>
+                            <input type="date" id="DOB" />
+                        </section>
+                        <div class="field">
+                            <label for="Marital status">Семейное положение</label>
+                            <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="children">
+                            <label for="children" class="text"> Есть ли дети </label>
+                        </div>
+                    </section>
                 </section>
 
 
                 <section class="sub-section" id="experienceSection">
-                    <h1 class="sub-title">Опыт работы</h1>
-                    <section id="expirienceList">
+                    <section class="sub-title">
+                        <h1>Опыт работы</h1>
+                        <button class="expand-btn"></button>
                     </section>
-                    <button class="primaryBtn full-width" id="addPreviousJob">Добавить предыдущий опыт</button>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="expirienceList">
+                        </section>
+                        <button class="primaryBtn align-self-center margin-lg" id="addPreviousJob">Добавить
+                            опыт</button>
+                    </section>
                 </section>
 
 
                 <section class="sub-section" id="eduSection">
-                    <h1 class="sub-title">Образование</h1>
-
-                    <div class="field">
-                        <label for="Education">Образование</label>
-                        <input type="text" id="education" placeholder="Высшее, Неполное высшее">
-                    </div>
-
-                    <div class="field">
-                        <label for="Educational institution">Учебное заведение</label>
-                        <input type="text" id="faculty" placeholder="Московский Институт Банковского Дела г. Москва">
-                    </div>
-                    <div class="field">
-                        <label for="Specialization">Специальность</label>
-                        <input type="text" id="specialization" placeholder="Экономика предприятия">
-                    </div>
-                    <section class="field">
-                        <label for="Year of graduation">Год окончания: </label>
-                        <input type="date" id="Year of graduation" name="date" />
+                    <section class="sub-title">
+                        <h1>Образование</h1>
+                        <button class="expand-btn"></button>
+                    </section>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="educationList"></section>
+                        <button class="primaryBtn align-self-center margin-lg" id="addPreviousEducation">Добавить
+                            образование</button>
                     </section>
 
-                    <section class="field">
-                        <label for="trainingform">Форма обучения</label>
-                        <select id="formOfTraining">
-                            <option label="" value="Дистанционная">Дистанционная</option>
-                            <option label="" value="Заочная">Заочная</option>
-                            <option label="" value="Очно-заочная (вечерняя)">Очно-заочная (вечерняя)</option>
-                            <option label="" value="Очная">Очная</option>
-                        </select>
-                    </section>
                 </section>
 
                 <section class="sub-section" id="socialSection">
-                    <h1 class="sub-title">СОЦСЕТИ</h1>
-
-                    <section class="field">
-                        <label for="socialName">Название соцсети</label>
-                        <select id="socialName">
-                            <option label="" value="facebook">Facebook</option>
-                            <option label="" value="instagram">Instagram</option>
-                            <option label="" value="skype">Skype</option>
-                            <option label="" value="vk">VK</option>
-                        </select>
+                    <section class="sub-title">
+                        <h1>Соцсети</h1>
+                        <button class="expand-btn"></button>
                     </section>
-                    <section class="field">
-                        <label for="socialURL">Ссылка </label>
-                        <input type="text" id="socialURL" />
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="socialList"></section>
+                        <button class="primaryBtn align-self-center margin-lg" id="addSocial">Добавить соцсеть</button>
                     </section>
-
-                    <section id="socialList">
-                    </section>
-
-                    <button class="primaryBtn full-width" id="addSocial">Добавить соцсеть</button>
-
                 </section>
 
                 <section class="sub-section" id="courseTraingSection">
-                    <h1 class="sub-title">Курсы и тренинги</h1>
-
-                    <div class="field">
-                        <label for="Course name">Название курса</label>
-                        <input type="text" id="сourseName" placeholder="Массажное дело">
-                    </div>
-                    <div class="field">
-                        <label for="Educational institution">Учебное заведение</label>
-                        <input type="text" id="additionalEducation" placeholder="Школа бизнеса и управления г. Москва">
-                    </div>
-                    <section class="field">
-                        <label for="Year of graduation">Год окончания: </label>
-                        <input type="date" id="Year of graduation" name="date" />
+                    <section class="sub-title">
+                        <h1>Курсы и тренинги</h1>
+                        <button class="expand-btn"></button>
+                    </section>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="courseList"></section>
+                        <button class="primaryBtn align-self-center margin-lg" id="addPreviousCourseTaken">Добавить
+                            курс</button>
                     </section>
                 </section>
 
-                <section class="sub-section" id="languageSection">
-                    <h1 class="sub-title">Иностранные языки и компьютерные навыки</h1>
-
-                    <div class="field">
-                        <label for="Languages">Какие иностранные языки вы знаете?</label>
-                        <input type="text" id="Languages" placeholder="Английски">
-                    </div>
-
-                    <div class="checkboxGroup">
-                        <p>Владение комьютером</p>
-
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> Microsoft Word </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> Microsoft Excel </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> Microsoft Power Point </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> Adobe PhotoShop </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> 1С: Бухгалтерия </label>
-                        </div>
-
-                    </div>
-
-                    <div class="field">
-                        <label for="other">Другие</label>
-                        <input type="text" id="other" placeholder="CorelDraw, AutoCad">
-                    </div>
+                <section class="sub-section" id="softwareSection">
+                    <section class="sub-title">
+                        <h1>Компьютерные навыки</h1>
+                        <button class="expand-btn"></button>
+                    </section>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="softwareList">
+                        </section>
+                        <button class="primaryBtn  align-self-center margin-lg" id="addSoftware">Добавить</button>
+                    </section>
                 </section>
 
-                <section class="sub-section" id="additionalSection">
-                    <h1 class="sub-title">Дополнительная информация</h1>
+                <section class="sub-section" id="personalQualitiesSection">
+                    <section class="sub-title">
+                        <h1>Личные качества</h1>
+                        <button class="expand-btn"></button>
+                    </section>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
+                            новых данных.</p>
+                        <section id="personalQualitiesList">
+                        </section>
+                        <button class="primaryBtn  align-self-center margin-lg"
+                            id="addPersonalQualities">Добавить</button>
+                    </section>
+                </section>
 
-                    <div class="checkbox">
-                        <input type="checkbox" id="army">
-                        <label for="army" class="text"> Служба в армии </label>
-                    </div>
-
-                    <div class="checkboxGroup">
-                        <p>Категория прав</p>
-
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> A </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> B </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> BE </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> C </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> CE </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> D </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> DE </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> M </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="click">
-                            <label for="click" class="text"> TB и TM </label>
-                        </div>
-
-                    </div>
-
-                    <div class="field">
-                        <label for="personalQualities">Личные качества</label>
-                        <input type="text" id="personalQualities"
-                            placeholder="Ответственность, Без вредных привычек...">
-                    </div>
+                <section class="sub-section" id="customSection">
+                    <section class="sub-title">
+                        <h1>Дополнительно</h1>
+                        <button class="expand-btn"></button>
+                    </section>
+                    <section class="sub-section-body no-padding">
+                        <p class="no-data">Нажмите "Добавить", чтобы добавить дополнительную секцию в резюме.</p>
+                        <section id="customList"></section>
+                        <button class="primaryBtn align-self-center margin-lg" id="addCustomBtn">Добавить</button>
+                    </section>
                 </section>
 
             </section>
 
             <section class="resume-container" id="resumeContainer">
+                <section class="choose-design-and-download-section">
+                    <div class="field">
+                        <label for="chooseDesignSelector">Выбрать дизайн</label>
+                        <select id="chooseDesignSelector">
+                            <option value="strict" selected>Строгий</option>
+                        </select>
+                    </div>
+                    <button class="primaryBtn" id="downloadResumeBtn">Скачать</button>
+                </section>
                 <section class="resume-size">
                     <section class="resume1">
 
-                        <div class="left-info">
-                            <div class="foto" id="fotoResume"></div>
+                        <div class="left-info" id="leftInfoContainer">
+                            <div class="foto left-info-section" id="fotoResume"></div>
 
-                            <div class="left-info-section">
-                                <h2>СОЦСЕТИ</h2>
+                            <div class="left-info-section" id="socialListResumeContainer">
+                                <h2>Соцсети</h2>
+                                <section></section>
+                            </div>
 
-                                <div class="social">
-                                    <img src="./images/facebook.svg" alt="">
-                                    <p><span>facebook</span> <br> facebook.com</p>
-                                </div>
+                            <div class="left-info-section" id="courseListResumeContainer">
+                                <h2>Курсы и тренинги</h2>
+                                <section></section>
+                            </div>
 
-                                <div class="social">
-                                    <img src="./images/instagram.svg" alt="">
-                                    <p><span>instagram</span> <br> instagram.com</p>
-                                </div>
-
-                                <div class="social">
-                                    <img src="./images/skype.svg" alt="">
-                                    <p><span>skype</span> <br> skype.com</p>
-                                </div>
-
-                                <div class="social">
-                                    <img src="./images/vk.svg" alt="">
-                                    <p><span>vk</span> <br> vk.com</p>
+                            <div class="left-info-section" id="softwareListResumeContainer">
+                                <h2>Компьютерные навыки</h2>
+                                <div class="text">
+                                    <ul id="softwareListResume">
+                                    </ul>
                                 </div>
                             </div>
 
-                            <div class="left-info-section">
-                                <h2>КУРСЫ И ТРЕНИНГИ</h2>
+                            <div class="left-info-section" id="personalQualitiesListResumeContainer">
+                                <h2>Личные качества</h2>
                                 <div class="text">
-                                    <p id="сourseNameResume"> Массажное дело</p>
-                                    <p id="additionalEducationResume"> Институт Профессионального Массажа</p>
-                                    <p>2014 - 2015</p>
-                                </div>
-                            </div>
-
-                            <div class="left-info-section">
-                                <h2>ЛИЧНЫЕ КАЧЕСТВА</h2>
-                                <div class="text">
-                                    <ul id="personalQualitiesResume">
-                                        <li>Пунктуален,</li>
-                                        <li>Общителен,</li>
-                                        <li>Стрессоустойчив,</li>
-                                        <li>Доброжелателен,</li>
-                                        <li>Лоялен,</li>
+                                    <ul id="PersonalQualitiesListResume">
                                     </ul>
                                 </div>
                             </div>
@@ -407,8 +338,6 @@
                             </section>
 
                             <div class="contact">
-
-
                                 <section class="contact-info">
                                     <img src="./images/phone.svg" width="14px" alt="">
                                     <p><span id="mobileResume"> </span></p>
@@ -423,7 +352,6 @@
                                     <img src="./images/website.svg" width="14px" alt="">
                                     <p><span id="websiteResume"> </span> </p>
                                 </section>
-
                             </div>
 
                             <h2>Обо мне</h2>
@@ -449,38 +377,28 @@
 
                                 <div class="сitizenship">
                                     <h4>Гражданство</h4>
-                                    <p id="сitizenshipResume">РФ</p>
+                                    <p id="сitizenshipResume">Гражданство</p>
                                 </div>
 
                                 <div class="family">
-                                    <h4>Семейное положение</h4>
+                                    <h4>Сем. положение</h4>
                                     <p id="familyStatusResume">Женат</p>
                                 </div>
 
-                                <div class="army">
-                                    <h4>Служба в армии</h4>
-                                    <p id="armyResume">Служил</p>
-                                </div>
-
                             </section>
 
-                            <h2>Опыт работы</h2>
-                            <hr>
-                            <section id="experienceListResume">
 
+                            <section id="experienceListResumeContainer">
+                                <h2>Опыт работы</h2>
+                                <hr>
+                                <section id="experienceListResume"></section>
                             </section>
 
-                            <h2>Образование</h2>
-
-                            <hr>
-
-                            <h4 id="facultyResume">Экономический Факультет МГУ</h4>
-                            <h3 id="educationResume">Высшее</h3>
-                            <h3 id="specializationResume">Экономист</h3>
-
-                            <h3>Форма обучения: <span id="formOfTrainingResume"></span></h3>
-
-                            <h3>2014 - 2015</h3>
+                            <section id="educationListResumeContainer">
+                                <h2>Образование</h2>
+                                <hr>
+                                <section id="experienceListResume"></section>
+                            </section>
                         </div>
 
                     </section>

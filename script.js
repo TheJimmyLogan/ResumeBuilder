@@ -1,3 +1,5 @@
+import strict from "./libs/resumeLayouts/strict.js";
+
 // Resize hack for mobile Safari for 100vh
 const resizeVh = () => {
     let vh = window.innerHeight * 0.01;
@@ -19,10 +21,6 @@ const getFullName = (info) => {
     if (info.fatherName) return `${info.fatherName}`
 }
 
-const refreshResumeDuties = () => {
-    document.querySelector('.exp-class > ul').innerHTML = '';
-    Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
-}
 
 // Get scroll position for Form
 document.getElementById('formData').addEventListener('scroll', (e) => {
@@ -67,11 +65,64 @@ const createField = ({
     return div;
 }
 
+// Create Accordion
+const createAccordion = ({ onExpand, onDelete, title = '', isClosed }) => {
+
+    const accordionSection = document.createElement('section');
+    accordionSection.classList.add('accordion');
+
+    const accordionTitleH1 = document.createElement('h1');
+    accordionTitleH1.classList.add('accordion-title');
+
+    const accordionTitleSpan = document.createElement('span');
+    accordionTitleSpan.innerText = title;
+
+    const accordionArrowButton = document.createElement('button');
+    accordionArrowButton.classList.add('accordion-arrow');
+    const accordionArrowButtonImg = document.createElement('img');
+    accordionArrowButtonImg.src = './images/icons/iconArrowRight.svg';
+    accordionArrowButtonImg.addEventListener('click', () => {
+        onExpand();
+        accordionArrowButtonImg.classList.toggle('closed');
+        accordionBodySection.classList.toggle('closed');
+    })
+
+    const accordionDeleteButton = document.createElement('button');
+    accordionDeleteButton.classList.add('accordion-arrow');
+
+    const deleteButtonImg = document.createElement('img');
+    deleteButtonImg.src = './images/icons/iconDelete.svg';
+
+    accordionDeleteButton.append(deleteButtonImg);
+    deleteButtonImg.addEventListener('click', () => {
+        onDelete()
+        accordionSection.remove();
+    })
+
+    accordionArrowButton.append(accordionArrowButtonImg);
+    accordionTitleH1.append(accordionDeleteButton, accordionTitleSpan, accordionArrowButton);
+    accordionSection.append(accordionTitleH1);
+
+    const accordionBodySection = document.createElement('section');
+    accordionBodySection.classList.add('accordion-body');
+    if (isClosed) {
+        accordionBodySection.classList.add('closed')
+        accordionArrowButtonImg.classList.add('closed')
+    }
+    accordionSection.append(accordionBodySection);
+    return {
+        container: accordionSection,
+        body: accordionBodySection,
+        title: accordionTitleSpan,
+    }
+}
+
 // Create duties input
-const addNewDutyInput = ({
+const addInputWithDeleteBtn = ({
     defaultValue,
     onInput,
     onDelete,
+    onKeyPress = () => {},
     placeholder = ''
 }) => {
 
@@ -80,6 +131,7 @@ const addNewDutyInput = ({
     newInput.placeholder = placeholder;
     newInput.value = defaultValue;
     newInput.addEventListener('input', (e) => { onInput(e.target) })
+    newInput.addEventListener('keypress', (e) => { onKeyPress(e) })
 
     const newBtn = document.createElement('button');
     newBtn.classList.add('primaryBtn');
@@ -87,49 +139,48 @@ const addNewDutyInput = ({
     newBtn.addEventListener('click', () => {
         newDiv.remove();
         onDelete();
-        // delete formData?.workExperience?.duties[newId];
-        // refreshResumeDuties();
     })
 
     const newDiv = document.createElement('div');
     newDiv.classList.add('field-with-button');
 
     newDiv.append(newInput, newBtn);
-    // formData.workExperience.duties[newId] = value;
     return newDiv;
-
 }
 
-const createWorkExperience = (data) => {
+const addWorkExperience = (data) => {
+    const {
+        id,
+        isClosed,
+        position,
+        company,
+        from,
+        to,
+        isCurrent,
+        isFullTime,
+        duties,
+    } = data
 
-    const newId = guidGenerator()
-    data.id = newId;
-
-    // Adding Job Expirience Data to Resume
+    // Adding Job Experience Data to Resume
     const positionIsFullTimeH4Resume = document.createElement('h4');
     const positionSpanResume = document.createElement('span');
-    positionSpanResume.innerText = data.position || 'Должность';
+    positionSpanResume.innerText = position || 'Должность';
     const isFullTimeSpanResume = document.createElement('span');
-    isFullTimeSpanResume.innerText = data.isFullTime ? ' - Полная занятость' : '';
+    isFullTimeSpanResume.innerText = isFullTime ? ' - Полная занятость' : '';
     positionIsFullTimeH4Resume.append(positionSpanResume, isFullTimeSpanResume)
 
     const companyH4Resume = document.createElement('h4');
-    companyH4Resume.innerText = data.company || 'Организация';
+    companyH4Resume.innerText = company || 'Организация';
 
     const fromToH3Resume = document.createElement('h3');
     const fromSpanResume = document.createElement('span');
-    fromSpanResume.innerText = data.from || 'Дата начала'
+    fromSpanResume.innerText = from || 'Дата начала'
     const ToSpanResume = document.createElement('span');
-    ToSpanResume.innerText = data.isCurrent ? 'по настоящее время' : data.to || 'Дата конца'
+    ToSpanResume.innerText = isCurrent ? 'по настоящее время' : to || 'Дата конца'
     fromToH3Resume.append(fromSpanResume, ' - ', ToSpanResume);
 
     const experienceListUlResume = document.createElement('ul');
     experienceListUlResume.classList.add('exp-class');
-    data.duties.length > 0 && data.duties.forEach(duty => {
-        const dutyLi = document.createElement('li');
-        dutyLi.innerText = duty.text;
-        experienceListUlResume.append(dutyLi);
-    })
 
     const experienceSectionResume = document.createElement('section');
     experienceSectionResume.style.borderBottom = "solid 1px lightgray"
@@ -143,84 +194,32 @@ const createWorkExperience = (data) => {
 
     document.getElementById('experienceListResume').append(experienceSectionResume)
 
-
-
-
-    // document.getElementById('experienceListResume').innerHTML += `
-    //     <h4>
-    //         <span>${data.position}</span>
-    //         <span>${data.isFullTime ? ` - По настоящее время` : ``}</span>
-    //     </h4>
-    //     <h4>${data.company}</h4>
-
-    //     <h3>Период работы / <span>${data.from}</span> - <span>${ data.isCurrent ? 'по настоящее время' : data.to}</span></h3>
-
-    //     <div class="exp-class">
-    //         <ul>
-    //         ${ data.duties.map(duty => `<li>${duty.text}</li>`).join('') }
-    //         </ul>
-    //     </div>
-    // `
-
+    // Add Accordion
+    const accordion = createAccordion({
+        isClosed,
+        title: position || 'Должность',
+        onExpand: () => { formData.workExperienceList.forEach( item => { if(item.id === id) item.isClosed = !item.isClosed } ) },
+        onDelete: () => {
+            experienceSectionResume.remove();
+            formData.workExperienceList = formData.workExperienceList.filter( item => item.id !== id)
+            if (formData.workExperienceList.length <= 0) {
+                document.getElementById('experienceSection').querySelector('.no-data').style.display = 'block';
+                document.getElementById('experienceListResumeContainer').style.display = 'none';
+            }
+        }
+    })
 
     // Adding Job Expirience Data to Form
-
-    const accordionSection = document.createElement('section');
-    accordionSection.classList.add('accordion');
-
-    const accordionTitleH1 = document.createElement('h1');
-    accordionTitleH1.classList.add('accordion-title');
-
-    const accordionTitleSpan = document.createElement('span');
-    accordionTitleSpan.innerText = data?.position || 'Должность';
-
-    const accordionArrowButton = document.createElement('button');
-    accordionArrowButton.classList.add('accordion-arrow');
-    const accordionArrowButtonImg = document.createElement('img');
-    accordionArrowButtonImg.src = './images/icons/iconArrowRight.svg';
-    accordionArrowButtonImg.addEventListener('click', () => {
-        data.isClosed = !data.isClosed;
-        accordionArrowButtonImg.classList.toggle('closed');
-        accordionBodySection.classList.toggle('closed');
-    })
-
-    const accordionDeleteButton = document.createElement('button');
-    accordionDeleteButton.classList.add('accordion-arrow');
-
-    const deleteButtonImg = document.createElement('img');
-    deleteButtonImg.src = './images/icons/iconDelete.svg';
-
-    accordionDeleteButton.append(deleteButtonImg);
-    deleteButtonImg.addEventListener('click', () => {
-        experienceSectionResume.remove();
-        accordionSection.remove();
-        const pos = formData.workExperience.map((e) => { return e.id; }).indexOf(newId);
-        formData.workExperience.splice(pos, 1);
-    })
-
-    accordionArrowButton.append(accordionArrowButtonImg);
-    accordionTitleH1.append(accordionTitleSpan, accordionDeleteButton, accordionArrowButton);
-    accordionSection.append(accordionTitleH1);
-
-    const accordionBodySection = document.createElement('section');
-    accordionBodySection.classList.add('accordion-body');
-    if (data.isClosed) {
-        accordionBodySection.classList.add('closed')
-        accordionArrowButtonImg.classList.add('closed')
-    }
-
-    accordionSection.append(accordionBodySection);
-
     const postDiv = createField({
         labelText: 'Должность',
         placeholder: 'Должность',
         inputType: 'text',
         divClass: 'field',
-        defaultValue: data?.position,
+        defaultValue: position,
         onInput: ({ value }) => {
-            accordionTitleSpan.innerText = value || 'Должность';
-            positionIsFullTimeH4Resume.innerText = value || 'Должность';
-            data.position = value;
+            accordion.title.innerText = value || 'Должность';
+            positionSpanResume.innerText = value || 'Должность';
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.position = value } )
         }
     });
     const companyDiv = createField({
@@ -228,27 +227,26 @@ const createWorkExperience = (data) => {
         placeholder: 'Организация',
         inputType: 'text',
         divClass: 'field',
-        defaultValue: data?.company,
+        defaultValue: company,
         onInput: ({ value }) => {
             companyH4Resume.innerText = value || 'Должность';
-            data.company = value;
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.company = value } )
         }
     });
 
-    accordionBodySection.append(postDiv, companyDiv);
+    accordion.body.append(postDiv, companyDiv);
 
     const fromToSection = document.createElement('section');
     fromToSection.classList.add('double-field');
-
     const fromDiv = createField({
         labelText: 'Дата Начала',
         placeholder: '',
         inputType: 'date',
         divClass: 'field',
-        defaultValue: data?.from,
+        defaultValue: from,
         onChange: ({ value }) => {
             fromSpanResume.innerText = value || 'Дата начала';
-            data.from = value;
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.from = value } )
         }
     });
     const toDiv = createField({
@@ -260,17 +258,14 @@ const createWorkExperience = (data) => {
         isDisabled: data?.isCurrent,
         onChange: ({ value }) => {
             ToSpanResume.innerText = value || 'Дата конца';
-            data.to = value;
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.to = value } )
         }
     });
-
     fromToSection.append(fromDiv, toDiv);
-
-    accordionBodySection.append(fromToSection);
+    accordion.body.append(fromToSection);
 
     const isCurrentIsFullTimeSection = document.createElement('section');
     isCurrentIsFullTimeSection.classList.add('double-field');
-
     const isCurrentDiv = createField({
         labelText: 'По настоящее время',
         placeholder: '',
@@ -280,24 +275,22 @@ const createWorkExperience = (data) => {
         onChange: ({ checked }) => {
             ToSpanResume.innerText = checked ? 'по настоящее время' : toDiv.querySelector('input').value;
             toDiv.querySelector('input').disabled = checked;
-            data.isCurrent = checked;
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.isCurrent = checked } )
         }
     });
-    const isFullTime = createField({
+    const isFullTimeDiv = createField({
         labelText: 'Полная занятость',
         placeholder: '',
         inputType: 'checkbox',
         divClass: 'checkbox',
         defaultChecked: data?.isFullTime,
         onChange: ({ checked }) => {
+            formData.workExperienceList.forEach( item => { if(item.id === id) item.isFullTime = checked } )
             isFullTimeSpanResume.innerText = checked ? ' - Полная занятость' : '';
-            data.isFullTime = checked;
         }
     });
-
-    isCurrentIsFullTimeSection.append(isCurrentDiv, isFullTime)
-
-    accordionBodySection.append(isCurrentIsFullTimeSection);
+    isCurrentIsFullTimeSection.append(isCurrentDiv, isFullTimeDiv)
+    accordion.body.append(isCurrentIsFullTimeSection);
 
     const jobGoalsDiv = document.createElement('div');
     jobGoalsDiv.classList.add('field');
@@ -310,13 +303,8 @@ const createWorkExperience = (data) => {
     const fieldWithButton = document.createElement('div');
     fieldWithButton.classList.add('field-with-button');
 
-    const addJobGoalBtn = document.createElement('button');
-    addJobGoalBtn.disabled = true;
-    addJobGoalBtn.classList.add('primaryBtn');
-    addJobGoalBtn.innerText = "+";
-
-    addJobGoalBtn.addEventListener('click', (e) => {
-        const newDuty = { text: addJobGoalInput.value }
+    const addJobResponsibility = () => {
+        const newDuty = { text: addJobGoalInput.value, id: guidGenerator() }
 
         // Add new duty to resume
         const dutyLi = document.createElement('li');
@@ -324,27 +312,35 @@ const createWorkExperience = (data) => {
         experienceListUlResume.append(dutyLi);
 
         // Add new duty to form
-        const newDutyFieldDiv = addNewDutyInput({
+        const newDutyFieldDiv = addInputWithDeleteBtn({
             defaultValue: addJobGoalInput.value,
             onInput: ({ value }) => {
-                newDuty.text = value;
+                formData.workExperienceList.forEach( item => { if(item.id === id) {
+                    item.duties.forEach(duty => { if(duty.id === newDuty.id) duty.text = value } )
+                } } )
                 dutyLi.innerText = value;
             },
             onDelete: () => {
                 dutyLi.remove();
-                newDuty.text = '';
+                formData.workExperienceList.forEach( item => { if(item.id === id) {
+                    item.duties = item.duties.filter(duty => duty.id !== newDuty.id )
+                } } )
             }
 
         });
 
-
-        jobGoalsDiv.append(newDutyFieldDiv);
+        accordion.body.append(newDutyFieldDiv);
         addJobGoalInput.value = '';
         addJobGoalBtn.disabled = true;
         data.duties.push(newDuty);
-        // document.querySelector('.exp-class > ul').innerHTML = '';
-        // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
-    })
+        addJobGoalInput.focus();
+    }
+
+    const addJobGoalBtn = document.createElement('button');
+    addJobGoalBtn.disabled = true;
+    addJobGoalBtn.classList.add('primaryBtn');
+    addJobGoalBtn.innerText = "+";
+    addJobGoalBtn.addEventListener('click', addJobResponsibility)
 
     const addJobGoalInput = document.createElement('input');
     addJobGoalInput.type = 'text';
@@ -354,37 +350,590 @@ const createWorkExperience = (data) => {
         if (!value) { addJobGoalBtn.disabled = true; return }
         addJobGoalBtn.disabled = false;
     })
+    addJobGoalInput.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') addJobResponsibility()
+    })
+
 
     fieldWithButton.append(addJobGoalInput, addJobGoalBtn);
     goalListDiv.append(fieldWithButton);
     jobGoalsDiv.append(jobGoalLabel, goalListDiv);
 
     // Adding saved duties to form
-    data.duties.length > 0 && data.duties.forEach((duty, index) => {
-        const newDutyFieldDiv = addNewDutyInput({
-            defaultValue: duty.text,
+    data.duties.length > 0 && data.duties.forEach((existingDuty, index) => {
+
+        // Add duties to resume 
+        const dutyLi = document.createElement('li');
+        dutyLi.innerText = existingDuty.text;
+        experienceListUlResume.append(dutyLi);
+
+        const newDutyFieldDiv = addInputWithDeleteBtn({
+            defaultValue: existingDuty.text,
             onInput: ({ value }) => {
-                duty.text = text;
+                formData.workExperienceList.forEach( item => { if(item.id === id) {
+                    item.duties.forEach(duty => { if(duty.id === existingDuty.id) duty.text = value } )
+                } } )
                 experienceListUlResume.querySelectorAll('li')[index].innerText = value;
             },
             onDelete: () => {
-                experienceListUlResume.querySelectorAll('li')[index].remove();
-                duty.text = '';
+                dutyLi.remove();
+                formData.workExperienceList.forEach( item => { if(item.id === id) {
+                    item.duties = item.duties.filter(duty => duty.id !== existingDuty.id )
+                } } )
             }
         });
         jobGoalsDiv.append(newDutyFieldDiv);
     })
 
-    accordionBodySection.append(jobGoalsDiv);
-    document.getElementById('expirienceList').append(accordionSection);
+    accordion.body.append(jobGoalsDiv);
+
+    if (formData.workExperienceList.length > 0) {
+        document.getElementById('experienceSection').querySelector('.no-data').style.display = 'none';
+        document.getElementById('experienceListResumeContainer').style.display = 'block';
+    }
+
+    document.getElementById('expirienceList').append(accordion.container);
+}
+const addCustomSection = (data) => {
+    const {
+        id,
+        isClosed,
+        title,
+        items,
+    } = data
+
+    // Adding Job Experience Data to Resume
+    const additionalSectionResumeDiv =  document.createElement('div');
+    additionalSectionResumeDiv.className = 'left-info-section';
+    const additionalSectionResumeTitleH2 =  document.createElement('h2');
+    additionalSectionResumeTitleH2.innerText = title || 'Название';
+    const additionalSectionItemListDiv =  document.createElement('div');
+    additionalSectionItemListDiv.className = 'text';
+    const additionalSectionItemListUl =  document.createElement('ul');
+
+    additionalSectionItemListDiv.append(additionalSectionItemListUl);
+    additionalSectionResumeDiv.append(additionalSectionResumeTitleH2, additionalSectionItemListDiv)
+
+    document.getElementById('leftInfoContainer').append(additionalSectionResumeDiv)
+
+    // Add Accordion
+    const accordion = createAccordion({
+        isClosed,
+        title: title || 'Название',
+        onExpand: () => { formData.customList.forEach( item => { if(item.id === id) item.isClosed = !item.isClosed } ) },
+        onDelete: () => {
+            additionalSectionResumeDiv.remove();
+            formData.customList = formData.customList.filter( item => item.id !== id)
+            if (formData.customList.length <= 0) {
+                document.getElementById('customSection').querySelector('.no-data').style.display = 'block';
+            }
+        }
+    })
+
+    const addItem = () => {
+        const newItem = { title: addItemInput.value, id: guidGenerator() }
+
+        const li = document.createElement('li');
+        li.innerText = addItemInput.value;
+        additionalSectionItemListUl.append(li);
+
+        // Add new duty to form
+        const newItemFieldDiv = addInputWithDeleteBtn({
+            defaultValue: addItemInput.value,
+            onInput: ({ value }) => {
+                formData.customList.forEach( custom => { if(custom.id === id) {
+                    custom.items.forEach(item => { if(item.id === newItem.id) item.title = value } )
+                } } )
+                li.innerText = value;
+            },
+            onDelete: () => {
+                li.remove();
+                formData.customList.forEach( custom => { if(custom.id === id) {
+                    custom.items = custom.items.filter(item => item.id !== newItem.id )
+                } } )
+            }
+
+        });
+
+        accordion.body.append(newItemFieldDiv);
+        addItemInput.value = '';
+        addItemBtn.disabled = true;
+        data.items.push(newItem);
+        addItemInput.focus();
+    }
+
+
+
+
+    const socialURLDiv = createField({
+        labelText: 'Название',
+        placeholder: '',
+        inputType: 'text',
+        divClass: 'text',
+        defaultValue: title,
+        onInput: ({ value }) => {
+            additionalSectionResumeTitleH2.innerText = value || 'Название';
+            accordion.title.innerText = value || 'Название';
+            formData.customList.forEach( item => { if(item.id === id) item.title = value } )
+        }
+    });
+
+    
+    const addItemDiv = document.createElement('div');
+    addItemDiv.className = 'field';
+    const addItemBtnDiv = document.createElement('div');
+    addItemBtnDiv.className = 'field-with-button';
+    const addItemBtn = document.createElement('button');
+    addItemBtn.disabled = true;
+    addItemBtn.className ='primaryBtn';
+    addItemBtn.innerText = "+";
+    addItemBtn.addEventListener('click', addItem)
+    const addItemInput = document.createElement('input');
+    addItemInput.type = 'text';
+    addItemInput.placeholder = 'описание';
+    addItemInput.addEventListener('input', () => {
+        const value = addItemInput.value;
+        if (!value) { addItemBtn.disabled = true; return }
+        addItemBtn.disabled = false;
+    })
+    addItemInput.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') addItem()
+    })
+
+
+    addItemBtnDiv.append(addItemInput, addItemBtn);
+    addItemDiv.append(socialURLDiv, addItemBtnDiv);
+
+    accordion.body.append(addItemDiv);
+
+    // Add existing fields after reload
+    items.length > 0 && items.forEach((field, index)=> {
+        const li = document.createElement('li');
+        li.innerText = field.title;
+        additionalSectionItemListUl.append(li);
+
+        // Add new duty to form
+        const newItemFieldDiv = addInputWithDeleteBtn({
+            defaultValue: field.title,
+            onKeyPress : ({key}) => { if (key === 'Enter') addItemBtn.click(); },
+            onInput: ({ value }) => {
+                formData.customList.forEach( custom => { if(custom.id === id) {
+                    custom.items.forEach(item => { if(item.id === field.id) item.title = value } )
+                } } )
+                li.innerText = value;
+            },
+            onDelete: () => {
+                li.remove();
+                formData.customList.forEach( custom => { if(custom.id === id) {
+                    custom.items = custom.items.filter(item => item.id !== field.id )
+                } } )
+            }
+
+        });
+
+        accordion.body.append(newItemFieldDiv);
+    } )
+
+    if (formData.customList.length > 0) {
+        document.getElementById('customSection').querySelector('.no-data').style.display = 'none';
+    }
+
+    document.getElementById('customSection').append(accordion.container);
 }
 
-// Create duties LI in resume
-const addNewDutyToResume = (duty) => {
-    const value = Object.values(duty)[1]
-    const newLi = document.createElement('li');
-    newLi.innerText = value;
-    document.querySelector('.exp-class > ul').append(newLi);
+const addSocialNetwork = (newSocialNetwork) => {
+
+    const {
+        id, 
+        name, 
+        url, 
+        isClosed 
+    } = newSocialNetwork || {};
+
+    // Adding RESUME related course details
+
+    const socialNetworkResumeDiv = document.createElement('div');
+    socialNetworkResumeDiv.className = 'social';
+    const socialNetworkResumeImg = document.createElement('img');
+    socialNetworkResumeImg.src = `./images/icons/social/${name || 'facebook'}.svg`;
+    const socialNameSpan = document.createElement('span');
+    socialNameSpan.innerText = name || 'facebook';
+    const socialBr = document.createElement('br');
+    const socialUrlSpan = document.createElement('span');
+    socialUrlSpan.innerText = url || 'ссылка';
+    const socialNetworkResumeP = document.createElement('p');
+    socialNetworkResumeP.append(socialNameSpan, socialBr, socialUrlSpan);
+
+    socialNetworkResumeDiv.append(socialNetworkResumeImg, socialNetworkResumeP)
+    document.getElementById('socialListResumeContainer').querySelector('section').append(socialNetworkResumeDiv);
+
+    // Add Accordion
+
+    const accordion = createAccordion({
+        isClosed,
+        title: name || 'facebook',
+        onExpand: () => { formData.socialList.forEach( item => { if(item.id === id) item.isClosed = !item.isClosed } ) },
+        onDelete: () => {
+            socialNetworkResumeDiv.remove();
+            formData.socialList = formData.socialList.filter( item => item.id !== id)
+            if (formData.socialList.length <= 0) {
+                document.getElementById('socialSection').querySelector('.no-data').style.display = 'block';
+                document.getElementById('socialListResumeContainer').style.display = 'none';
+            }
+        }
+    })
+
+    // Adding FORM related course details
+
+    const socialNameAndURLSection = document.createElement('section');
+    socialNameAndURLSection.classList.add('double-field');
+
+    const socialURLDiv = createField({
+        labelText: 'Ссылка',
+        placeholder: '',
+        inputType: 'text',
+        divClass: 'text',
+        defaultValue: url,
+        onInput: ({ value }) => {
+            socialUrlSpan.innerText = value || 'ссылка';
+            formData.socialList.forEach( item => { if(item.id === id) item.url = value } )
+        }
+    });
+
+    const socialNameSelect = document.createElement('select');
+    const options = [
+        { value: 'facebook', title: 'Facebook'},
+        { value: 'instagram', title: 'Instagram'},
+        { value: 'skype', title: 'Skype'},
+        { value: 'vk', title: 'VK'}
+    ]
+    options.forEach((option, index) => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.innerText = option.title;
+        socialNameSelect.append(optionElement);
+        if ( option.value === name ) socialNameSelect.selectedIndex = index;
+    })
+
+    socialNameSelect.addEventListener('change', (e) => {
+        const value = e?.target?.value || '';
+        socialNameSpan.innerText = value;
+        accordion.title.innerText = value;
+        socialNetworkResumeImg.src = `./images/icons/social/${value || 'facebook'}.svg`;
+        formData.socialList.forEach( item => { if(item.id === id) item.name = value } )
+
+    })
+
+    socialNameAndURLSection.append(socialNameSelect, socialURLDiv);
+    accordion.body.append(socialNameAndURLSection);
+   
+
+    if (formData.socialList.length > 0) {
+        document.getElementById('socialSection').querySelector('.no-data').style.display = 'none';
+        document.getElementById('socialListResumeContainer').style.display = 'block';
+    }
+    document.getElementById('socialList').append(accordion.container);
+}
+
+const addNewCourseTaken = (course) => {
+    const { 
+        id, 
+        isClosed 
+    } = course || {};
+
+    const title = course.title || 'Название курса';
+    const schoolName = course.schoolName || 'Учебное заведение';
+    const dateFinished = course.dateFinished || 'Год окончания';
+
+    // Adding RESUME related course details
+
+    const courseItemDiv = document.createElement('div');
+    courseItemDiv.className = 'text';
+
+    const titleResumeDiv = document.createElement('p');
+    titleResumeDiv.innerText = title;
+    const schoolResumeDiv = document.createElement('p');
+    schoolResumeDiv.innerText = schoolName;
+    const dateFinishedResumeDiv = document.createElement('p');
+    dateFinishedResumeDiv.innerText = dateFinished;
+
+
+    courseItemDiv.append(titleResumeDiv, schoolResumeDiv, dateFinishedResumeDiv);
+    document.getElementById('courseListResumeContainer').querySelector('section').append(courseItemDiv);
+
+    // Add accordion
+
+    const accordion = createAccordion({
+        isClosed,
+        title: title,
+        onExpand: () => { formData.courseList.forEach( item => { if(item.id === id) item.isClosed = !item.isClosed } ) },
+        onDelete: () => {
+            courseItemDiv.remove();
+            formData.courseList = formData.courseList.filter( item => item.id !== id)
+            if (formData.courseList.length <= 0) {
+                document.getElementById('courseTraingSection').querySelector('.no-data').style.display = 'block';
+                document.getElementById('courseListResumeContainer').style.display = 'none';
+            }
+        }
+    })
+
+    
+    // Adding FORM related course details
+
+    const courseTitleDiv = createField({
+        labelText: 'Название курса',
+        placeholder: 'Название курса',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: course.title,
+        onInput: ({ value }) => {
+            accordion.title.innerText = value || 'Название курса';
+            titleResumeDiv.innerText = value || 'Название курса';
+            formData.courseList.forEach( course => { if(course.id === id) course.title = value } )
+        }
+    });
+
+    const schoolNameDiv = createField({
+        labelText: 'Учебное заведение',
+        placeholder: 'Учебное заведение',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: course.schoolName,
+        onInput: ({ value }) => {
+            schoolResumeDiv.innerText = value || 'Учебное заведение';
+            formData.courseList.forEach( course => { if(course.id === id) course.schoolName = value } )
+        }
+    });
+
+    const dateFinishedDiv = createField({
+        labelText: 'Год окончания',
+        placeholder: 'Год окончания',
+        inputType: 'date',
+        divClass: 'field',
+        defaultValue: course.dateFinished,
+        onChange: ({ value }) => {
+            dateFinishedResumeDiv.innerText = value || 'Год окончания';
+            formData.courseList.forEach( course => { if(course.id === id) course.dateFinished = value } )
+        }
+    });
+
+    if (formData.courseList.length > 0) {
+        document.getElementById('courseListResumeContainer').style.display = 'block';
+        document.getElementById('courseTraingSection').querySelector('.no-data').style.display = 'none';
+    }
+
+    accordion.body.append(courseTitleDiv, schoolNameDiv, dateFinishedDiv);
+    document.getElementById('courseList').append(accordion.container);
+}
+
+const addNewEducation = (education) => {
+
+
+    const { 
+        id, 
+        isClosed 
+    } = education || {};
+
+    const level = education.level || 'Степень';
+    const schoolName = education.schoolName || 'Учебное заведение';
+    const major = education.major || 'Специальность';
+    const startDate = education.startDate || 'Дата начала';
+    const finishDate = education.finishDate || 'Дата окончания';
+    const type = education.type || 'Форма обучения';
+
+    // Adding RESUME related education details
+
+    const educationItemDiv = document.createElement('div');
+    const schoolNameResumeH3 = document.createElement('h4');
+    schoolNameResumeH3.innerText = schoolName;
+    const levelResumeH3 = document.createElement('h3');
+    levelResumeH3.innerText = level;
+    const majorResumeH3 = document.createElement('h3');
+    majorResumeH3.innerText = major;
+    const typeResumeH3 = document.createElement('h3');
+    typeResumeH3.innerText = type;
+    const startDateResumeSpan = document.createElement('span');
+    startDateResumeSpan.innerText = startDate;
+    const finishDateResumeSpan = document.createElement('span');
+    finishDateResumeSpan.innerText = finishDate;
+    const startEndDateResumeH3 = document.createElement('h3');
+    startEndDateResumeH3.append(startDateResumeSpan, ' - ', finishDateResumeSpan);
+
+    educationItemDiv.append(schoolNameResumeH3, levelResumeH3, majorResumeH3, typeResumeH3, startEndDateResumeH3);
+    document.getElementById('educationListResumeContainer').querySelector('section').append(educationItemDiv);
+
+    // Add accordion
+
+    const accordion = createAccordion({
+        isClosed,
+        title: schoolName,
+        onExpand: () => { formData.educationList.forEach( e => { if(e.id === id) e.isClosed = !e.isClosed } ) },
+        onDelete: () => {
+            educationItemDiv.remove();
+            formData.educationList = formData.educationList.filter( education => education.id !== id)
+            if (formData.educationList.length <= 0) { 
+                document.getElementById('educationListResumeContainer').style.display = 'none'
+                document.getElementById('eduSection').querySelector('.no-data').style.display = 'block';
+            };
+        }
+    })
+
+
+    // Adding FORM related education details
+
+    const schoolNameDiv = createField({
+        labelText: 'Учебное заведение',
+        placeholder: 'Учебное заведение',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: education.schoolName,
+        onInput: ({ value }) => {
+            accordion.title.innerText = value || schoolName;
+            schoolNameResumeH3.innerText = value || schoolName;
+            formData.educationList.forEach( item => { if(item.id === id) item.schoolName = value } )
+        }
+    });
+
+    const levelDiv = createField({
+        labelText: 'Степень',
+        placeholder: 'Степень',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: education.level,
+        onInput: ({ value }) => {
+            levelResumeH3.innerText = value || level;
+            formData.educationList.forEach( item => { if(item.id === id) item.level = value } )
+        }
+    });
+
+    const majorDiv = createField({
+        labelText: 'Специальность',
+        placeholder: 'Специальность',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: education.major,
+        onInput: ({ value }) => {
+            majorResumeH3.innerText = value || major;
+            formData.educationList.forEach( item => { if(item.id === id) item.major = value } )
+        }
+    });
+
+    const typeDiv = createField({
+        labelText: 'Форма обучения',
+        placeholder: 'Форма обучения',
+        inputType: 'text',
+        divClass: 'field',
+        defaultValue: education.type,
+        onInput: ({ value }) => {
+            typeResumeH3.innerText = value || type;
+            formData.educationList.forEach( item => { if(item.id === id) item.type = value } )
+        }
+    });
+
+    const startFinishSection = document.createElement('section');
+    startFinishSection.classList.add('double-field');
+    
+    const startDateDiv = createField({
+        labelText: 'Дата начала',
+        placeholder: 'Дата начала',
+        inputType: 'date',
+        divClass: 'field',
+        defaultValue: education.startDate,
+        onChange: ({ value }) => {
+            startDateResumeSpan.innerText = value || startDate;
+            formData.educationList.forEach( item => { if(item.id === id) item.startDate = value } )
+        }
+    });
+
+    const finishDateDiv = createField({
+        labelText: 'Дата окончания',
+        placeholder: 'Дата окончания',
+        inputType: 'date',
+        divClass: 'field',
+        defaultValue: education.finishDate,
+        onChange: ({ value }) => {
+            finishDateResumeSpan.innerText = value || finishDate;
+            formData.educationList.forEach( item => { if(item.id === id) item.finishDate = value } )
+        }
+    });
+
+    startFinishSection.append(startDateDiv, finishDateDiv)
+
+    if (formData.educationList.length > 0) {
+        document.getElementById('educationListResumeContainer').style.display = 'block';
+        document.getElementById('eduSection').querySelector('.no-data').style.display = 'none';
+    }
+
+    accordion.body.append(schoolNameDiv, levelDiv, majorDiv, typeDiv, startFinishSection);
+    document.getElementById('educationList').append(accordion.container);
+}
+
+const addNewSoftware = (software) => {
+
+    const softwareLi = document.createElement('li');
+    softwareLi.innerText = software.title;
+    document.getElementById('softwareListResume').append(softwareLi)
+
+    
+    const newSoftwareFieldDiv = addInputWithDeleteBtn({
+        defaultValue: software.title,
+        onKeyPress : ({key, value}) => {
+            if (key === 'Enter') document.getElementById('addSoftware').click();
+        },
+        onInput: ({ value }) => {
+            formData.softwareList.forEach( item => { if(item.id === software.id) { item.title = value } } )
+            softwareLi.innerText = value;
+        },
+        onDelete: () => {
+            softwareLi.remove();
+            formData.softwareList = formData.softwareList.filter( item => item.id !== software.id )
+            if (formData.softwareList.length <= 0) {
+                document.getElementById('softwareSection').querySelector('.no-data').style.display = 'block';
+                document.getElementById('softwareListResumeContainer').style.display = 'none';
+            }
+        }
+    });
+
+    if (formData.softwareList.length > 0) {
+        document.getElementById('softwareSection').querySelector('.no-data').style.display = 'none';
+        document.getElementById('softwareListResumeContainer').style.display = 'block';
+    }
+
+    document.getElementById('softwareList').append(newSoftwareFieldDiv);
+    newSoftwareFieldDiv.querySelector('input').focus();
+}
+
+const addPersonalQuality = ({data, list, addBtn, ulResume, noDataDiv, sectionResumeContainer, ulForm}) => {
+
+    const liResume = document.createElement('li');
+    liResume.innerText = data.title;
+    ulResume.append(liResume)
+
+    
+    const newInputDiv = addInputWithDeleteBtn({
+        defaultValue: data.title,
+        onKeyPress : ({key}) => { if (key === 'Enter') addBtn.click(); },
+        onInput: ({ value }) => {
+            formData[list].forEach( item => { if(item.id === data.id) { item.title = value } } )
+            liResume.innerText = value;
+        },
+        onDelete: () => {
+            liResume.remove();
+            formData[list] = formData[list].filter( item => item.id !== data.id )
+            if (formData[list].length <= 0) {
+                noDataDiv.style.display = 'block';
+                sectionResumeContainer.style.display = 'none';
+            }
+        }
+    });
+
+    if (formData[list].length > 0) {
+        noDataDiv.style.display = 'none';
+        sectionResumeContainer.style.display = 'block';
+    }
+
+    ulForm.append(newInputDiv);
+    newInputDiv.querySelector('input').focus();
 }
 
 
@@ -402,6 +951,7 @@ let initialState = {
     scrollTopPosition: 0,
     activeStepId: 'generalInfoBtn',
     generalInformation: {
+        showPhoto: true,
         firstName: '',
         lastName: '',
         fatherName: '',
@@ -424,28 +974,28 @@ let initialState = {
         сitizenship: '',
         DOB: '',
         familyStatus: '',
-        hasChildren: false,
-        army: false
+        hasChildren: false
     },
-    workExperience: [],
-    social: []
+    workExperienceList: [],
+    socialList: [],
+    courseList: [],
+    educationList: [],
+    softwareList: [],
+    personalQualitiesList: [],
+    customList: []
 };
 
 let formData = initialState;
 
-const clearDataBtn = document.createElement('button');
-clearDataBtn.innerText = 'Clear';
-clearDataBtn.addEventListener('click', () => { formData = initialState })
-document.body.prepend(clearDataBtn)
+// const clearDataBtn = document.createElement('button');
+// clearDataBtn.innerText = 'Clear';
+// clearDataBtn.addEventListener('click', () => { formData = initialState })
+// document.body.prepend(clearDataBtn)
 
 
 const loadFormData = () => {
-    localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
-
+    const localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
     if (localStorageObject !== null) formData = localStorageObject;
-    formData.workExperience.forEach(experience => {
-        experience.duties = experience.duties.filter(({ text }) => text)
-    })
 
     // Enter Form Data
     document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
@@ -457,29 +1007,29 @@ const loadFormData = () => {
     document.getElementById('email').value = formData?.generalInformation?.email || '';
     document.getElementById('mobile').value = formData?.generalInformation?.mobile || '';
     document.getElementById('website').value = formData?.generalInformation?.website || '';
-    document.getElementById('сourseName').value = formData?.generalInformation?.сourseName || '';
-    document.getElementById('personalQualities').value = formData?.generalInformation?.personalQualities || '';
     document.getElementById('children').checked = formData?.privateInformation?.hasChildren;
     document.getElementById('city').value = formData?.privateInformation?.city || '';
     document.getElementById('сitizenship').value = formData?.privateInformation?.сitizenship || '';
     document.getElementById('DOB').value = formData?.privateInformation?.DOB || '';
     document.getElementById('familyStatus').value = formData?.privateInformation?.familyStatus || '';
-    document.getElementById('education').value = formData?.generalInformation?.education || '';
-    document.getElementById('faculty').value = formData?.generalInformation?.education || '';
-    document.getElementById('specialization').value = formData?.generalInformation?.specialization || '';
-    document.getElementById('additionalEducation').value = formData?.generalInformation?.additionalEducation || '';
-    document.getElementById('formOfTraining').value = formData?.generalInformation?.formOfTraining || 'Дистанционная';
+    document.getElementById('showPhoto').checked = formData?.generalInformation?.showPhoto;
     document.getElementById(formData.activeStepId).classList.add('active-step');
-    formData.workExperience.forEach(expirience => createWorkExperience(expirience))
-    // document.getElementById('isFullTime').checked = formData?.workExperience?.isFullTime;
-    // document.getElementById('post').value = formData?.workExperience?.post || '';
-    // document.getElementById('accordionTitle').innerText = formData?.workExperience?.post || '';
-    // document.getElementById('company').value = formData?.workExperience?.company || '';
-    // document.getElementById('from').value = formData?.workExperience?.from || '';
-    // document.getElementById('to').value = formData?.workExperience?.to || '';
-    // document.getElementById('isCurrent').checked = formData?.workExperience?.isCurrent;
-    document.getElementById('army').checked = formData?.privateInformation?.army;
-    // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyForm(duty); })
+    formData.workExperienceList.forEach(element => addWorkExperience(element))
+    formData.socialList.forEach(element => addSocialNetwork(element))
+    formData.courseList.forEach(element => addNewCourseTaken(element))
+    formData.educationList.forEach(element => addNewEducation(element))
+    formData.softwareList.forEach(element => addNewSoftware(element))
+    formData.customList.forEach(element => addCustomSection(element))
+    formData.personalQualitiesList.forEach(element => addPersonalQuality({
+            data : element, 
+            list: 'personalQualitiesList', 
+            addBtn: document.getElementById('addPersonalQualities'), 
+            ulResume: document.getElementById('PersonalQualitiesListResume'),
+            noDataDiv: document.getElementById('personalQualitiesSection').querySelector('.no-data'),
+            sectionResumeContainer: document.getElementById('personalQualitiesListResumeContainer'),
+            ulForm: document.getElementById('personalQualitiesList')
+    }))
+
 
 
 
@@ -491,30 +1041,16 @@ const loadFormData = () => {
     document.getElementById('emailResume').innerText = formData?.generalInformation?.email || 'Почта';
     document.getElementById('mobileResume').innerText = formData?.generalInformation?.mobile || 'Телефон';
     document.getElementById('websiteResume').innerText = formData?.generalInformation?.website || 'Мой сайт';
-    document.getElementById('сourseNameResume').innerText = formData?.generalInformation?.сourseNameResume || 'Массажное дело';
-    document.getElementById('personalQualitiesResume').innerText = formData?.generalInformation?.personalQualitiesResume || 'Пунктуальный, Ответственный, Быстрообучаемый';
     document.getElementById('childrenResume').innerText = formData?.privateInformation?.hasChildren ? 'Да' : 'Нет';
-    document.getElementById('cityResume').innerText = formData?.privateInformation?.city || 'Москва';
-    document.getElementById('сitizenshipResume').innerText = formData?.privateInformation?.сitizenship || 'РФ';
+    document.getElementById('cityResume').innerText = formData?.privateInformation?.city || 'Город';
+    document.getElementById('сitizenshipResume').innerText = formData?.privateInformation?.сitizenship || 'Гражданство';
     document.getElementById('DOBResume').innerText = formData?.privateInformation?.DOB || 'Дата рождения';
     document.getElementById('familyStatusResume').innerText = formData?.privateInformation?.familyStatus || 'Женат';
-    document.getElementById('educationResume').innerText = formData?.generalInformation?.educationResume || 'Высшее';
-    document.getElementById('facultyResume').innerText = formData?.generalInformation?.facultyResume || 'Экономический Факультет МГУ';
-    document.getElementById('specializationResume').innerText = formData?.generalInformation?.specializationResume || 'Экономист';
-    document.getElementById('additionalEducationResume').innerText = formData?.generalInformation?.additionalEducationResume || 'Институт Профессионального Массажа';
-    document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
-    document.getElementById('formOfTrainingResume').innerText = formData?.generalInformation?.formOfTrainingResume || 'Очная';
-    // document.getElementById('isFullTimeResume').innerText = formData?.workExperience?.isFullTime ? ' - Полная занятость' : '';
-    // document.getElementById('postResume').innerText = formData?.workExperience?.post || 'Должность';
-    // document.getElementById('companyResume').innerText = formData?.workExperience?.company || 'Организация';
-    // document.getElementById('fromResume').innerText = formData?.workExperience?.from || '';
-    // document.getElementById('toResume').innerText = formData?.workExperience?.to || '';
-    // if (formData?.workExperience?.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время';
-    document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
-    document.getElementById('armyResume').innerText = formData?.privateInformation?.army ? 'Служил' : 'Не служил';
-    // Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
     if (formData?.foto !== null) document.getElementById('fotoResume').style.background = "url(" + formData?.foto + ") no-repeat";
+    document.getElementById('fotoResume').style.display = formData.generalInformation.showPhoto ? 'flex' : 'none';
     document.getElementById('fotoResume').style.backgroundSize = "cover";
+    if (formData?.foto !== null) document.getElementById('fotoFormHolder').style.background = "url(" + formData?.foto + ") no-repeat";
+    document.getElementById('fotoFormHolder').style.backgroundSize = "cover";
 
     document.getElementById('formData').scroll({
         top: formData.scrollTopPosition,
@@ -523,10 +1059,8 @@ const loadFormData = () => {
 
 }
 loadFormData();
-//
 
 // On document unload - save data to local storage
-
 window.addEventListener('unload', () => {
     localStorage.setItem('formData', JSON.stringify(formData));
 })
@@ -539,7 +1073,6 @@ window.addEventListener('resize', resizeVh);
 document.getElementById('generalInfoBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '1';
     formData.activeStepId = e.target.id;
     document.getElementById('generalInfoSection').scrollIntoView({ behavior: 'smooth' });
 })
@@ -547,7 +1080,6 @@ document.getElementById('generalInfoBtn').addEventListener('click', (e) => {
 document.getElementById('personalInfoBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '2';
     formData.activeStepId = e.target.id;
     document.getElementById('personalInfoSection').scrollIntoView({ behavior: 'smooth' });
 })
@@ -555,7 +1087,6 @@ document.getElementById('personalInfoBtn').addEventListener('click', (e) => {
 document.getElementById('experienceBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '3';
     formData.activeStepId = e.target.id;
     document.getElementById('experienceSection').scrollIntoView({ behavior: 'smooth' });
 })
@@ -563,7 +1094,6 @@ document.getElementById('experienceBtn').addEventListener('click', (e) => {
 document.getElementById('eduBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '4';
     formData.activeStepId = e.target.id;
     document.getElementById('eduSection').scrollIntoView({ behavior: 'smooth' });
 })
@@ -571,7 +1101,6 @@ document.getElementById('eduBtn').addEventListener('click', (e) => {
 document.getElementById('socialBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '5';
     formData.activeStepId = e.target.id;
     document.getElementById('socialSection').scrollIntoView({ behavior: 'smooth' });
 })
@@ -579,25 +1108,29 @@ document.getElementById('socialBtn').addEventListener('click', (e) => {
 document.getElementById('courseTraingBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '6';
     formData.activeStepId = e.target.id;
     document.getElementById('courseTraingSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-document.getElementById('languageBtn').addEventListener('click', (e) => {
+document.getElementById('softwareBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '7';
     formData.activeStepId = e.target.id;
-    document.getElementById('languageSection').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('softwareSection').scrollIntoView({ behavior: 'smooth' });
 })
 
-document.getElementById('additionalBtn').addEventListener('click', (e) => {
+document.getElementById('personalQualitiesBtn').addEventListener('click', (e) => {
     document.querySelector('.active-step').classList.remove("active-step");
     e.target.classList.add('active-step');
-    document.getElementById('stepCount').innerText = '8';
     formData.activeStepId = e.target.id;
-    document.getElementById('additionalSection').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('personalQualitiesSection').scrollIntoView({ behavior: 'smooth' });
+})
+
+document.getElementById('customBtn').addEventListener('click', (e) => {
+    document.querySelector('.active-step').classList.remove("active-step");
+    e.target.classList.add('active-step');
+    formData.activeStepId = e.target.id;
+    document.getElementById('customSection').scrollIntoView({ behavior: 'smooth' });
 })
 
 // Saving Data on input
@@ -646,19 +1179,20 @@ document.getElementById('website').addEventListener('input', (e) => {
     document.getElementById('websiteResume').innerText = e.target.value || 'Мой сайт';
 })
 
-document.getElementById('сourseName').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('сourseNameResume').innerText = e.target.value || 'Массажное дело';
-})
-
-document.getElementById('personalQualities').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('personalQualitiesResume').innerText = e.target.value || 'Личные качества';
-})
+// document.getElementById('сourseName').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('сourseNameResume').innerText = e.target.value || 'Массажное дело';
+// })
 
 document.getElementById('children').addEventListener('change', (e) => {
     formData.privateInformation.hasChildren = e.target.checked;
     document.getElementById('childrenResume').innerText = e.target.checked ? 'Да' : 'Нет';
+})
+
+document.getElementById('showPhoto').addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    formData.generalInformation.showPhoto = checked;
+    document.getElementById('fotoResume').style.display = checked ? 'flex' : 'none';
 })
 
 // document.getElementById('isFullTime').addEventListener('change', (e) => {
@@ -687,30 +1221,30 @@ document.getElementById('familyStatus').addEventListener('input', (e) => {
     document.getElementById('familyStatusResume').innerText = e.target.value || 'Женат';
 })
 
-document.getElementById('education').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('educationResume').innerText = e.target.value || 'Образование';
-})
+// document.getElementById('education').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('educationResume').innerText = e.target.value || 'Образование';
+// })
 
-document.getElementById('faculty').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('facultyResume').innerText = e.target.value || 'Учебное заведение';
-})
+// document.getElementById('faculty').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('facultyResume').innerText = e.target.value || 'Учебное заведение';
+// })
 
-document.getElementById('specialization').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('specializationResume').innerText = e.target.value || 'Специальность';
-})
+// document.getElementById('specialization').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('specializationResume').innerText = e.target.value || 'Специальность';
+// })
 
-document.getElementById('additionalEducation').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('additionalEducationResume').innerText = e.target.value || 'Учебное заведение';
-})
+// document.getElementById('additionalEducation').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('additionalEducationResume').innerText = e.target.value || 'Учебное заведение';
+// })
 
-document.getElementById('formOfTraining').addEventListener('change', (e) => {
-    formData.generalInformation.jobSchedule = e.target.value;
-    document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
-})
+// document.getElementById('formOfTraining').addEventListener('change', (e) => {
+//     formData.generalInformation.jobSchedule = e.target.value;
+//     document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
+// })
 
 // document.getElementById('post').addEventListener('input', (e) => {
 //     formData.workExperience.post = e.target.value;
@@ -742,11 +1276,6 @@ document.getElementById('formOfTraining').addEventListener('change', (e) => {
 //     else { document.getElementById('toResume').innerText = document.getElementById('to').value }
 // })
 
-document.getElementById('army').addEventListener('change', (e) => {
-    formData.privateInformation.army = e.target.checked;
-    document.getElementById('armyResume').innerText = e.target.checked ? 'Служил' : 'Не служил';
-})
-
 function getBase64Image(img) {
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
@@ -774,6 +1303,8 @@ document.getElementById("foto").addEventListener('change', (e) => {
         formData.foto = base64data;
         document.getElementById('fotoResume').style.background = "url(" + base64data + ") no-repeat";
         document.getElementById('fotoResume').style.backgroundSize = "cover";
+        document.getElementById('fotoFormHolder').style.background = "url(" + base64data + ") no-repeat";
+        document.getElementById('fotoFormHolder').style.backgroundSize = "cover";        
     }
 })
 
@@ -786,34 +1317,20 @@ document.getElementById("foto").addEventListener('change', (e) => {
 //     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
 // })
 
-
-
 document.getElementById('addSocial').addEventListener('click', (e) => {
-    const newSocial = {
-        name: '',
-        url: ''
+    let newSocial = {
+        id: guidGenerator(),
+        name: 'facebook',
+        url:  '',
+        isClosed: false
     }
-
-    const newSocialDiv = addNewDutyInput({
-        defaultValue: document.getElementById('socialURL').value,
-        placeholder: 'Ссылка',
-        onInput: ({ value }) => {
-
-        },
-        onDelete: () => {
-        }
-    });
-
-    newSocial.url = document.getElementById('socialURL').value;
-    formData.social.push(newSocial)
-
-    document.getElementById('socialList').append(newSocialDiv);
-    document.getElementById('socialURL').value = '';
-    document.getElementById('socialURL').focus();
-
+    formData.socialList.push(newSocial);
+    addSocialNetwork(newSocial)
 })
+
 document.getElementById('addPreviousJob').addEventListener('click', (e) => {
     const newWorkExpirience = {
+        id: guidGenerator(),
         isClosed: false,
         position: '',
         company: '',
@@ -823,15 +1340,105 @@ document.getElementById('addPreviousJob').addEventListener('click', (e) => {
         isFullTime: false,
         duties: []
     }
-    createWorkExperience(newWorkExpirience);
-    formData.workExperience.push(newWorkExpirience);
+    formData.workExperienceList.push(newWorkExpirience);
+    addWorkExperience(newWorkExpirience);
 })
 
+document.getElementById('addPreviousCourseTaken').addEventListener('click', (e) => {
+    const newCourse = {
+        id: guidGenerator(),
+        title: '',
+        schoolName: '',
+        finishedDate: '',
+        isClosed: false,
+    }
+    formData.courseList.push(newCourse);
+    addNewCourseTaken(newCourse);
+})
 
-// document.getElementById('accordionArrow').addEventListener('click', (e) => {
-//     document.getElementById('accordionArrow').classList.toggle('closed');
-//     document.querySelector('.accordion-body').classList.toggle('closed');
-// })
+document.getElementById('addPreviousEducation').addEventListener('click', (e) => {
+    const newEducation = {
+        id: guidGenerator(),
+        level: '',
+        schoolName: '',
+        major: '',
+        startDate: '',
+        finishDate: '',
+        type: '',
+        isClosed: false,
+    }
+    formData.educationList.push(newEducation);
+    addNewEducation(newEducation);
+})
+
+document.getElementById('addSoftware').addEventListener('click', (e) => {
+    const newSoftware = {
+        id: guidGenerator(),
+        title: '',
+    }
+    formData.softwareList.push(newSoftware);
+    addNewSoftware(newSoftware);
+})
+
+document.getElementById('addPersonalQualities').addEventListener('click', (e) => {
+    const newPersonalQualities = {
+        id: guidGenerator(),
+        title: '',
+    }
+    formData.personalQualitiesList.push(newPersonalQualities);
+    addPersonalQuality({
+        data : newPersonalQualities, 
+        list: 'personalQualitiesList', 
+        addBtn: e.target, 
+        ulResume: document.getElementById('PersonalQualitiesListResume'),
+        noDataDiv: document.getElementById('personalQualitiesSection').querySelector('.no-data'),
+        sectionResumeContainer: document.getElementById('personalQualitiesListResumeContainer'),
+        ulForm: document.getElementById('personalQualitiesList')
+    });
+})
+
+document.getElementById('addCustomBtn').addEventListener('click', (e) => {
+    const newCustomSection = {
+        id: guidGenerator(),
+        isClosed: false,
+        title: '',
+        items: []
+    }
+    formData.customList.push(newCustomSection);
+    addCustomSection(newCustomSection);
+})
+
+// Expand on/off for sections
+
+document.querySelectorAll('.expand-btn').forEach(e => {
+    e.addEventListener('click', (e)=> {
+        const button = e.target;
+        button.classList.toggle('closed');
+        const sectionBody = button.parentElement.parentElement.querySelector('.sub-section-body');
+        sectionBody.classList.toggle('closed');
+    })
+})
+
+document.getElementById('downloadResumeBtn').addEventListener('click', () => {
+    const pdfMake = window.pdfMake;
+    pdfMake.fonts = {
+        Silkscreen: {
+          normal: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          bolditalics: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          italics: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
+          bold: 'http://127.0.0.1:5501/assets/fonts/Silkscreen/Silkscreen-Bold.ttf',
+        },
+        Montserrat: {
+          normal: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          bolditalics: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          italics: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Regular.ttf',
+          bold: 'http://127.0.0.1:5501/assets/fonts/Montserrat/Montserrat-Bold.ttf',
+        },
+     }
+    const resumeDocDefinition = strict(formData, 'Montserrat');
+    pdfMake.createPdf(resumeDocDefinition).download();
+})
+
 
 // Preview resume
 

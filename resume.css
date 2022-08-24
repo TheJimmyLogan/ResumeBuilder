@@ -1,10 +1,11 @@
 /* Resume */
 
 .resume-container {
+  flex: 1;
   overflow: auto;
-  width: 100vw;
-  padding: 50px;
-  background: url(./images/photo/back8.jpg);
+  padding: 24px;
+  padding-top: 0px;
+  /* background: url(./images/photo/back8.jpg); */
   background-repeat: no-repeat;
   background-size: cover;
   /* margin-top: -50px; */
@@ -15,7 +16,7 @@
   min-height: 877px;
   border: solid 1px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
-  box-shadow: 12px 21px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2);
   background: white;
 }
 
@@ -37,7 +38,9 @@ hr {
 /* left-info */
 
 .left-info {
-  width: 155px;
+  min-width: 150px;
+  max-width: 150px;
+  overflow-x: hidden;
 }
 
 .foto {
@@ -49,16 +52,16 @@ hr {
   width: 150px;
   height: 150px;
   border-radius: 250px;
-  background: url(./images/photo/blank.svg);
+  background: url(./images/imagePlaceholder.svg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border: 1px solid #404041;
+  border: 1px solid rgb(240, 240, 240);
 }
 
 .left-info .left-info-section {
-  margin-top: 36px;
-  font-size: 10px;
+  margin-bottom: 24px;
+  font-size: 12px;
 }
 
 .social {
@@ -68,7 +71,7 @@ hr {
   border-bottom: 1px solid #bcbdc0;
 }
 
-.social:nth-child(2) {
+.social:nth-child(1) {
   border-top: 1px solid #bcbdc0;
 }
 
@@ -77,23 +80,11 @@ hr {
   font-style: italic;
 }
 
-.text ul {
-  padding: 16px 13px;
-  font-style: normal;
-  margin: 0;
-}
-
-.text li {
-  padding: 4px 13px;
-  font-style: normal;
-  margin: 0;
-}
-
 .text p {
   margin: 4px 0;
 }
 
-.resume-container .text:nth-child(2) {
+.resume-container .text:nth-child(1) {
   border-top: 1px solid #bcbdc0;
 }
 
@@ -113,12 +104,12 @@ hr {
 
 .contact {
   display: flex;
-  column-gap: 24px;
+  column-gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 8px 0;
-  border-bottom: solid 1px grey;
-  border-top: solid 1px grey;
+  padding: 8px 0;
+  border-bottom: solid 1px lightgray;
+  border-top: solid 1px lightgray;
 }
 
 .right-info .work-post h2 {
@@ -141,13 +132,13 @@ hr {
 
 .contact .contact-info {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
   /* font-size: 8px; */
 }
 
 .contact .contact-info p {
-  margin: 8px;
+  margin: 0px;
 }
 
 .contact .contact-info p span {
@@ -155,7 +146,6 @@ hr {
 }
 
 .contact img {
-  border-bottom: solid 1px #231f20;
   padding: 4px 0;
   /* padding: 2px; */
 }
@@ -185,55 +175,28 @@ hr {
 .info-about {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-.info-about .your-city h4 {
-  font-size: 8px;
+.info-about div {
+  display: flex;
+  flex-direction: column;
 }
 
-.info-about .your-city p {
+.info-about div p {
   font-size: 10px;
+  margin: 0;
 }
 
-.info-about .birthday h4 {
+.info-about div h4 {
   font-size: 8px;
+  margin: 0;
 }
 
 .info-about .birthday p {
-  font-size: 10px;
-}
-
-.info-about .kids h4 {
-  font-size: 8px;
-}
-
-.info-about .kids p {
-  font-size: 10px;
-}
-
-.info-about .сitizenship h4 {
-  font-size: 8px;
-}
-
-.info-about .сitizenship p {
-  font-size: 10px;
-}
-
-.info-about .family h4 {
-  font-size: 8px;
-}
-
-.info-about .family p {
-  font-size: 10px;
-}
-
-.info-about .army h4 {
-  font-size: 8px;
-}
-
-.info-about .army p {
   font-size: 10px;
 }
 
@@ -247,7 +210,6 @@ hr {
 .right-info h4 {
   font-size: 12px;
   margin: 20px 0 0px;
-  min-height: 20px;
 }
 
 .exp-class li {
@@ -263,3 +225,10 @@ hr {
 }
 
 /* End resume steps */
+
+#educationListResumeContainer,
+#courseListResumeContainer,
+#softwareListResumeContainer,
+#personalQualitiesListResumeContainer {
+  display: none;
+}
