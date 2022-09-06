@@ -1,45 +1,77 @@
 import { generateRoundPhoto } from "../utils/utilsCommon.js";
-import socialIconsList from "./jsToSvg/socialIcons.js";
+import icons from "./jsToSvg/icons.js";
+
+const { socialIconsList, generalIconsList } = icons || {};
 
 const EMPTY_SMALL_SPACE = () => ({ text: `\n`, style: 'emptySpaceSM' });
 const EMPTY_MEDIUM_SPACE = () => ({ text: `\n`, style: 'emptySpaceMED' });
 const EMPTY_LARGE_SPACE = () => ({ text: `\n`, style: 'emptySpaceLG' });
 
-const DIVIDER = () => ({ svg : '<svg width="180" height="1" viewBox="0 0 180 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="1" fill="#BCBDC0"/></svg>'});
+const DIVIDER = () => ({ svg : '<svg width="150" height="0.1" viewBox="0 0 150 0.1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="150" height="0.1" fill="#BCBDC0"/></svg>'});
+const DIVIDER_LARGE = () => ({ svg : '<svg width="350" height="0.1" viewBox="0 0 350 0.1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="350" height="0.1" fill="#BCBDC0"/></svg>'});
 
 // Text
 const SECTION_TITLE = (title) => ({ text: `${title}\n`, style: 'h7' });
+const SECTION_H2 = (title) => ( { text: `${title}\n`, style: 'h2' });
+const SECTION_H3 = (title) => ( { text: `${title}\n`, style: 'h3' });
 const SECTION_H4 = (title) => ( { text: `${title}\n`, style: 'h4' });
+const SECTION_H5 = (title) => ( { text: `${title}\n`, style: 'h5' });
+const SECTION_H6 = (title) => ( { text: `${title}\n`, style: 'h6' });
 const SECTION_H8 = (title) => ( { text: `${title}\n`, style: 'h8' });
 const SECTION_CURSIVE = (title) => ( { text: `${title}\n`, style: 'h9' });
 
+let leftSide = [];
+let rightSide = [];
 
-// Adding Content
+
+// Utility funcions to add content
+const addPhoto = (generalInformation, foto) => {
+    if (generalInformation.showPhoto && foto) 
+            return([ { image: generateRoundPhoto(foto).toDataURL(), width: 140, height: 140 }, EMPTY_LARGE_SPACE() ]) 
+    return [];
+}
+
+const addLeftSideSection = ({ list = [], defaultTitle = '', layoutFunction = () => {} }) => {
+    if(list.length > 0){
+        leftSide.push([ 
+            SECTION_TITLE(defaultTitle),
+            EMPTY_SMALL_SPACE(),
+            DIVIDER(),
+            EMPTY_MEDIUM_SPACE(),
+            layoutFunction(list),
+            EMPTY_MEDIUM_SPACE(),
+            DIVIDER(),
+            EMPTY_LARGE_SPACE()
+        ])
+    }
+}
+
 const addSocialNetworksToDoc = (list) => {
     const result = [];
-    list.map(element => {
+    list.map((element, index) => {
         result.push({
             columns: [
                 { width: 20, svg: socialIconsList[element?.name || 'facebook']},
-                SECTION_H4(`${element?.name || 'facebook'}\n${element?.url || 'ссылка'}`)
-            ]
-        }),
-        result.push(EMPTY_MEDIUM_SPACE())
+                SECTION_H4(`${element?.name || 'facebook'}\n${element?.url || 'ссылка'}`),
+            ],
+            columnGap: 12,
+        });
+        if (list.length !== index+1 ) result.push(EMPTY_MEDIUM_SPACE())
     })
     return result;
 }
 
 const addCoursesToDoc = (list) => {
     const result = [];
-    list.map(element => {
+    list.map((element, index) => {
         result.push([
             SECTION_H8(element?.title || 'Название курса'),
             EMPTY_SMALL_SPACE,
             SECTION_CURSIVE(element?.schoolName || 'Учебное заведение'),
             EMPTY_SMALL_SPACE,
             SECTION_CURSIVE(element?.finishedDate || 'Год окончания'),
-            EMPTY_MEDIUM_SPACE()
-        ])
+        ]);
+        if (list.length !== index+1 ) result.push(EMPTY_MEDIUM_SPACE())
     })
     return result;
 }
@@ -59,255 +91,232 @@ const addPersonalQualitiesToDoc = (list) => {
 
 const addcustomFieldsToDoc = (list) => {
     const result = [];
-    list.map(element => { 
-        const items = [];
-        element.items.forEach(item => { items.push(SECTION_CURSIVE(item?.title)) })
-        result.push([
-            SECTION_TITLE(element?.title || ''),
-            EMPTY_SMALL_SPACE(),
-            DIVIDER(),
-            EMPTY_MEDIUM_SPACE(),
-            { ul: items },
-            EMPTY_MEDIUM_SPACE(),
-            DIVIDER(),
-            EMPTY_LARGE_SPACE()
-        ])
-    })
+    if (list.length > 0) {
+        list.map(element => { 
+            const items = [];
+            element.items.forEach(item => { items.push(SECTION_CURSIVE(item?.title)) })
+            result.push([
+                SECTION_TITLE(element?.title || ''),
+                EMPTY_SMALL_SPACE(),
+                DIVIDER(),
+                EMPTY_MEDIUM_SPACE(),
+                { ul: items },
+                EMPTY_MEDIUM_SPACE(),
+                DIVIDER(),
+                EMPTY_LARGE_SPACE()
+            ])
+        })
+    }
     return result
 }
 
+const addFullName = (formData, font) => {
+    const { generalInformation: {firstName, lastName, fatherName} } = formData;
+    let nameString = [];
+    let currentWord = '';
+    let letterArray = [];
+    [firstName, lastName, fatherName].forEach((word) => {
+        if (word) letterArray.push(...word.split(''), ' ')
+    })
+    letterArray.pop();
 
-const generateDocDefinition = (formData, font) => {
-    const leftSide = [ ];
+    letterArray.forEach(letter => {
+        currentWord += letter;
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
+        context.font=`25px ${font}`;
+        if (context.measureText(currentWord).width > 330 || letter === ' ')
+            {
+                if(currentWord) nameString.push(currentWord);
+                currentWord = '';
+            }
+    });
+    if(currentWord) nameString.push(currentWord);
+    let resultName = nameString.join('');
 
-    // Adding Photo
-    if (formData.generalInformation.showPhoto && formData.foto) 
-        leftSide.push([
-            { image: generateRoundPhoto(formData.foto).toDataURL(), width: 150, height: 150 },
-            EMPTY_LARGE_SPACE()
-        ]) 
+    if (resultName.replaceAll(' ', '') === '') resultName = 'Имя Фамилия';
+    return ({ text: resultName, style: 'h1' })
+}
 
-    // Adding Social Networks
-    if ( formData.socialList.length > 0 ) {
-        leftSide.push([ 
-            SECTION_TITLE('Соцсети'),
-            EMPTY_SMALL_SPACE(),
-            DIVIDER(),
-            EMPTY_MEDIUM_SPACE(),
-            addSocialNetworksToDoc(formData.socialList),
-            DIVIDER(),
-            EMPTY_LARGE_SPACE()
-        ])
-    }
-
-    // Adding Courses
-    if ( formData.courseList.length > 0 ) {
-        leftSide.push([ 
-            SECTION_TITLE('Курсы и тренинги'),
-            EMPTY_SMALL_SPACE(),
-            DIVIDER(),
-            EMPTY_MEDIUM_SPACE(),
-            addCoursesToDoc(formData.socialList),
-            DIVIDER(),
-            EMPTY_LARGE_SPACE()
-        ])
-    }
-
-    // Adding Software List
-    if ( formData.softwareList.length > 0 ) {
-        leftSide.push([ 
-            SECTION_TITLE('Компьютерные навыки'),
-            EMPTY_SMALL_SPACE(),
-            DIVIDER(),
-            EMPTY_MEDIUM_SPACE(),
-            addSoftwareSkillsToDoc(formData.softwareList),
-            EMPTY_MEDIUM_SPACE(),
-            DIVIDER(),
-            EMPTY_LARGE_SPACE()
-        ])
-    }
-
-    // Adding Software List
-    if ( formData.personalQualitiesList.length > 0 ) {
-        leftSide.push([ 
-            SECTION_TITLE('Личные качества'),
-            EMPTY_SMALL_SPACE(),
-            DIVIDER(),
-            EMPTY_MEDIUM_SPACE(),
-            addPersonalQualitiesToDoc(formData.personalQualitiesList),
-            EMPTY_MEDIUM_SPACE(),
-            DIVIDER(),
-            EMPTY_LARGE_SPACE()
-        ])
-    }
-
-
-    // Adding Custom Fields List
-    if ( formData.customList.length > 0 ) {
-        leftSide.push([ addcustomFieldsToDoc(formData.customList) ])
-    }
-    
-
-
-
-    const rightSide = [ 
-        { text: `${formData.generalInformation.firstName || 'Имя'} ${formData.generalInformation.lastName || 'Фамилия'}\n`, style: 'h1' },
-        { text: `${formData.generalInformation.jobTitle || 'Должность'}\n`, style: 'h2' },
-        {
-            columns : [
-                { width: 'auto', text: `Занятость: ${formData.generalInformation.jobType}\t`, style: 'h3' },
-                { text: `График работы: ${formData.generalInformation.jobSchedule}\n`, style: 'h3' },
-            ],
-            columnGap: 8,
-        },
-        { text: `\n`, style: 'emptySpaceSM' },
-        { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
-        { text: `\n`, style: 'emptySpaceMED' },
-        { columns: [
+const addPhoneEmailWebsite = (generalInformation) => {
+    const addIconWithText = (icon, text) => ([
+        { width: 14, svg: icon },
+        { width: 'auto', text: text, style: 'h4' },
+        { width: 4, text: ``,},
+    ])
+    return { 
+        columns: [
             { width: '*', text: ``},
-            {
-                width: 14,
-                svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M511.2 387l-23.25 100.8c-3.266 14.25-15.79 24.22-30.46 24.22C205.2 512 0 306.8 0 54.5c0-14.66 9.969-27.2 24.22-30.45l100.8-23.25C139.7-2.602 154.7 5.018 160.8 18.92l46.52 108.5c5.438 12.78 1.77 27.67-8.98 36.45L144.5 207.1c33.98 69.22 90.26 125.5 159.5 159.5l44.08-53.8c8.688-10.78 23.69-14.51 36.47-8.975l108.5 46.51C506.1 357.2 514.6 372.4 511.2 387z"/></svg>',
-            },
-            { width: 'auto', text: `${formData.generalInformation.mobile || 'Телефон'}\t`, style: 'h4' },
-            { width: 4, text: ``,},
-            {
-                width: 14,
-                svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>',
-            },
-            { width: 'auto', text: `${formData.generalInformation.email || 'Почта'}`, style: 'h4' },
-            { width: 4, text: ``,},
-            {
-                width: 14,
-                svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M573.1 75.25l-144 384c-4.703 12.53-16.67 20.77-29.95 20.77c-.4062 0-.8125 0-1.219-.0156c-13.77-.5156-25.66-9.797-29.52-23.03L288 178.3l-81.28 278.7c-3.859 13.23-15.75 22.52-29.52 23.03c-13.75 .4687-26.33-7.844-31.17-20.75l-144-384c-6.203-16.55 2.188-34.98 18.73-41.2C37.31 27.92 55.75 36.23 61.97 52.78l110.2 293.1l85.08-291.7C261.3 41.41 273.8 32.01 288 32.01s26.73 9.396 30.72 23.05l85.08 291.7l110.2-293.1c6.219-16.55 24.67-24.86 41.2-18.73C571.8 40.26 580.2 58.7 573.1 75.25z"/></svg>',
-            },
-            { width: 'auto', text: `${formData.generalInformation.website || 'Сайт'}\t`, style: 'h4' },
+            ...addIconWithText(generalIconsList.phoneIcon, generalInformation.mobile || 'Телефон'),
+            ...addIconWithText(generalIconsList.emailIcon, generalInformation.email || 'Почта'),
+            ...addIconWithText(generalIconsList.webIcon, generalInformation.website || 'Сайт'),
             { width: '*', text: ``,},
-            
         ],
-        columnGap: 4, },
-        { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
-        { text: `\n`, style: 'emptySpaceLG' },
-        { text: `Обо мне\n`, style: 'h7' },
-        { text: `\n`, style: 'emptySpaceSM' },
-        { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
-        { text: `\n`, style: 'emptySpaceSM' },
+        columnGap: 4 
+    }
+}
+
+const addAboutSection = (privateInformation) => {
+    return ([ 
         { columns: [
-            { width: 'auto', stack: [
-                    { text : `Дата рождения`, style: 'h5' },
-                    { text : `${formData.privateInformation.DOB || 'Дата рождения' } `, style: 'h6' },
-            ]},
-            { width: 'auto', stack: [
-                    { text : `Город`, style: 'h5' },
-                    { text : `${formData.privateInformation.city || 'Город' } `, style: 'h6' },
-            ]},
-            { width: 'auto', stack: [
-                    { text : `Дети`, style: 'h5' },
-                    { text : `${formData.privateInformation.hasChildren ? 'Есть' : 'Нет' } `, style: 'h6' },
-            ]},
-            { width: 'auto', stack: [
-                    { text : `Гражданство`, style: 'h5' },
-                    { text : `${formData.privateInformation.сitizenship || 'Гражданство' } `, style: 'h6' },
-            ]},
-            { width: 'auto', stack: [
-                    { text : `Сем. Положение`, style: 'h5' },
-                    { text : `${formData.privateInformation.familyStatus || 'Сем. Положение' } `, style: 'h6' },
-            ]}
+            { width: 'auto', stack: [ SECTION_H5('Дата рождения'),  SECTION_H6(privateInformation.DOB || 'Дата рождения') ]},
+            { width: 'auto', stack: [ SECTION_H5('Город'),  SECTION_H6(privateInformation.city || 'Город') ]},
+            { width: 'auto', stack: [ SECTION_H5('Дети'),  SECTION_H6(privateInformation.hasChildren ? 'Есть' : 'Нет') ]},
+            { width: 'auto', stack: [ SECTION_H5('Гражданство'),  SECTION_H6(privateInformation.сitizenship || 'Гражданство') ]},
+            { width: 'auto', stack: [ SECTION_H5('ГоСем. Положениерод'),  SECTION_H6(privateInformation.familyStatus || 'Сем. Положение') ]},
         ],
         columnGap: 12, },
-    ]
+    ])
+}
 
-    // Adding Work Expirience
-    if (formData.workExperienceList.length > 0) {
-        rightSide.push([
-            { text: `\n`, style: 'emptySpaceLG' },
-            { text: `Опыт работы\n`, style: 'h7' },
-            { text: `\n`, style: 'emptySpaceSM' },
-            { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
+const addWorkExperienceSection = (workExperienceList) => {
+
+    const addWorkDuties = (element) => {
+        if (element.duties.length > 0) {
+            const duties = element.duties.map(duty => { duty.text })
+            return([ EMPTY_SMALL_SPACE(), { ul: duties } ])
+        }
+        return []
+    }
+        if (workExperienceList.length > 0) {
+            const result = [];
+            result.push([
+                EMPTY_LARGE_SPACE(),
+                SECTION_TITLE('Опыт работы'),
+                EMPTY_SMALL_SPACE(),
+                DIVIDER_LARGE(),
+            ])
+            workExperienceList.forEach(element => {
+                result.push([
+                    EMPTY_MEDIUM_SPACE(),
+                    SECTION_H8(`${element.position || 'Должность'}${element.isFullTime ? ' - Полная занятость' : ''}`),
+                    EMPTY_SMALL_SPACE(),
+                    SECTION_H8(element.company || 'Организация'),
+                    EMPTY_SMALL_SPACE(),
+                    SECTION_CURSIVE(`${element.from || 'Дата Начала'} — ${element.isCurrent ? 'по настоящее время' : element.to || 'Дата Конца'}`),
+                    ...addWorkDuties(element),
+                    EMPTY_MEDIUM_SPACE(),
+                    DIVIDER_LARGE()
+                ]);
+            })
+            return result;
+        }
+}
+
+const addEducationSection = (educationList) => {
+    if (educationList.length > 0){
+        const result = []
+        result.push([
+            EMPTY_LARGE_SPACE(),
+            SECTION_TITLE('Образование'),
+            EMPTY_SMALL_SPACE(),
+            DIVIDER_LARGE(),
         ])
-        formData.workExperienceList.forEach(element => {
+        educationList.forEach(element => {
             rightSide.push([
-                { text: `\n`, style: 'emptySpaceMED' },
-                { text: ` ${element.position || 'Должность'}${element.isFullTime ? ' - Полная занятость' : ''}`, style: 'h8' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.company || 'Организация'}`, style: 'h8' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.from || 'Дата Начала'} — ${element.isCurrent ? 'по настоящее время' : element.to || 'Дата Конца'}`, style: 'h9' },
-            ]);
-            if (element.duties.length > 0) {
-                const duties = [];
-                element.duties.forEach(duty => {
-                    duties.push(duty.text)
-                })
-                rightSide.push([ 
-                    { text: `\n`, style: 'emptySpaceSM' },
-                    { ul: duties }
-                ])
-    
-            }
-            rightSide.push([
-                { text: `\n`, style: 'emptySpaceMED' },
-                { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
+                EMPTY_MEDIUM_SPACE(),
+                SECTION_H8(element.position || 'Учебное заведение'),
+                EMPTY_SMALL_SPACE(),
+                SECTION_H8(element.company || 'Степень'),
+                EMPTY_SMALL_SPACE(),
+                SECTION_H8(element.major || 'Специальность'),
+                EMPTY_SMALL_SPACE(),
+                SECTION_H8(element.type || 'Форма обучения'),
+                EMPTY_SMALL_SPACE(),
+                SECTION_H8(`${element.startDate || 'Дата Начала'} — ${element.finishDate || 'Дата Конца'}`),
+                EMPTY_MEDIUM_SPACE(),
+                DIVIDER_LARGE()
             ])
         })
+        return result;
     }
+}
 
 
-    // Adding Education
-    if (formData.educationList.length > 0){
-        rightSide.push([
-            { text: `\n`, style: 'emptySpaceLG' },
-            { text: `Образование\n`, style: 'h7' },
-            { text: `\n`, style: 'emptySpaceSM' },
-            { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
-        ])
-        formData.educationList.forEach(element => {
-            rightSide.push([
-                { text: `\n`, style: 'emptySpaceMED' },
-                { text: ` ${element.position || 'Учебное заведение'}`, style: 'h8' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.company || 'Степень'}`, style: 'h9' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.major || 'Специальность'}`, style: 'h9' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.type || 'Форма обучения'}`, style: 'h9' },
-                { text: `\n`, style: 'emptySpaceSM' },
-                { text: `${element.startDate || 'Дата Начала'} — ${element.finishDate || 'Дата Конца'}`, style: 'h9' },
-                { text: `\n`, style: 'emptySpaceMED' },
-                { svg : '<svg width="310" height="1" viewBox="0 0 310 1" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="310" height="1" fill="#BCBDC0"/></svg>'},
-            ])
-        })
-    }
+
+const generateDocDefinition = (formData, font) => {
+
+    const {
+        generalInformation,
+        privateInformation,
+        workExperienceList,
+        socialList,
+        courseList,
+        softwareList,
+        personalQualitiesList,
+        customList
+    } = formData || {};
+
+    // Creating Layout for LEFT SIDE
+    // Nulify layout before each download
+    leftSide = [];
+
+    leftSide.push([ addPhoto(generalInformation, formData.foto) ])
+    leftSide.push([
+        addLeftSideSection({ defaultTitle: 'Соцсети', list: socialList, layoutFunction: addSocialNetworksToDoc }),
+        addLeftSideSection({ defaultTitle: 'Курсы и тренинги', list: courseList, layoutFunction: addCoursesToDoc }),
+        addLeftSideSection({ defaultTitle: 'Компьютерные навыки', list: softwareList, layoutFunction: addSoftwareSkillsToDoc }),
+        addLeftSideSection({ defaultTitle: 'Личные качества', list: personalQualitiesList, layoutFunction: addPersonalQualitiesToDoc }),
+        addcustomFieldsToDoc(customList),
+    ])
+
+
+    // Creating Layout for RIGHT SIDE
+    rightSide = [];
+
+
+
+    rightSide.push([
+        addFullName(formData, font),
+        SECTION_H2(generalInformation.jobTitle || 'Должность'),
+        { columns : [
+            SECTION_H3(`Занятость: ${generalInformation.jobType || 'Полная'}`),
+            SECTION_H3(`Занятость: ${generalInformation.jobSchedule || 'Полный день'}`),
+        ],
+        columnGap: 8 },
+        EMPTY_SMALL_SPACE(),
+        DIVIDER_LARGE(),
+        EMPTY_MEDIUM_SPACE(),
+        addPhoneEmailWebsite(generalInformation),
+        EMPTY_MEDIUM_SPACE(),
+        DIVIDER_LARGE(),
+        EMPTY_LARGE_SPACE(),
+        SECTION_TITLE('Обо мне'),
+        EMPTY_SMALL_SPACE(),
+        DIVIDER_LARGE(),
+        EMPTY_SMALL_SPACE(),
+        addAboutSection(privateInformation),
+        addWorkExperienceSection(workExperienceList),
+        addEducationSection(educationList),  
+    ])
 
 
     const docDefinition = {
         pageSize: { width: 620, height: 877 },
         pageOrientation: 'portrait',
-        pageMargins: 42,
-        // defaultStyle: {
-        //     font: 'Montserrat'
-        // },
+        pageMargins: 40,
         content: [
                 {
                     columns: [
         
                         {
-                            width: 200,
+                            width: 150,
                             stack: leftSide,
                         },
                         {
-                            width: 'auto',
+                            width: 350,
                             stack: rightSide,
                         },
                     ],
-                    columnGap: 12
+                    columnGap: 40
                 }
         ],
         styles: {
             h1: {
               fontSize: 25,
               bold: true,
-              lineHeight: 1.2
+              characterSpacing: 1.2,
+              lineHeight: 1.2,
             },
             h2: {
                 fontSize: 16,

@@ -23,7 +23,7 @@ const getFullName = (info) => {
 
 
 // Get scroll position for Form
-document.getElementById('formData').addEventListener('scroll', (e) => {
+document.getElementById('formDataSection').addEventListener('scroll', (e) => {
     formData.scrollTopPosition = e.target.scrollTop;
 })
 
@@ -1052,7 +1052,7 @@ const loadFormData = () => {
     if (formData?.foto !== null) document.getElementById('fotoFormHolder').style.background = "url(" + formData?.foto + ") no-repeat";
     document.getElementById('fotoFormHolder').style.backgroundSize = "cover";
 
-    document.getElementById('formData').scroll({
+    document.getElementById('formDataSection').scroll({
         top: formData.scrollTopPosition,
         behavior: 'smooth'
     })
@@ -1419,20 +1419,22 @@ document.querySelectorAll('.expand-btn').forEach(e => {
     })
 })
 
+const fontUrl = window.location.origin;
+
 document.getElementById('downloadResumeBtn').addEventListener('click', () => {
     const pdfMake = window.pdfMake;
     pdfMake.fonts = {
         Silkscreen: {
-          normal: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          bolditalics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          italics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Regular.ttf',
-          bold: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Silkscreen/Silkscreen-Bold.ttf',
+          normal: `${fontUrl}/assets/fonts/Silkscreen/Silkscreen-Regular.ttf`,
+          bolditalics: `${fontUrl}/assets/fonts/Silkscreen/Silkscreen-Regular.ttf`,
+          italics: `${fontUrl}/assets/fonts/Silkscreen/Silkscreen-Regular.ttf`,
+          bold: `${fontUrl}/assets/fonts/Silkscreen/Silkscreen-Bold.ttf`,
         },
         Montserrat: {
-          normal: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          bolditalics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          italics: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Regular.ttf',
-          bold: 'https://resume-bulider-mobile.netlify.app/assets/fonts/Montserrat/Montserrat-Bold.ttf',
+          normal: `${fontUrl}/assets/fonts/Montserrat/Montserrat-Regular.ttf`,
+          bolditalics: `${fontUrl}/assets/fonts/Montserrat/Montserrat-Regular.ttf`,
+          italics: `${fontUrl}/assets/fonts/Montserrat/Montserrat-Regular.ttf`,
+          bold: `${fontUrl}/assets/fonts/Montserrat/Montserrat-Bold.ttf`,
         },
      }
     const resumeDocDefinition = strict(formData, 'Montserrat');
@@ -1443,7 +1445,7 @@ document.getElementById('downloadResumeBtn').addEventListener('click', () => {
 // Preview resume
 
 document.getElementById('preview').addEventListener('click', () => {
-    document.getElementById('formData').style.display = 'none';
+    document.getElementById('formDataSection').style.display = 'none';
     document.getElementById('resumeContainer').style.display = 'block';
     document.getElementById('back').style.display = 'block';
     document.getElementById('preview').style.display = 'none';
@@ -1455,7 +1457,7 @@ document.getElementById('preview').addEventListener('click', () => {
 // Go Back
 
 document.getElementById('back').addEventListener('click', () => {
-    document.getElementById('formData').style.display = 'block';
+    document.getElementById('formDataSection').style.display = 'block';
     document.getElementById('resumeContainer').style.display = 'none';
     document.getElementById('back').style.display = 'none';
     document.getElementById('preview').style.display = 'block';
