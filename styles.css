@@ -179,7 +179,6 @@ select:focus {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  max-width: 472px;
 }
 
 .sub-section-body.closed {
@@ -242,6 +241,8 @@ select:focus {
 .content {
   height: 100%;
   overflow-y: auto;
+  width: 100%;
+  max-width: 472px;
 }
 
 .field {

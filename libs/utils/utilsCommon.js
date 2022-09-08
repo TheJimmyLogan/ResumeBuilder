@@ -28,3 +28,18 @@ export const generateRoundPhoto = (photo) => {
 
     console.log(tmpCanvas)
 }
+
+export const expandSection = (e) => {
+    document.getElementById(e.sectionId).querySelector('.expand-btn').classList.remove('closed');
+    document.getElementById(e.sectionId).querySelector('.sub-section-body').classList.remove('closed');
+}
+
+export const contractSection = (e) => {
+    document.getElementById(e.sectionId).querySelector('.expand-btn').classList.add('closed');
+    document.getElementById(e.sectionId).querySelector('.sub-section-body').classList.add('closed');
+}
+
+export const expandContractSections = (e) => {
+    if (!e.isExpanded) contractSection(e);
+    if (e.isExpanded) expandSection(e);
+} 

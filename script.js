@@ -1,4 +1,5 @@
 import strict from "./libs/resumeLayouts/strict.js";
+import { contractSection, expandContractSections, expandSection } from "./libs/utils/utilsCommon.js";
 
 // Resize hack for mobile Safari for 100vh
 const resizeVh = () => {
@@ -982,10 +983,23 @@ let initialState = {
     educationList: [],
     softwareList: [],
     personalQualitiesList: [],
-    customList: []
+    customList: [],
+    navToSectionList: [
+        { buttonId: 'generalInfoBtn', sectionId: 'generalInfoSection', isExpanded: false, isActive: true},
+        { buttonId: 'personalInfoBtn', sectionId: 'personalInfoSection', isExpanded: false, isActive: false},
+        { buttonId: 'experienceBtn', sectionId: 'experienceSection', isExpanded: false, isActive: false},
+        { buttonId: 'eduBtn', sectionId: 'eduSection', isExpanded: false, isActive: false},
+        { buttonId: 'socialBtn', sectionId: 'socialSection', isExpanded: false, isActive: false},
+        { buttonId: 'courseTraingBtn', sectionId: 'courseTraingSection', isExpanded: false, isActive: false},
+        { buttonId: 'softwareBtn', sectionId: 'softwareSection', isExpanded: false, isActive: false},
+        { buttonId: 'personalQualitiesBtn', sectionId: 'personalQualitiesSection', isExpanded: false, isActive: false},
+        { buttonId: 'customBtn', sectionId: 'customSection', isExpanded: false, isActive: false},
+    ]
 };
 
+
 let formData = initialState;
+window.formData = formData;
 
 // const clearDataBtn = document.createElement('button');
 // clearDataBtn.innerText = 'Clear';
@@ -1013,7 +1027,9 @@ const loadFormData = () => {
     document.getElementById('DOB').value = formData?.privateInformation?.DOB || '';
     document.getElementById('familyStatus').value = formData?.privateInformation?.familyStatus || '';
     document.getElementById('showPhoto').checked = formData?.generalInformation?.showPhoto;
-    document.getElementById(formData.activeStepId).classList.add('active-step');
+    document.getElementById(formData.navToSectionList.find(e => e.isActive).buttonId).classList.add('active-step');
+
+    formData.navToSectionList.forEach(element => { if(!element.isExpanded) contractSection(element) } )
     formData.workExperienceList.forEach(element => addWorkExperience(element))
     formData.socialList.forEach(element => addSocialNetwork(element))
     formData.courseList.forEach(element => addNewCourseTaken(element))
@@ -1062,75 +1078,43 @@ loadFormData();
 
 // On document unload - save data to local storage
 window.addEventListener('unload', () => {
-    localStorage.setItem('formData', JSON.stringify(formData));
+    //localStorage.setItem('formData', JSON.stringify(formData));
 })
-//
 
+//
 window.addEventListener('resize', resizeVh);
 
-// Steps
+formData.navToSectionList.forEach((data, index) => {
+    document.getElementById(data.sectionId).querySelector('.expand-btn').addEventListener('click', () => {
+        const { isExpanded } = formData.navToSectionList[index]
+        formData.navToSectionList[index].isExpanded = !isExpanded;
+        setTimeout(()=>{ expandContractSections(formData.navToSectionList[index]) }, 50)
+        
+    })
+    document.getElementById(data.buttonId).addEventListener('click', (e) => {
+        const { navToSectionList } = formData || {};
 
-document.getElementById('generalInfoBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('generalInfoSection').scrollIntoView({ behavior: 'smooth' });
-})
+        // find currently active step
+        const currentlyActiveIndex = navToSectionList.findIndex(e =>  e?.isActive);
 
-document.getElementById('personalInfoBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('personalInfoSection').scrollIntoView({ behavior: 'smooth' });
-})
+        // Make it inactive
+        if (currentlyActiveIndex !== -1){
+            navToSectionList[currentlyActiveIndex].isActive = false;
+            contractSection(navToSectionList[currentlyActiveIndex]);
+            document.getElementById(navToSectionList[currentlyActiveIndex].buttonId).classList.remove("active-step");
+        }
 
-document.getElementById('experienceBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('experienceSection').scrollIntoView({ behavior: 'smooth' });
-})
+        // Set new active step
+        navToSectionList[index].isActive = true;
 
-document.getElementById('eduBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('eduSection').scrollIntoView({ behavior: 'smooth' });
-})
+        // Expand it and collapse all other sections
+        navToSectionList.forEach(e => { e.isExpanded = false })
+        navToSectionList[index].isExpanded = true;
+        navToSectionList.forEach( e => expandContractSections(e) )
 
-document.getElementById('socialBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('socialSection').scrollIntoView({ behavior: 'smooth' });
-})
-
-document.getElementById('courseTraingBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('courseTraingSection').scrollIntoView({ behavior: 'smooth' });
-})
-
-document.getElementById('softwareBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('softwareSection').scrollIntoView({ behavior: 'smooth' });
-})
-
-document.getElementById('personalQualitiesBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('personalQualitiesSection').scrollIntoView({ behavior: 'smooth' });
-})
-
-document.getElementById('customBtn').addEventListener('click', (e) => {
-    document.querySelector('.active-step').classList.remove("active-step");
-    e.target.classList.add('active-step');
-    formData.activeStepId = e.target.id;
-    document.getElementById('customSection').scrollIntoView({ behavior: 'smooth' });
+        e.target.classList.add('active-step');
+        setTimeout(()=>{ document.getElementById(data?.sectionId).scrollIntoView({ behavior: 'smooth' }); }, 50)
+    })
 })
 
 // Saving Data on input
@@ -1179,11 +1163,6 @@ document.getElementById('website').addEventListener('input', (e) => {
     document.getElementById('websiteResume').innerText = e.target.value || 'Мой сайт';
 })
 
-// document.getElementById('сourseName').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('сourseNameResume').innerText = e.target.value || 'Массажное дело';
-// })
-
 document.getElementById('children').addEventListener('change', (e) => {
     formData.privateInformation.hasChildren = e.target.checked;
     document.getElementById('childrenResume').innerText = e.target.checked ? 'Да' : 'Нет';
@@ -1194,11 +1173,6 @@ document.getElementById('showPhoto').addEventListener('change', (e) => {
     formData.generalInformation.showPhoto = checked;
     document.getElementById('fotoResume').style.display = checked ? 'flex' : 'none';
 })
-
-// document.getElementById('isFullTime').addEventListener('change', (e) => {
-//     formData.workExperience.isFullTime = e.target.checked;
-//     document.getElementById('isFullTimeResume').innerText = e.target.checked ? ' - Полная занятость' : '';;
-// })
 
 document.getElementById('city').addEventListener('input', (e) => {
     formData.privateInformation.city = e.target.value;
@@ -1221,79 +1195,6 @@ document.getElementById('familyStatus').addEventListener('input', (e) => {
     document.getElementById('familyStatusResume').innerText = e.target.value || 'Женат';
 })
 
-// document.getElementById('education').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('educationResume').innerText = e.target.value || 'Образование';
-// })
-
-// document.getElementById('faculty').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('facultyResume').innerText = e.target.value || 'Учебное заведение';
-// })
-
-// document.getElementById('specialization').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('specializationResume').innerText = e.target.value || 'Специальность';
-// })
-
-// document.getElementById('additionalEducation').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('additionalEducationResume').innerText = e.target.value || 'Учебное заведение';
-// })
-
-// document.getElementById('formOfTraining').addEventListener('change', (e) => {
-//     formData.generalInformation.jobSchedule = e.target.value;
-//     document.getElementById('formOfTrainingResume').innerText = e.target.value || 'Форма Обучения';
-// })
-
-// document.getElementById('post').addEventListener('input', (e) => {
-//     formData.workExperience.post = e.target.value;
-//     document.getElementById('postResume').innerText = e.target.value || 'Должность';
-//     document.getElementById('accordionTitle').innerText = e.target.value || 'Должность';
-// })
-
-// document.getElementById('company').addEventListener('input', (e) => {
-//     formData.workExperience.company = e.target.value;
-//     document.getElementById('companyResume').innerText = e.target.value || 'Организация';
-// })
-
-// document.getElementById('from').addEventListener('change', (e) => {
-//     const date = e.target.value.split('-').reverse().join('-');
-//     formData.workExperience.from = e.target.value;
-//     document.getElementById('fromResume').innerText = date || '';
-// })
-
-// document.getElementById('to').addEventListener('change', (e) => {
-//     const date = e.target.value.split('-').reverse().join('-');
-//     formData.workExperience.to = e.target.value;
-//     document.getElementById('toResume').innerText = date || '';
-// })
-
-// document.getElementById('isCurrent').addEventListener('change', (e) => {
-//     formData.workExperience.isCurrent = e.target.checked;
-//     document.getElementById('to').disabled = e.target.checked;
-//     if (formData.workExperience.isCurrent) document.getElementById('toResume').innerText = 'по настоящее время'
-//     else { document.getElementById('toResume').innerText = document.getElementById('to').value }
-// })
-
-function getBase64Image(img) {
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    var dataURL = canvas.toDataURL("image/png");
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
-// document.getElementById('addJobGoalLast').addEventListener('input', (e) => {
-//     const value = e.target.value;
-//     if (!value) { document.getElementById('addJobGoalBtn').disabled = true; return }
-//     document.getElementById('addJobGoalBtn').disabled = false;
-// })
 
 document.getElementById("foto").addEventListener('change', (e) => {
     let reader = new FileReader();
@@ -1308,14 +1209,6 @@ document.getElementById("foto").addEventListener('change', (e) => {
     }
 })
 
-// document.getElementById('addJobGoalBtn').addEventListener('click', (e) => {
-//     const newId = guidGenerator();
-//     addNewDutyForm([newId, document.getElementById('addJobGoalLast').value]);
-//     document.getElementById('addJobGoalLast').value = '';
-//     document.getElementById('addJobGoalBtn').disabled = true;
-//     document.querySelector('.exp-class > ul').innerHTML = '';
-//     Object.entries(formData?.workExperience?.duties).forEach(duty => { addNewDutyToResume(duty) })
-// })
 
 document.getElementById('addSocial').addEventListener('click', (e) => {
     let newSocial = {
@@ -1443,7 +1336,6 @@ document.getElementById('downloadResumeBtn').addEventListener('click', () => {
 
 
 // Preview resume
-
 document.getElementById('preview').addEventListener('click', () => {
     document.getElementById('formDataSection').style.display = 'none';
     document.getElementById('resumeContainer').style.display = 'block';
@@ -1455,7 +1347,6 @@ document.getElementById('preview').addEventListener('click', () => {
 })
 
 // Go Back
-
 document.getElementById('back').addEventListener('click', () => {
     document.getElementById('formDataSection').style.display = 'block';
     document.getElementById('resumeContainer').style.display = 'none';
