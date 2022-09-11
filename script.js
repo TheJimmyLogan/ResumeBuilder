@@ -1321,7 +1321,7 @@ document.getElementById('preview').addEventListener('click', () => {
     document.getElementById('preview').style.display = 'none';
     document.getElementById('formSteps').style.display = 'none';
     document.getElementById('resumeSteps').style.display = 'block';
-
+    resizeResumePreview();
 })
 
 // Go Back
