@@ -1,5 +1,5 @@
 import strict from "./libs/resumeLayouts/strict.js";
-import { contractSection, expandContractSections, expandSection } from "./libs/utils/utilsCommon.js";
+import { contractSection, expandContractSections, expandSection, addFunctionalityToExpandButtons, makeActive, resizeResumePreview } from "./libs/utils/utilsCommon.js";
 
 // Resize hack for mobile Safari for 100vh
 const resizeVh = () => {
@@ -949,7 +949,7 @@ const guidGenerator = () => {
 // On document load - load data from local storage
 let initialState = {
     foto: null,
-    scrollTopPosition: 0,
+    // scrollTopPosition: 0,
     activeStepId: 'generalInfoBtn',
     generalInformation: {
         showPhoto: true,
@@ -985,31 +985,27 @@ let initialState = {
     personalQualitiesList: [],
     customList: [],
     navToSectionList: [
-        { buttonId: 'generalInfoBtn', sectionId: 'generalInfoSection', isExpanded: false, isActive: true},
-        { buttonId: 'personalInfoBtn', sectionId: 'personalInfoSection', isExpanded: false, isActive: false},
-        { buttonId: 'experienceBtn', sectionId: 'experienceSection', isExpanded: false, isActive: false},
-        { buttonId: 'eduBtn', sectionId: 'eduSection', isExpanded: false, isActive: false},
-        { buttonId: 'socialBtn', sectionId: 'socialSection', isExpanded: false, isActive: false},
-        { buttonId: 'courseTraingBtn', sectionId: 'courseTraingSection', isExpanded: false, isActive: false},
-        { buttonId: 'softwareBtn', sectionId: 'softwareSection', isExpanded: false, isActive: false},
-        { buttonId: 'personalQualitiesBtn', sectionId: 'personalQualitiesSection', isExpanded: false, isActive: false},
-        { buttonId: 'customBtn', sectionId: 'customSection', isExpanded: false, isActive: false},
+        { index: 0, buttonId: 'generalInfoBtn', sectionId: 'generalInfoSection', isActive: true},
+        { index: 1, buttonId: 'personalInfoBtn', sectionId: 'personalInfoSection', isActive: false},
+        { index: 2, buttonId: 'experienceBtn', sectionId: 'experienceSection', isActive: false},
+        { index: 3, buttonId: 'eduBtn', sectionId: 'eduSection', isActive: false},
+        { index: 4, buttonId: 'socialBtn', sectionId: 'socialSection', isActive: false},
+        { index: 5, buttonId: 'courseTraingBtn', sectionId: 'courseTraingSection', isActive: false},
+        { index: 6, buttonId: 'softwareBtn', sectionId: 'softwareSection', isActive: false},
+        { index: 7, buttonId: 'personalQualitiesBtn', sectionId: 'personalQualitiesSection', isActive: false},
+        { index: 8, buttonId: 'customBtn', sectionId: 'customSection', isActive: false},
     ]
 };
 
 
-let formData = initialState;
-window.formData = formData;
-
-// const clearDataBtn = document.createElement('button');
-// clearDataBtn.innerText = 'Clear';
-// clearDataBtn.addEventListener('click', () => { formData = initialState })
-// document.body.prepend(clearDataBtn)
+let formData;
 
 
 const loadFormData = () => {
     const localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
-    if (localStorageObject !== null) formData = localStorageObject;
+    if (localStorageObject !== null) formData = localStorageObject
+    else{ formData = initialState }
+    window.formData = formData;
 
     // Enter Form Data
     document.getElementById('firstName').value = formData?.generalInformation?.firstName || '';
@@ -1029,7 +1025,7 @@ const loadFormData = () => {
     document.getElementById('showPhoto').checked = formData?.generalInformation?.showPhoto;
     document.getElementById(formData.navToSectionList.find(e => e.isActive).buttonId).classList.add('active-step');
 
-    formData.navToSectionList.forEach(element => { if(!element.isExpanded) contractSection(element) } )
+    expandContractSections()
     formData.workExperienceList.forEach(element => addWorkExperience(element))
     formData.socialList.forEach(element => addSocialNetwork(element))
     formData.courseList.forEach(element => addNewCourseTaken(element))
@@ -1068,54 +1064,36 @@ const loadFormData = () => {
     if (formData?.foto !== null) document.getElementById('fotoFormHolder').style.background = "url(" + formData?.foto + ") no-repeat";
     document.getElementById('fotoFormHolder').style.backgroundSize = "cover";
 
-    document.getElementById('formDataSection').scroll({
-        top: formData.scrollTopPosition,
-        behavior: 'smooth'
-    })
-
 }
 loadFormData();
+resizeResumePreview();
 
 // On document unload - save data to local storage
 window.addEventListener('unload', () => {
-    //localStorage.setItem('formData', JSON.stringify(formData));
+    localStorage.setItem('formData', JSON.stringify(formData));
 })
+
+// document.querySelector('.content').addEventListener('scroll', (e) => {
+//     console.log(e.target.scrollTop)
+// })
 
 //
 window.addEventListener('resize', resizeVh);
+window.addEventListener('resize', resizeResumePreview);
 
 formData.navToSectionList.forEach((data, index) => {
-    document.getElementById(data.sectionId).querySelector('.expand-btn').addEventListener('click', () => {
-        const { isExpanded } = formData.navToSectionList[index]
-        formData.navToSectionList[index].isExpanded = !isExpanded;
-        setTimeout(()=>{ expandContractSections(formData.navToSectionList[index]) }, 50)
-        
-    })
+
+    // Adding actions to collapse/expand buttons
+    addFunctionalityToExpandButtons(data);
+
+    // Adding Actions to Navigation buttons
     document.getElementById(data.buttonId).addEventListener('click', (e) => {
-        const { navToSectionList } = formData || {};
-
-        // find currently active step
-        const currentlyActiveIndex = navToSectionList.findIndex(e =>  e?.isActive);
-
-        // Make it inactive
-        if (currentlyActiveIndex !== -1){
-            navToSectionList[currentlyActiveIndex].isActive = false;
-            contractSection(navToSectionList[currentlyActiveIndex]);
-            document.getElementById(navToSectionList[currentlyActiveIndex].buttonId).classList.remove("active-step");
-        }
-
-        // Set new active step
-        navToSectionList[index].isActive = true;
-
-        // Expand it and collapse all other sections
-        navToSectionList.forEach(e => { e.isExpanded = false })
-        navToSectionList[index].isExpanded = true;
-        navToSectionList.forEach( e => expandContractSections(e) )
-
-        e.target.classList.add('active-step');
-        setTimeout(()=>{ document.getElementById(data?.sectionId).scrollIntoView({ behavior: 'smooth' }); }, 50)
+        e.target.scrollIntoView({ behavior: 'smooth' })
+        makeActive(data)
+        expandContractSections()
     })
 })
+
 
 // Saving Data on input
 document.getElementById('firstName').addEventListener('input', (e) => {
@@ -1303,14 +1281,14 @@ document.getElementById('addCustomBtn').addEventListener('click', (e) => {
 
 // Expand on/off for sections
 
-document.querySelectorAll('.expand-btn').forEach(e => {
-    e.addEventListener('click', (e)=> {
-        const button = e.target;
-        button.classList.toggle('closed');
-        const sectionBody = button.parentElement.parentElement.querySelector('.sub-section-body');
-        sectionBody.classList.toggle('closed');
-    })
-})
+// document.querySelectorAll('.expand-btn').forEach(e => {
+//     e.addEventListener('click', (e)=> {
+//         const button = e.target;
+//         button.classList.toggle('active');
+//         const sectionBody = button.parentElement.parentElement.querySelector('.sub-section-body');
+//         sectionBody.classList.toggle('active');
+//     })
+// })
 
 const fontUrl = window.location.origin;
 
@@ -1331,7 +1309,7 @@ document.getElementById('downloadResumeBtn').addEventListener('click', () => {
         },
      }
     const resumeDocDefinition = strict(formData, 'Montserrat');
-    pdfMake.createPdf(resumeDocDefinition).download();
+    pdfMake.createPdf(resumeDocDefinition).open();
 })
 
 

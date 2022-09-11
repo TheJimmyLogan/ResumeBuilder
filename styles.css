@@ -151,7 +151,7 @@ select:focus {
   cursor: pointer;
 }
 
-.sub-title button.closed {
+.sub-title button.active {
   transform: rotate(-90deg);
 }
 
@@ -176,13 +176,18 @@ select:focus {
 }
 
 .sub-section-body {
-  padding: 24px;
-  display: flex;
   flex-direction: column;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  display: none;
 }
 
-.sub-section-body.closed {
-  display: none;
+.sub-section-body > div {
+  padding: 24px;
+}
+
+.sub-section-body.active {
+  display: flex;
 }
 
 .sub-section-body > section > div {
@@ -240,7 +245,7 @@ select:focus {
 
 .content {
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   width: 100%;
   max-width: 472px;
 }
@@ -410,7 +415,7 @@ select:focus {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #30258e;
+  background-color: transparent;
   border-radius: 5px;
   border: 0px none #ffffff;
 }

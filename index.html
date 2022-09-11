@@ -26,6 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="resume.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"
         integrity="sha512-rDbVu5s98lzXZsmJoMa0DjHNE+RwPJACogUCLyq3Xxm2kJO6qsQwjbE5NDk2DqmlKcxDirCnU1wAzVLe12IM3w=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -83,68 +84,70 @@
                     </section>
 
                     <section class="sub-section-body">
-                        <div class="field">
-                            <div class="foto-form">
-                                <div id="fotoFormHolder"></div>
-                                <div>
-                                    <input type="file" id="foto" placeholder="Фото">
-                                    <button class="primaryBtn" id="addPhoto">Добавить фото</button>
-                                    <label for="showPhoto" class="text">
-                                        <input type="checkbox" id="showPhoto" checked>
-                                        Показывать фото в резюме
-                                    </label>
+                        <div>
+                            <div class="field">
+                                <div class="foto-form">
+                                    <div id="fotoFormHolder"></div>
+                                    <div>
+                                        <input type="file" id="foto" placeholder="Фото">
+                                        <button class="primaryBtn" id="addPhoto">Добавить фото</button>
+                                        <label for="showPhoto" class="text">
+                                            <input type="checkbox" id="showPhoto" checked>
+                                            Показывать фото в резюме
+                                        </label>
+                                    </div>
                                 </div>
+
+                            </div>
+                            <div class="field">
+                                <label for="firstName">Имя</label>
+                                <input type="text" id="firstName" placeholder="Имя" maxlength="25">
+                            </div>
+                            <div class="field">
+                                <label for="Surname">Фамилия</label>
+                                <input type="text" id="lastName" placeholder="Фамилия" maxlength="25">
+                            </div>
+                            <div class="field">
+                                <label for="Middle name">Отчество</label>
+                                <input type="text" id="fatherName" placeholder="Отчество" maxlength="25">
                             </div>
 
-                        </div>
-                        <div class="field">
-                            <label for="firstName">Имя</label>
-                            <input type="text" id="firstName" placeholder="Имя" maxlength="25">
-                        </div>
-                        <div class="field">
-                            <label for="Surname">Фамилия</label>
-                            <input type="text" id="lastName" placeholder="Фамилия" maxlength="25">
-                        </div>
-                        <div class="field">
-                            <label for="Middle name">Отчество</label>
-                            <input type="text" id="fatherName" placeholder="Отчество" maxlength="25">
-                        </div>
+                            <div class="field">
+                                <label for="Post">Должность</label>
+                                <input type="text" id="jobTitle" placeholder="Ваша должность">
+                            </div>
 
-                        <div class="field">
-                            <label for="Post">Должность</label>
-                            <input type="text" id="jobTitle" placeholder="Ваша должность">
-                        </div>
+                            <div class="field">
+                                <label for="jobType">Занятость</label>
+                                <select id="jobType">
+                                    <option value="Полная" selected>Полная</option>
+                                    <option value="Частичная">Частичная</option>
+                                    <option value="Сменная">Сменная</option>
+                                </select>
 
-                        <div class="field">
-                            <label for="jobType">Занятость</label>
-                            <select id="jobType">
-                                <option value="Полная" selected>Полная</option>
-                                <option value="Частичная">Частичная</option>
-                                <option value="Сменная">Сменная</option>
-                            </select>
-
-                        </div>
-                        <div class="field">
-                            <label for="Work schedule">График работы</label>
-                            <select id="jobSchedule">
-                                <option value="Полный день" selected>Полный день</option>
-                                <option value="Сменный график">Сменный график</option>
-                                <option value="Гибкий график">Гибкий график</option>
-                                <option value="Удалённая работа">Удалённая работа</option>
-                                <option value="Вахта">Вахта</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="email">Электронная почта</label>
-                            <input type="text" id="email" placeholder="Email">
-                        </div>
-                        <div class="field">
-                            <label for="mobile">Телефон</label>
-                            <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
-                        </div>
-                        <div class="field">
-                            <label for="website">Мой сайт</label>
-                            <input type="text" id="website" placeholder="Website">
+                            </div>
+                            <div class="field">
+                                <label for="Work schedule">График работы</label>
+                                <select id="jobSchedule">
+                                    <option value="Полный день" selected>Полный день</option>
+                                    <option value="Сменный график">Сменный график</option>
+                                    <option value="Гибкий график">Гибкий график</option>
+                                    <option value="Удалённая работа">Удалённая работа</option>
+                                    <option value="Вахта">Вахта</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="email">Электронная почта</label>
+                                <input type="text" id="email" placeholder="Email">
+                            </div>
+                            <div class="field">
+                                <label for="mobile">Телефон</label>
+                                <input type="text" id="mobile" placeholder="+7 (000) 000-00-00">
+                            </div>
+                            <div class="field">
+                                <label for="website">Мой сайт</label>
+                                <input type="text" id="website" placeholder="Website">
+                            </div>
                         </div>
                     </section>
 
@@ -158,25 +161,27 @@
                         <button class="expand-btn"></button>
                     </section>
                     <section class="sub-section-body">
-                        <div class="field">
-                            <label for="city">Город проживания</label>
-                            <input type="text" id="city" placeholder="Город">
-                        </div>
-                        <div class="field">
-                            <label for="сitizenship">Гражданство</label>
-                            <input type="text" id="сitizenship" placeholder="Гражданство">
-                        </div>
-                        <section class="field">
-                            <label for="DOB">Дата рождения: </label>
-                            <input type="date" id="DOB" />
-                        </section>
-                        <div class="field">
-                            <label for="Marital status">Семейное положение</label>
-                            <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" id="children">
-                            <label for="children" class="text"> Есть ли дети </label>
+                        <div>
+                            <div class="field">
+                                <label for="city">Город проживания</label>
+                                <input type="text" id="city" placeholder="Город">
+                            </div>
+                            <div class="field">
+                                <label for="сitizenship">Гражданство</label>
+                                <input type="text" id="сitizenship" placeholder="Гражданство">
+                            </div>
+                            <section class="field">
+                                <label for="DOB">Дата рождения: </label>
+                                <input type="date" id="DOB" />
+                            </section>
+                            <div class="field">
+                                <label for="Marital status">Семейное положение</label>
+                                <input type="text" id="familyStatus" placeholder="Холост, Женат, Замужем">
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="children">
+                                <label for="children" class="text"> Есть ли дети </label>
+                            </div>
                         </div>
                     </section>
                 </section>

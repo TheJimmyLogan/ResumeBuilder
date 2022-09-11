@@ -1,0 +1,1 @@
+export const SECTION_SCROLL_HEIGHT = 75;
