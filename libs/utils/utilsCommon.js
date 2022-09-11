@@ -83,3 +83,4 @@ export const resizeResumePreview = () => {
         resume.style.transform = transformStyle;
     } else { console.log('more')}
 }
+

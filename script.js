@@ -1,5 +1,10 @@
 import strict from "./libs/resumeLayouts/strict.js";
-import { contractSection, expandContractSections, expandSection, addFunctionalityToExpandButtons, makeActive, resizeResumePreview } from "./libs/utils/utilsCommon.js";
+import { 
+    expandContractSections, 
+    addFunctionalityToExpandButtons, 
+    makeActive, 
+    resizeResumePreview
+} from "./libs/utils/utilsCommon.js";
 
 // Resize hack for mobile Safari for 100vh
 const resizeVh = () => {
@@ -1023,7 +1028,7 @@ const loadFormData = () => {
     document.getElementById('DOB').value = formData?.privateInformation?.DOB || '';
     document.getElementById('familyStatus').value = formData?.privateInformation?.familyStatus || '';
     document.getElementById('showPhoto').checked = formData?.generalInformation?.showPhoto;
-    document.getElementById(formData.navToSectionList.find(e => e.isActive).buttonId).classList.add('active-step');
+    // document.getElementById(formData.navToSectionList.find(e => e.isActive).buttonId).classList.add('active-step');
 
     expandContractSections()
     formData.workExperienceList.forEach(element => addWorkExperience(element))
@@ -1068,6 +1073,7 @@ const loadFormData = () => {
 loadFormData();
 resizeResumePreview();
 
+
 // On document unload - save data to local storage
 window.addEventListener('unload', () => {
     localStorage.setItem('formData', JSON.stringify(formData));
@@ -1088,7 +1094,9 @@ formData.navToSectionList.forEach((data, index) => {
 
     // Adding Actions to Navigation buttons
     document.getElementById(data.buttonId).addEventListener('click', (e) => {
-        e.target.scrollIntoView({ behavior: 'smooth' })
+
+        const parent = e.target.parentElement;
+        parent.scroll({ left: parent.scrollLeft + e.target.getBoundingClientRect().left, behavior: 'smooth' })
         makeActive(data)
         expandContractSections()
     })
@@ -1320,7 +1328,6 @@ document.getElementById('preview').addEventListener('click', () => {
     document.getElementById('back').style.display = 'block';
     document.getElementById('preview').style.display = 'none';
     document.getElementById('formSteps').style.display = 'none';
-    document.getElementById('resumeSteps').style.display = 'block';
     resizeResumePreview();
 })
 
@@ -1331,7 +1338,6 @@ document.getElementById('back').addEventListener('click', () => {
     document.getElementById('back').style.display = 'none';
     document.getElementById('preview').style.display = 'block';
     document.getElementById('formSteps').style.display = 'block';
-    document.getElementById('resumeSteps').style.display = 'none';
 })
 
 
