@@ -141,7 +141,7 @@ const addFullName = (formData, font) => {
 const addPhoneEmailWebsite = (generalInformation) => {
     const addIconWithText = (icon, text) => ([
         { width: 14, svg: icon },
-        { width: 'auto', text: text, style: 'h4' },
+        { width: 'auto', text: text, style: 'h3' },
         { width: 4, text: ``,},
     ])
     return { 
@@ -173,7 +173,7 @@ const addWorkExperienceSection = (workExperienceList) => {
 
     const addWorkDuties = (element) => {
         if (element.duties.length > 0) {
-            const duties = element.duties.map(duty => { duty.text })
+            const duties = element.duties.map(duty => duty.text )
             return([ EMPTY_SMALL_SPACE(), { ul: duties } ])
         }
         return []
@@ -213,17 +213,17 @@ const addEducationSection = (educationList) => {
             DIVIDER_LARGE(),
         ])
         educationList.forEach(element => {
-            rightSide.push([
+            result.push([
                 EMPTY_MEDIUM_SPACE(),
-                SECTION_H8(element.position || 'Учебное заведение'),
+                SECTION_H8(element.schoolName || 'Учебное заведение'),
                 EMPTY_SMALL_SPACE(),
-                SECTION_H8(element.company || 'Степень'),
+                SECTION_CURSIVE(element.level || 'Степень'),
                 EMPTY_SMALL_SPACE(),
-                SECTION_H8(element.major || 'Специальность'),
+                SECTION_CURSIVE(element.major || 'Специальность'),
                 EMPTY_SMALL_SPACE(),
-                SECTION_H8(element.type || 'Форма обучения'),
+                SECTION_CURSIVE(element.type || 'Форма обучения'),
                 EMPTY_SMALL_SPACE(),
-                SECTION_H8(`${element.startDate || 'Дата Начала'} — ${element.finishDate || 'Дата Конца'}`),
+                SECTION_CURSIVE(`${element.startDate || 'Дата Начала'} — ${element.finishDate || 'Дата Конца'}`),
                 EMPTY_MEDIUM_SPACE(),
                 DIVIDER_LARGE()
             ])
@@ -243,6 +243,7 @@ const generateDocDefinition = (formData, font) => {
         socialList,
         courseList,
         softwareList,
+        educationList,
         personalQualitiesList,
         customList
     } = formData || {};

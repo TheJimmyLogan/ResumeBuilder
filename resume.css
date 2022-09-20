@@ -32,7 +32,7 @@
   padding: 42px;
   gap: 34px;
   font-family: "Noto Sans", sans-serif;
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 /* End hero */
