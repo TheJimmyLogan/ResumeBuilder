@@ -37,12 +37,12 @@ html {
 input[type="text"],
 input[type="date"],
 select {
-  padding: 8px 16px;
+  padding: 16px;
   border-radius: 8px;
   border: solid 1px #e4eefe;
   background: #f2f7ff;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 16px;
   width: 100%;
 }
 
@@ -297,7 +297,7 @@ select:focus {
   height: 100%;
   overflow-y: scroll;
   width: 100%;
-  max-width: 472px;
+  max-width: 360px;
 }
 
 .field {
