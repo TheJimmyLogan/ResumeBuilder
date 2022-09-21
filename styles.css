@@ -37,12 +37,12 @@ html {
 input[type="text"],
 input[type="date"],
 select {
-  padding: 18px;
+  padding: 8px 16px;
   border-radius: 8px;
   border: solid 1px #e4eefe;
   background: #f2f7ff;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 12px;
   width: 100%;
 }
 
@@ -74,7 +74,7 @@ select:focus {
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
-  left: 16px;
+  left: 0;
   height: 100%;
   cursor: pointer;
   display: none;
@@ -101,7 +101,7 @@ select:focus {
 
 #navRightScrollBtn {
   left: initial;
-  right: 16px;
+  right: 0;
 }
 
 #navRightScrollBtn span {
@@ -171,7 +171,7 @@ select:focus {
   display: flex;
   margin: 0;
   text-align: center;
-  padding: 24px;
+  padding: 16px;
   color: #fff;
   font-size: 16px;
   background: #1b1263;
@@ -185,6 +185,8 @@ select:focus {
 .sub-title h1 {
   flex: 1;
   margin: 0;
+  font-size: 16px;
+  font-weight: bolder;
 }
 
 .sub-title .expand-arrow {
@@ -276,7 +278,7 @@ select:focus {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 8px 0;
 }
 
@@ -507,11 +509,10 @@ input[type="checkbox"] {
 .primaryBtn {
   background: linear-gradient(90deg, #5b1ed9 0%, #33dcf0 100%);
   color: rgb(255, 255, 255);
-  padding: 20px 48px;
-  font-size: 16px;
+  padding: 8px 16px;
+  font-size: 12px;
   border-radius: 5px;
   border: none;
-  font-weight: 700;
   cursor: pointer;
   text-transform: uppercase;
   margin-bottom: 16px;
