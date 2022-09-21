@@ -35,14 +35,14 @@ const isOverflown = (element) => {
 
 export const expandSection = (e) => {
     document.getElementById(e.buttonId).classList.add("active-step")
-    document.getElementById(e.sectionId).querySelector('.expand-btn').classList.add('active')
+    document.getElementById(e.sectionId).querySelector('.expand-btn > span').classList.add('active')
     document.getElementById(e.sectionId).querySelector('.sub-section-body').classList.add('active')
     document.getElementById(e.sectionId).querySelector('.sub-section-body').parentElement.scrollIntoView({ behavior: 'smooth' })
 }
 
 export const contractSection = (e) => {
     document.getElementById(e.buttonId).classList.remove("active-step")
-    document.getElementById(e.sectionId).querySelector('.expand-btn').classList.remove('active');
+    document.getElementById(e.sectionId).querySelector('.expand-btn > span').classList.remove('active');
     document.getElementById(e.sectionId).querySelector('.sub-section-body').classList.remove('active')
 }
 
@@ -81,6 +81,22 @@ export const resizeResumePreview = () => {
         const scaleDownValue =  Math.floor((resumeBox.offsetWidth - (2 * PADDING)) / resume.offsetWidth * 100) + '%'
         const transformStyle = `scale(${scaleDownValue})`;
         resume.style.transform = transformStyle;
-    } else { console.log('more')}
+    } else { resume.style.transform = `scale(1)`}
+}
+
+export const byID = (e) => document.getElementById(e);
+
+export const addNavigationArrows = () => {
+    const PADDING = 16;
+    if(byID('navButtonBox').scrollWidth + PADDING < byID('navButtonContainer').scrollWidth){
+        if (byID('navButtonContainer').scrollLeft > PADDING) {
+            byID('navLeftScrollBtn').classList.add('show')
+        } else { byID('navLeftScrollBtn').classList.remove('show') }
+        if(byID('navButtonContainer').scrollWidth - byID('navButtonBox').scrollWidth - byID('navButtonContainer').scrollLeft > PADDING)
+        {
+            byID('navRightScrollBtn').classList.add('show')
+        } else { byID('navRightScrollBtn').classList.remove('show') }
+
+    }
 }
 

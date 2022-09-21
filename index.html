@@ -45,8 +45,14 @@
 
         <!-- Form Steps  -->
         <section class="steps" id="formSteps">
-            <div class="steps-buttons">
-                <div>
+            <button id="navLeftScrollBtn">
+                <span></span>
+            </button>
+            <button id="navRightScrollBtn">
+                <span></span>
+            </button>
+            <div class="steps-buttons" id="navButtonBox">
+                <div id="navButtonContainer">
                     <button id="generalInfoBtn">Основная информация</button>
                     <button id="personalInfoBtn">Личная информация</button>
                     <button id="experienceBtn">Опыт работы</button>
@@ -59,18 +65,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Resume Steps -->
-        <!-- <section class="steps " id="resumeSteps">
-            <div class="steps-buttons resume-steps">
-                <button class="active-step" id="generalInfoBtn">Деловой</button>
-                <button id="personalInfoBtn">Яркий</button>
-                <button id="experienceBtn">Молодёжный</button>
-                <button id="experienceBtn">Простой</button>
-            </div>
-        </section> -->
-
-
         <div class="form-resume-container">
             <section class="content" id="formDataSection">
 
@@ -78,10 +72,10 @@
 
 
                 <section class="sub-section" id="generalInfoSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Основная информация</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
 
                     <section class="sub-section-body">
                         <div>
@@ -156,10 +150,10 @@
 
 
                 <section class="sub-section" id="personalInfoSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Личная информация</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body">
                         <div>
                             <div class="field">
@@ -188,10 +182,10 @@
 
 
                 <section class="sub-section" id="experienceSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Опыт работы</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -204,10 +198,10 @@
 
 
                 <section class="sub-section" id="eduSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Образование</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -219,10 +213,10 @@
                 </section>
 
                 <section class="sub-section" id="socialSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Соцсети</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -232,10 +226,10 @@
                 </section>
 
                 <section class="sub-section" id="courseTraingSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Курсы и тренинги</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -246,10 +240,10 @@
                 </section>
 
                 <section class="sub-section" id="softwareSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Компьютерные навыки</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -260,10 +254,10 @@
                 </section>
 
                 <section class="sub-section" id="personalQualitiesSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Личные качества</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">В этой категории нет данных. Используйте кнопку “Добавить” для добавления
                             новых данных.</p>
@@ -275,10 +269,10 @@
                 </section>
 
                 <section class="sub-section" id="customSection">
-                    <section class="sub-title">
+                    <button class="sub-title expand-btn">
                         <h1>Дополнительно</h1>
-                        <button class="expand-btn"></button>
-                    </section>
+                        <span class="expand-arrow"></span>
+                    </button>
                     <section class="sub-section-body no-padding">
                         <p class="no-data">Нажмите "Добавить", чтобы добавить дополнительную секцию в резюме.</p>
                         <section id="customList"></section>

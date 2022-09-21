@@ -3,7 +3,9 @@ import {
     expandContractSections, 
     addFunctionalityToExpandButtons, 
     makeActive, 
-    resizeResumePreview
+    resizeResumePreview,
+    byID,
+    addNavigationArrows
 } from "./libs/utils/utilsCommon.js";
 
 // Resize hack for mobile Safari for 100vh
@@ -1072,20 +1074,33 @@ const loadFormData = () => {
 }
 loadFormData();
 resizeResumePreview();
-
+addNavigationArrows();
 
 // On document unload - save data to local storage
 window.addEventListener('unload', () => {
     localStorage.setItem('formData', JSON.stringify(formData));
 })
 
-// document.querySelector('.content').addEventListener('scroll', (e) => {
-//     console.log(e.target.scrollTop)
-// })
 
 //
-window.addEventListener('resize', resizeVh);
-window.addEventListener('resize', resizeResumePreview);
+window.addEventListener('resize', ()=>{
+    resizeVh(),
+    resizeResumePreview(),
+    addNavigationArrows()
+});
+
+// Navigation
+byID('navButtonContainer').addEventListener('scroll', () => {
+    addNavigationArrows()
+})
+byID('navLeftScrollBtn').addEventListener('click', () => {
+    byID('navButtonContainer').scroll({ left: byID('navButtonContainer').scrollLeft - 100, behavior: 'smooth'})
+})
+byID('navRightScrollBtn').addEventListener('click', () => {
+    byID('navButtonContainer').scroll({ left: byID('navButtonContainer').scrollLeft + 100, behavior: 'smooth'})
+})
+
+
 
 formData.navToSectionList.forEach((data, index) => {
 
@@ -1286,17 +1301,6 @@ document.getElementById('addCustomBtn').addEventListener('click', (e) => {
     formData.customList.push(newCustomSection);
     addCustomSection(newCustomSection);
 })
-
-// Expand on/off for sections
-
-// document.querySelectorAll('.expand-btn').forEach(e => {
-//     e.addEventListener('click', (e)=> {
-//         const button = e.target;
-//         button.classList.toggle('active');
-//         const sectionBody = button.parentElement.parentElement.querySelector('.sub-section-body');
-//         sectionBody.classList.toggle('active');
-//     })
-// })
 
 const fontUrl = window.location.origin;
 
