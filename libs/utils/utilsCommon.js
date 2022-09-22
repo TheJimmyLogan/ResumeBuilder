@@ -2,7 +2,7 @@
 
 export const generateRoundPhoto = (photo) => {
     // Adding photo
-    var tmpCanvas = document.createElement('canvas'),
+    let tmpCanvas = document.createElement('canvas'),
     tmpCtx = tmpCanvas.getContext('2d'),
     image = new Image();
     
