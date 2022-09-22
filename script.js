@@ -1010,7 +1010,7 @@ let formData;
 
 const loadFormData = () => {
     const localStorageObject = JSON?.parse(localStorage?.getItem('formData'));
-    if (localStorageObject !== null) formData = localStorageObject
+    if (localStorageObject !== null) formData = { ...initialState, ...localStorageObject}
     else{ formData = initialState }
     window.formData = formData;
 
