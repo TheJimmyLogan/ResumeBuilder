@@ -241,7 +241,7 @@ select:focus {
 }
 
 .sub-section-body > section > div {
-  margin: 24px;
+  margin: 8px 24px;
 }
 
 .no-padding {
@@ -291,6 +291,10 @@ select:focus {
   opacity: 0;
   cursor: pointer;
   outline: solid 1px red;
+}
+
+.foto-form .primaryBtn{
+  margin-bottom: 8px;
 }
 
 .content {
@@ -516,7 +520,6 @@ input[type="checkbox"] {
   border: none;
   cursor: pointer;
   text-transform: uppercase;
-  margin-bottom: 16px;
 }
 
 .primaryBtn:disabled {
@@ -540,7 +543,15 @@ input[type="checkbox"] {
   align-items: flex-end;
   gap: 8px;
   max-width: 500px;
-  margin: auto;
+  margin: 16px auto;
+}
+
+.choose-design-and-download-section .field{
+  margin-bottom: 0;
+}
+
+#downloadResumeBtn{
+  height: 55px;
 }
 
 /* End btn */
